@@ -35,6 +35,10 @@ public class CheckoutController {
 
         model.addAttribute("booksCount", booksCount);
 
+        boolean alreadyCheckedOut = this.userService.isAlreadyCheckedOutByUser(id, principal);
+
+        model.addAttribute("alreadyCheckedOut", alreadyCheckedOut);
+
         return "checkout";
     }
 }

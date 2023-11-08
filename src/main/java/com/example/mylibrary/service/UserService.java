@@ -8,4 +8,6 @@ public interface UserService {
     void register(UserRegisterDTO userRegisterDTO);
 
     int getLoansCount(Principal principal);
+
+    boolean isAlreadyCheckedOutByUser(Long id, Principal principal);
 }
