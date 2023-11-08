@@ -51,7 +51,8 @@ public class UserServiceImpl implements UserService {
         return user.getBooks().size();
     }
 
-    private User getLoggedUser(Principal principal) {
+    @Override
+    public User getLoggedUser(Principal principal) {
         // TODO: handle exception
         String email = principal.getName();
         Optional<User> optionalUser = this.userRepository.findByEmail(email);

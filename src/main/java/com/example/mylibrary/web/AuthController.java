@@ -61,7 +61,7 @@ public class AuthController {
 
         model.addAttribute("email", email);
         model.addAttribute("bad_credentials", "true");
-        return "redirect:/users/login";
+        return "login";
     }
 
 }

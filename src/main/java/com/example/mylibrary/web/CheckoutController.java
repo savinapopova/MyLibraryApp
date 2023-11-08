@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
 
@@ -40,5 +41,13 @@ public class CheckoutController {
         model.addAttribute("alreadyCheckedOut", alreadyCheckedOut);
 
         return "checkout";
+    }
+
+    @PostMapping("/checkout/book/{id}")
+    public String checkoutBook(@PathVariable Long id,Principal principal) {
+
+        this.checkoutService.checkoutBook(id, principal);
+
+        return "redirect:/checkout/book/" + id;
     }
 }

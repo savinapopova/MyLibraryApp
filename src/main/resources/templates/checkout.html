@@ -39,15 +39,23 @@
         </p>
       </div>
     </div>
-    <div th:if="${alreadyCheckedOut == false}" class="mt-5 d-flex justify-content-center">
-    <a href="/#" type="submit" class="btn btn-success btn-lg">Checkout</a>
-    </div>
-    <div th:if="${alreadyCheckedOut}" class="mt-5 d-flex justify-content-center">
+    <form th:action="@{/checkout/book/{id}(id = ${book.getId()})}"
+          th:method="post"
+            th:if="${alreadyCheckedOut == false  && booksCount < 5}" class="mt-5 d-flex justify-content-center">
+    <button type="submit" class="btn btn-success btn-lg">Checkout</button>
+<!--     th:href="@{/album/delete/{id}(id=*{a.getId()})}"-->
+    </form>
+    <div th:if="${alreadyCheckedOut}" class="mt-3 d-flex justify-content-center">
       <p class="text-danger">You have already checked out this book</p>
+    </div>
+    <div th:if="${alreadyCheckedOut}" class="mt-2 d-flex justify-content-center">
       <a th:href="@{/reviews/leave/${book.getId()}}" type="submit" class="btn btn-success btn-lg">Leave review</a>
     </div>
+    <div th:if="${booksCount >= 5 && alreadyCheckedOut == false}" class="mt-3 d-flex justify-content-center">
+      <p class="text-danger">You have too many books</p>
+    </div>
     <hr />
-    <p th:if="${alreadyCheckedOut == false}" class="mt-3">
+    <p th:if="${alreadyCheckedOut == false && booksCount < 5}" class="mt-3">
       This number can change until placing order has been complete.
     </p>
   </div>
@@ -69,6 +77,7 @@
         <h5 class="mt-3 mb-2 text-success text-center">
           Available
         </h5>
+
       </th:block>
       <th:block th:unless="${book != null && book.copiesAvailable > 0}">
         <h5 class="mt-3 mb-2 text-danger text-center">
@@ -86,15 +95,22 @@
         </p>
       </div>
     </div>
-    <div th:if="${alreadyCheckedOut == false}" class="mt-5 d-flex justify-content-center">
-      <a href="/#" type="submit" class="btn btn-success btn-lg">Checkout</a>
-    </div>
-    <div th:if="${alreadyCheckedOut}" class="mt-5 d-flex justify-content-center">
+    <form th:action="@{/checkout/book/{id}(id = ${book.getId()})}"
+          th:method="post"
+            th:if="${alreadyCheckedOut == false && booksCount < 5}" class="mt-5 d-flex justify-content-center">
+      <button type="submit" class="btn btn-success btn-lg">Checkout</button>
+    </form>
+    <div th:if="${alreadyCheckedOut}" class="mt-3 d-flex justify-content-center">
       <p class="text-danger">You have already checked out this book</p>
+    </div>
+    <div th:if="${alreadyCheckedOut}" class="mt-2 d-flex justify-content-center">
       <a th:href="@{/reviews/leave/${book.getId()}}" type="submit" class="btn btn-success btn-lg">Leave review</a>
+  </div>
+    <div th:if="${booksCount >= 5 && alreadyCheckedOut == false}" class="mt-3 d-flex justify-content-center">
+      <p class="text-danger">You have too many books</p>
     </div>
     <hr />
-    <p th:if="${alreadyCheckedOut == false}" class="mt-3">
+    <p th:if="${alreadyCheckedOut == false && booksCount < 5}" class="mt-3">
       This number can change until placing order has been complete.
     </p>
   </div>
