@@ -38,15 +38,6 @@ public class CheckoutServiceImpl implements CheckoutService {
         this.modelMapper = modelMapper;
     }
 
-    @Override
-    public BookDTO getBook(Long id) {
-        Optional<Book> optionalBook = this.bookRepository.findById(id);
-        if (optionalBook.isEmpty()) {
-            return null;
-        }
-        Book book = optionalBook.get();
-        return modelMapper.map(book, BookDTO.class);
-    }
 
     @Override
     public void checkoutBook(Long id, Principal principal) {

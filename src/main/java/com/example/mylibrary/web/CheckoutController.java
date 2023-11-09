@@ -29,7 +29,7 @@ public class CheckoutController {
 
     @GetMapping("/checkout/book/{id}")
     public String checkoutBook(@PathVariable Long id, Model model,Principal principal) {
-        BookDTO book = this.checkoutService.getBook(id);
+        BookDTO book = this.bookService.getBookDTO(id);
         model.addAttribute("book", book);
 
         int booksCount =  this.userService.getLoansCount(principal);

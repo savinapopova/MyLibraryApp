@@ -24,7 +24,7 @@ public class BookDetailsRestController {
 
     @GetMapping("/books/getDetails/{id}")
     public ResponseEntity<SearchBookDTO> getBookById(@PathVariable Long id) {
-        SearchBookDTO book = this.bookService.getSingleBook(id);
+        SearchBookDTO book = this.bookService.getSearchBookDTO(id);
         if (book != null) {
             return ResponseEntity.ok(book);
         } else {

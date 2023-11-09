@@ -1,23 +1,37 @@
 package com.example.mylibrary.service.impl;
 
+import com.example.mylibrary.model.dto.LeaveReviewDTO;
 import com.example.mylibrary.model.dto.ReviewDTO;
+import com.example.mylibrary.model.entity.Book;
 import com.example.mylibrary.model.entity.Review;
+import com.example.mylibrary.model.entity.User;
 import com.example.mylibrary.repository.ReviewRepository;
+import com.example.mylibrary.service.BookService;
 import com.example.mylibrary.service.ReviewService;
+import com.example.mylibrary.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
     private ReviewRepository reviewRepository;
+
+    private UserService userService;
+
+    private BookService bookService;
     private ModelMapper modelMapper;
 
-    public ReviewServiceImpl(ReviewRepository reviewRepository, ModelMapper modelMapper) {
+    public ReviewServiceImpl(ReviewRepository reviewRepository, UserService userService,
+                             BookService bookService, ModelMapper modelMapper) {
         this.reviewRepository = reviewRepository;
+        this.userService = userService;
+        this.bookService = bookService;
         this.modelMapper = modelMapper;
     }
 
@@ -29,5 +43,25 @@ public class ReviewServiceImpl implements ReviewService {
                .collect(Collectors.toList());
 
 
+    }
+
+    @Override
+    public boolean reviewLeft(Principal principal, Long bookId) {
+        User user = this.userService.getLoggedUser(principal);
+        Optional<Review> optionalReview = this.reviewRepository.findByUserIdAndBookId(user.getId(), bookId);
+        if (optionalReview.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void registerReview(LeaveReviewDTO leaveReviewDTO, Principal principal, Long bookId) {
+        Review review = modelMapper.map(leaveReviewDTO, Review.class);
+        User user = this.userService.getLoggedUser(principal);
+        Book book = this.bookService.getBook(bookId);
+        review.setBook(book);
+        review.setUser(user);
+        this.reviewRepository.save(review);
     }
 }

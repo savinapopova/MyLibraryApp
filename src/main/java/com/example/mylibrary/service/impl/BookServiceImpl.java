@@ -1,5 +1,6 @@
 package com.example.mylibrary.service.impl;
 
+import com.example.mylibrary.model.dto.BookDTO;
 import com.example.mylibrary.model.dto.SearchBookDTO;
 import com.example.mylibrary.model.entity.Book;
 import com.example.mylibrary.model.enums.CategoryName;
@@ -9,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -31,19 +33,30 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public SearchBookDTO getSingleBook(Long id) {
+    public SearchBookDTO getSearchBookDTO(Long id) {
 
-        Optional<Book> optionalBook = this.bookRepository.findById(id);
-
-        if (optionalBook.isEmpty()) {
-            return null;
-        }else {
-            Book book = optionalBook.get();
+            Book book = getBook(id);
 
             return modelMapper.map(book, SearchBookDTO.class);
-        }
+
     }
 
+    @Override
+    public BookDTO getBookDTO(Long id) {
+        Book book = getBook(id);
+        return modelMapper.map(book, BookDTO.class);
+    }
+
+
+
+    public Book getBook(Long id) {
+        // TODO: handle exception
+        Optional<Book> optionalBook = this.bookRepository.findById(id);
+        if (optionalBook.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        return optionalBook.get();
+    }
 
 
     @Override
