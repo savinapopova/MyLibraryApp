@@ -1,7 +1,8 @@
-async function renderData() {
-    const  starsReviewContainer = document.getElementById('starsReview');
-    let {reviews, rating} = await fetchReviews();
+async function renderReviews() {
 
+    let {reviews, rating} = await fetchReviews();
+    const  starsReviewContainer = document.querySelector('.starsReview');
+    let  reviewContainer = document.createElement("div");
 
     let fullStars = 0;
     let halfStars = 0;
@@ -34,7 +35,7 @@ async function renderData() {
         fullStar.setAttribute('fill', 'currentColor');
         fullStar.setAttribute('style', 'color: gold');
         fullStar.style.fontSize = '16px';
-        starsReviewContainer.appendChild(fullStar);
+        reviewContainer.appendChild(fullStar);
     }
 
     for (let i = 0; i < halfStars; i++) {
@@ -44,7 +45,7 @@ async function renderData() {
         halfStar.setAttribute('fill', 'currentColor');
         halfStar.setAttribute('style', 'color: gold');
         halfStar.style.fontSize = '16px';
-        starsReviewContainer.appendChild(halfStar);
+        reviewContainer.appendChild(halfStar);
     }
 
     for (let i = 0; i < emptyStars; i++) {
@@ -54,8 +55,10 @@ async function renderData() {
         emptyStar.setAttribute('fill', 'currentColor');
         emptyStar.setAttribute('style', 'color: gold');
         emptyStar.style.fontSize = '16px';
-        starsReviewContainer.appendChild(emptyStar);
+        reviewContainer.appendChild(emptyStar);
     }
+
+    starsReviewContainer.appendChild(reviewContainer);
 
     const mobileStars = starsReviewContainer.cloneNode(true);
     mobileStars.id = 'mobileStars';

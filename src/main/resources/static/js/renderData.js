@@ -19,7 +19,7 @@ async function renderData() {
                                     <p class="lead">${book.description}</p>
 
                                  <a type='button' class='btn second-color btn-md text-light m-4'
-                                  href='#'>
+                                 href="http://localhost:8080/reviews/${book.id}">
                                 Reach all reviews
                             </a>
                               </div>
@@ -49,7 +49,7 @@ async function renderData() {
 <p class='lead'>${book.description}</p>
 <div class='m-3 d-flex justify-content-center align-items-center'>
                             <a type='button' class='btn second-color btn-md text-white'
-                                  href='#'>
+                                  href="http://localhost:8080/reviews/${book.id}">
                                 Reach all reviews
                             </a>
                         </div>
@@ -79,26 +79,6 @@ async function renderData() {
     let {reviews, rating} = await fetchReviews();
     const starsReviewContainer = document.getElementById('starsReview');
 
-    // const latestReviewsContainer = document.getElementById('latestReviews');
-    // let reviewSpan = document.createElement("span");
-    //
-    // if (starsReviewContainer && latestReviewsContainer) {
-    //     if (reviews.length > 0) {
-    //         // starsReviewContainer.innerHTML = `${rating} stars`;
-    //         latestReviewsContainer.innerHTML = '<h3>Latest Reviews:</h3>';
-    //         const reviewsList = document.createElement('ul');
-    //         reviews.forEach((review) => {
-    //             const reviewItem = document.createElement('li');
-    //             reviewItem.innerHTML = `<b>${review.userEmail}</b> rated it ${review.rating} stars: ${review.comment}`;
-    //
-    //             reviewsList.appendChild(reviewItem);
-    //         });
-    //         latestReviewsContainer.appendChild(reviewsList);
-    //     } else {
-    //         starsReviewContainer.innerHTML = '<p>No reviews available.</p>';
-    //         latestReviewsContainer.innerHTML = '<p>No reviews available.</p>';
-    //     }
-    // }
 
 
     let fullStars = 0;

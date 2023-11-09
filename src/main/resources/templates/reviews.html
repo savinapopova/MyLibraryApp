@@ -6,39 +6,45 @@
 <header th:include="~{/fragments/nav-and-footer/nav}"/>
 
 <div class="container mt-5">
-    <h1 th:text="${book.getTitle()}"></h1>
-    <h3 th:text="${book.getAuthor()}"></h3>
-    <div>
-        <h3>Comments: <th:block th:text="${reviews.size()}"/></h3>
+    <div class="text-center mb-5">
+        <h1 th:text="${book.getTitle()}"></h1>
+        <h4 th:text="${book.getAuthor()}"></h4>
     </div>
+<!--    <hr/>-->
+    <div>
+        <h4 class="fst-italic">Reviews:
+            <th:block th:text="${reviews.size()}"/>
+        </h4>
+    </div>
+    <hr class="main-color mb-5"/>
 
-    <ul>
-        <li th:each="r: ${reviews}" class='col-sm-8 col-md-8'>
+    <ul class="mt-4 d-flex flex-column align-items-center">
+        <li th:each="r: ${reviews}" class='col-sm-8 col-md-8 px-4 py-3 card rounded-3 shadow bg-body mb-3'>
             <h5 th:text="${r.getUserEmail()}"></h5>
             <div class='row'>
-
-                  <p th:text="${r.getDate()}" ></p>
-
-                <div id="starsReview"></div>
+                <p class="mb-1" th:text="${r.getDate()}"></p>
             </div>
+            <hr class="mt-1 mb-3"/>
+            <div th:if="${r.getRating() == 1}" th:include="~{/fragments/stars/one-star}"></div>
+            <div th:if="${r.getRating() == 2}" th:include="~{/fragments/stars/two-stars}"></div>
+            <div th:if="${r.getRating() == 3}" th:include="~{/fragments/stars/three-stars}"></div>
+            <div th:if="${r.getRating() == 4}" th:include="~{/fragments/stars/four-stars}"></div>
+            <div th:if="${r.getRating() == 5}" th:include="~{/fragments/stars/five-stars}"></div>
+
+<!--            <i class="fa-solid fa-star" fill="currentColor" style="color: gold; font-size: 16px;"></i>-->
+<!--            <i class="fa-regular fa-star" fill="currentColor" style="color: gold; font-size: 24px;"></i>-->
             <div class='mt-2'>
                 <p th:text="${r.getComment()}"></p>
             </div>
         </li>
-        <hr/>
+
     </ul>
 
 </div>
 
 
 <th:block th:include="~{/fragments/nav-and-footer/footer}"/>
-<!--<script type="text/javascript" src="/js/fetchBook.js"></script>-->
-<script type="text/javascript" src="/js/fetchReviews.js"></script>
-<script type="text/javascript" src="/js/renderReviews.js"></script>
 
-<script>
-  renderData();  // Извикване на функцията за показване на данни
-</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>

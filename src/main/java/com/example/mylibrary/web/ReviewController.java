@@ -65,7 +65,7 @@ public class ReviewController {
 
 
 
-        return "redirect:/search";
+        return "redirect:/reviews/" + id;
     }
 
     @GetMapping("/reviews/{id}")

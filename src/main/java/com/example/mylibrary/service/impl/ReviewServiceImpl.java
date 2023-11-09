@@ -40,14 +40,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<ReviewDTO> getByBook(Long bookId) {
 
-       List<Review> reviews = this.reviewRepository.findAllByBookId(bookId);
-     return reviews.stream().map(r -> {
-                 ReviewDTO reviewDTO = modelMapper.map(r, ReviewDTO.class);
-//                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-//                 LocalDate publishedOn = LocalDate.parse(r.getDate().toString(), formatter);
-//                 reviewDTO.setDate(publishedOn);
-                 return reviewDTO;
-             })
+       List<Review> reviews = this.reviewRepository.findAllByBookIdOrderByDateDesc(bookId);
+     return reviews.stream().map(r -> modelMapper.map(r, ReviewDTO.class))
                .collect(Collectors.toList());
 
 

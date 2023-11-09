@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long>
 {
-    List<Review> findAllByBookId(Long bookId);
+    List<Review> findAllByBookIdOrderByDateDesc(Long bookId);
 
     Optional<Review> findByUserIdAndBookId(Long id, Long bookId);
 }
