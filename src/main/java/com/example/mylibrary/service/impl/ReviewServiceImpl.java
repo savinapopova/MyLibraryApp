@@ -13,6 +13,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,7 +41,13 @@ public class ReviewServiceImpl implements ReviewService {
     public List<ReviewDTO> getByBook(Long bookId) {
 
        List<Review> reviews = this.reviewRepository.findAllByBookId(bookId);
-     return reviews.stream().map(r -> modelMapper.map(r, ReviewDTO.class))
+     return reviews.stream().map(r -> {
+                 ReviewDTO reviewDTO = modelMapper.map(r, ReviewDTO.class);
+//                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//                 LocalDate publishedOn = LocalDate.parse(r.getDate().toString(), formatter);
+//                 reviewDTO.setDate(publishedOn);
+                 return reviewDTO;
+             })
                .collect(Collectors.toList());
 
 
@@ -62,6 +70,7 @@ public class ReviewServiceImpl implements ReviewService {
         Book book = this.bookService.getBook(bookId);
         review.setBook(book);
         review.setUser(user);
+        review.setDate(LocalDate.now());
         this.reviewRepository.save(review);
     }
 }

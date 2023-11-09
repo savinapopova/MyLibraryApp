@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CurrentTimestamp;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -26,8 +27,8 @@ public class Review {
     @ManyToOne(optional = false)
     private Book book;
 
-    @CurrentTimestamp
-    private Date date;
+
+    private LocalDate date;
 
     public Review() {
     }

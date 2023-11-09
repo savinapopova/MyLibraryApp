@@ -1,6 +1,9 @@
 package com.example.mylibrary.web;
 
 import com.example.mylibrary.model.dto.LeaveReviewDTO;
+import com.example.mylibrary.model.dto.ReviewDTO;
+import com.example.mylibrary.model.dto.SearchBookDTO;
+import com.example.mylibrary.service.BookService;
 import com.example.mylibrary.service.ReviewService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class ReviewController {
@@ -24,8 +28,11 @@ public class ReviewController {
 
     private ReviewService reviewService;
 
-    public ReviewController(ReviewService reviewService) {
+    private BookService bookService;
+
+    public ReviewController(ReviewService reviewService, BookService bookService) {
         this.reviewService = reviewService;
+        this.bookService = bookService;
     }
 
     @GetMapping("/reviews/form/{id}")
@@ -59,5 +66,17 @@ public class ReviewController {
 
 
         return "redirect:/search";
+    }
+
+    @GetMapping("/reviews/{id}")
+    public String showReviews(@PathVariable ("id") Long id, Model model) {
+        SearchBookDTO book = this.bookService.getSearchBookDTO(id);
+
+        model.addAttribute("book", book);
+
+        List<ReviewDTO> reviews = this.reviewService.getByBook(id);
+
+        model.addAttribute("reviews", reviews);
+        return "reviews";
     }
 }

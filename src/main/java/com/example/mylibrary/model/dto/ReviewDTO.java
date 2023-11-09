@@ -1,7 +1,9 @@
 package com.example.mylibrary.model.dto;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -13,7 +15,8 @@ public class ReviewDTO {
 
     private String userEmail;
 
-    private Date date;
+
+    private LocalDate date;
 
     public ReviewDTO() {
     }
