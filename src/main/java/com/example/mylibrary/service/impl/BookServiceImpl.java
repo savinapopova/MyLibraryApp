@@ -6,6 +6,7 @@ import com.example.mylibrary.model.entity.Book;
 import com.example.mylibrary.model.enums.CategoryName;
 import com.example.mylibrary.repository.BookRepository;
 import com.example.mylibrary.service.BookService;
+import com.example.mylibrary.util.TextResizer;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,9 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<SearchBookDTO> getAllBooks() {
         return this.bookRepository.findAll()
-                .stream().map(b -> this.modelMapper.map(b, SearchBookDTO.class))
+                .stream()
+                .map(TextResizer::resizeDescription)
+                .map(b -> this.modelMapper.map(b, SearchBookDTO.class))
                 .collect(Collectors.toList());
     }
 
