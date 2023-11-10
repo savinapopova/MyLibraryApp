@@ -26,7 +26,7 @@
                  aria-labelledby='nav-loans-tab'>
 
 
-                {/* Desktop */}
+<!--                {/* Desktop */}-->
                 <div class='d-none d-lg-block mt-2'>
 
                     <h5>Current Loans: </h5>
@@ -99,85 +99,85 @@
         </div>
 
 <!--        {/* Mobile */}-->
-<!--        <div class='container d-lg-none mt-2'>-->
-<!--            {shelfCurrentLoans.length > 0 ?-->
-<!--            <>-->
-<!--            <h5 class='mb-3'>Current Loans: </h5>-->
+        <div class='container d-lg-none mt-2'>
+            <div th:if="${loans.size() > 0}">
+            <h5 class='mb-3'>Current Loans: </h5>
 
-<!--            {shelfCurrentLoans.map(shelfCurrentLoan => (-->
-<!--            <div key={shelfCurrentLoan.book.id}>-->
-<!--                <div class='d-flex justify-content-center align-items-center'>-->
-<!--                    {shelfCurrentLoan.book?.image ?-->
-<!--                    <img src={shelfCurrentLoan.book?.image} width='226' height='349' alt='Book'/>-->
-<!--                    :-->
-<!--                    <img src={require('./../../../Images/BooksImages/book-luv2code-1000.png')}-->
-<!--                         width='226' height='349' alt='Book'/>-->
-<!--                    }-->
-<!--                </div>-->
-<!--                <div class='card d-flex mt-5 mb-3'>-->
-<!--                    <div class='card-body container'>-->
-<!--                        <div class='mt-3'>-->
-<!--                            <h4>Loan Options</h4>-->
-<!--                            {shelfCurrentLoan.daysLeft > 0 &&-->
-<!--                            <p class='text-secondary'>-->
-<!--                                Due in {shelfCurrentLoan.daysLeft} days.-->
-<!--                            </p>-->
-<!--                            }-->
-<!--                            {shelfCurrentLoan.daysLeft === 0 &&-->
-<!--                            <p class='text-success'>-->
-<!--                                Due Today.-->
-<!--                            </p>-->
-<!--                            }-->
-<!--                            {shelfCurrentLoan.daysLeft < 0 &&-->
-<!--                            <p class='text-danger'>-->
-<!--                                Past due by {shelfCurrentLoan.daysLeft} days.-->
-<!--                            </p>-->
-<!--                            }-->
-<!--                            <div class='list-group mt-3'>-->
-<!--                                <button class='list-group-item list-group-item-action'-->
-<!--                                        aria-current='true' data-bs-toggle='modal'-->
-<!--                                        data-bs-target={`#mobilemodal${shelfCurrentLoan.book.id}`}>-->
-<!--                                    Manage Loan-->
-<!--                                </button>-->
-<!--                                <Link to={'search'} class='list-group-item list-group-item-action'>-->
-<!--                                Search more books?-->
-<!--                                </Link>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <hr/>-->
-<!--                        <p class='mt-3'>-->
-<!--                            Help other find their adventure by reviewing your loan.-->
-<!--                        </p>-->
-<!--                        <Link class='btn btn-primary' to={`/checkout/${shelfCurrentLoan.book.id}`}>-->
-<!--                        Leave a review-->
-<!--                        </Link>-->
-<!--                    </div>-->
-<!--                </div>-->
 
-<!--                <hr/>-->
+            <div th:each="l: ${loans}">
+                <div class='d-flex justify-content-center align-items-center'>
+                    <img th:src="${l.getBook().getImage()}" width='226' height='349' alt='Book'/>
+
+                </div>
+                <div class='card d-flex mt-5 mb-3'>
+                    <div class='card-body container'>
+                        <div class='mt-3'>
+                            <h4>Loan Options</h4>
+                            <div th:if="${l.getDaysLeft() > 0}">
+                            <p class='text-secondary'>
+                                Due in <th:block th:text="${l.getDaysLeft()}"/> days.
+                            </p>
+                            </div>
+
+
+                            <div th:if="${l.getDaysLeft() == 0}">
+                            <p class='text-success'>
+                                Due Today.
+                            </p>
+                            </div>
+
+
+                            <div th:if="${l.getDaysLeft() < 0}">
+                            <p class='text-danger'>
+                                Past due by <th:block th:text="${l.getDaysLeft()}"/> days.
+                            </p>
+                            </div>
+
+                            <div class='list-group mt-3'>
+                                <button class='list-group-item list-group-item-action'
+                                        aria-current='true' data-bs-toggle='modal'
+                                        th:attr="data-bs-target='\'#mobilemodal' + ${l.getBook().getId()} + '\''">
+                                    Manage Loan
+                                </button>
+                                <a href='/search' class='list-group-item list-group-item-action'>
+                                Search more books?
+                                </a>
+                            </div>
+                        </div>
+                        <hr/>
+                        <p class='mt-3'>
+                            Help other find their adventure by reviewing your loan.
+                        </p>
+                        <a class='btn btn-primary' th:href="@{/reviews/form/{id}(id = ${l.getBook().getId()})}">
+                        Leave a review
+                        </a>
+                    </div>
+                </div>
+
+                <hr/>
 <!--                <LoansModal shelfCurrentLoan={shelfCurrentLoan} mobile={true} returnBook={returnBook}-->
 <!--                            renewLoan={renewLoan}/>-->
-<!--            </div>-->
-<!--            ))}-->
-<!--        </> :-->
-<!--        <>-->
-<!--        <h3 class='mt-3'>-->
-<!--            Currently no loans-->
-<!--        </h3>-->
-<!--        <Link class='btn btn-primary' to={`search`}>-->
-<!--        Search for a new book-->
-<!--        </Link>-->
-<!--    </>-->
-<!--    }-->
-<!--</div>-->
+            </div>
+
+        </div>
+            <div th:if="${loans.size() == 0}">
+        <h3 class='mt-3'>
+            Currently no loans
+        </h3>
+        <a class='btn btn-primary' href="/search">
+        Search for a new book
+        </a>
+            </div>
+
+</div>
 
 
-<!--            </div>-->
-<!--            <div class='tab-pane fade' id='nav-history' role='tabpanel'-->
-<!--                 aria-labelledby='nav-history-tab'>-->
-<!--                <p>History here</p>-->
-<!--        </div>-->
-<!--    </div>-->
+            </div>
+            <div class='tab-pane fade' id='nav-history' role='tabpanel'
+                 aria-labelledby='nav-history-tab'>
+                <p>History here</p>
+        </div>
+    </div>
             </div>
         </div>
     </div>
