@@ -1,6 +1,7 @@
 package com.example.mylibrary.service.impl;
 
 import com.example.mylibrary.model.dto.BookDTO;
+import com.example.mylibrary.model.dto.CheckOutDTO;
 import com.example.mylibrary.model.entity.Book;
 import com.example.mylibrary.model.entity.Checkout;
 import com.example.mylibrary.model.entity.User;
@@ -9,12 +10,16 @@ import com.example.mylibrary.repository.CheckoutRepository;
 import com.example.mylibrary.repository.UserRepository;
 import com.example.mylibrary.service.CheckoutService;
 import com.example.mylibrary.service.UserService;
+import com.example.mylibrary.util.TimeConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.text.ParseException;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CheckoutServiceImpl implements CheckoutService {
@@ -62,4 +67,18 @@ public class CheckoutServiceImpl implements CheckoutService {
         this.bookRepository.save(book);
 
     }
+
+    @Override
+    public List<CheckOutDTO> getUserCheckouts(Principal principal) {
+        User user = this.userService.getLoggedUser(principal);
+        List<Checkout> checkouts = this.checkoutRepository.findAllByUserIdOrderByCheckoutDate(user.getId());
+        return checkouts.stream()
+                .map(c -> modelMapper.map(c, CheckOutDTO.class))
+                .map(c -> c.setDaysLeft(TimeConverter.getTimeDifference(c)))
+                .collect(Collectors.toList());
+
+    }
 }
+
+
+

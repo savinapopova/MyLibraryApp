@@ -1,6 +1,8 @@
 package com.example.mylibrary.web;
 
 import com.example.mylibrary.model.dto.BookDTO;
+import com.example.mylibrary.model.dto.CheckOutDTO;
+import com.example.mylibrary.model.dto.SearchBookDTO;
 import com.example.mylibrary.service.BookService;
 import com.example.mylibrary.service.CheckoutService;
 import com.example.mylibrary.service.UserService;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class CheckoutController {
@@ -49,5 +52,12 @@ public class CheckoutController {
         this.checkoutService.checkoutBook(id, principal);
 
         return "redirect:/checkout/book/" + id;
+    }
+
+    @GetMapping("/shelf")
+    public String shelf(Model model, Principal principal) {
+       List<CheckOutDTO> loans = this.checkoutService.getUserCheckouts(principal);
+       model.addAttribute("loans", loans);
+       return "shelf";
     }
 }
