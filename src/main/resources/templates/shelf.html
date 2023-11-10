@@ -60,7 +60,8 @@
                                         <div class='list-group mt-3'>
                                             <button class='list-group-item list-group-item-action'
                                                     aria-current='true' data-bs-toggle='modal'
-                                                    th:attr="data-bs-target='\'#modal' + ${l.getBook().getId()} + '\''">
+                                                    th:data-bs-target="'#modal' + ${l.getBook().getId()}">
+
                                                 Manage Loan
                                             </button>
                                             <a href='/search' class='list-group-item list-group-item-action'>
@@ -79,8 +80,76 @@
                             </div>
 
                         <hr/>
-<!--                        <LoansModal shelfCurrentLoan={shelfCurrentLoan} mobile={false} returnBook={returnBook}-->
-<!--                                    renewLoan={renewLoan}/>-->
+<!--
+                    <LoansModal>-->
+
+                                 <div class='modal fade' th:id="'modal' + ${l.getBook().getId()}" data-bs-backdrop='static' data-bs-keyboard='false'
+                                      aria-labelledby='staticBackdropLabel' aria-hidden='true'>
+                                     <div class='modal-dialog'>
+                                         <div class='modal-content'>
+                                             <div class='modal-header'>
+                                                 <h5 class='modal-title' id='staticBackdropLabel'>
+                                                     Loan Options
+                                                 </h5>
+                                                 <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'>
+                                                 </button>
+                                             </div>
+                                             <div class='modal-body'>
+                                                 <div class='container'>
+                                                     <div class='mt-3'>
+                                                         <div class='row'>
+                                                             <div class='col-2'>
+                                                                 <img th:src="${l.getBook().getImage()}"
+                                                                      width='56' height='87' alt='Book'/>
+                                                             </div>
+                                                             <div class='col-10'>
+                                                                 <h6><th:block th:text="${l.getBook().getAuthor()}"/></h6>
+                                                                 <h4><th:block th:text="${l.getBook().getTitle()}"/></h4>
+                                                             </div>
+                                                         </div>
+                                                         <hr/>
+                                                         <p th:if="${l.getDaysLeft() > 0}" class='text-secondary'>
+                                                             Due in <th:block th:text="${l.getDaysLeft()}"/> days.
+                                                         </p>
+
+
+                                                         <p th:if="${l.getDaysLeft() == 0}"class='text-success'>
+                                                             Due Today.
+                                                         </p>
+
+
+                                                         <p th:if="${l.getDaysLeft() < 0}"class='text-danger'>
+                                                             Past due by <th:block th:text="${l.getDaysLeft()}"/> days.
+                                                         </p>
+
+                                                         <div class='list-group mt-3'>
+                                                             <button
+                                                             data-bs-dismiss='modal' class='list-group-item list-group-item-action'
+                                                             aria-current='true'>
+                                                             Return Book
+                                                             </button>
+                                                             <button
+                                                             data-bs-dismiss='modal'
+                                                             th:classappend="${l.getDaysLeft() < 0 ? 'list-group-item list-group-item-action inactiveLink'
+                                                             : 'list-group-item list-group-item-action'}">
+                                                             <span th:if="${l.getDaysLeft() < 0}">Late dues cannot be renewed'</span>
+                                                             <span th:unless="${l.getDaysLeft() < 0}">Renew loan for 7 days</span>
+                                                             </button>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                             <div class='modal-footer'>
+                                                 <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>
+                                                     Close
+                                                 </button>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+
+
+
                     </div>
                         </div>
 
@@ -136,7 +205,7 @@
                             <div class='list-group mt-3'>
                                 <button class='list-group-item list-group-item-action'
                                         aria-current='true' data-bs-toggle='modal'
-                                        th:attr="data-bs-target='\'#mobilemodal' + ${l.getBook().getId()} + '\''">
+                                        th:data-bs-target="'#mobilemodal' + ${l.getBook().getId()}">
                                     Manage Loan
                                 </button>
                                 <a href='/search' class='list-group-item list-group-item-action'>
@@ -155,8 +224,74 @@
                 </div>
 
                 <hr/>
-<!--                <LoansModal shelfCurrentLoan={shelfCurrentLoan} mobile={true} returnBook={returnBook}-->
-<!--                            renewLoan={renewLoan}/>-->
+<!--                <LoansModal Mobile>-->
+
+                <div class='modal fade' th:id="'mobilemodal' + ${l.getBook().getId()}" data-bs-backdrop='static' data-bs-keyboard='false'
+                     aria-labelledby='staticBackdropLabel' aria-hidden='true'>
+                    <div class='modal-dialog'>
+                        <div class='modal-content'>
+                            <div class='modal-header'>
+                                <h5 class='modal-title' id='staticBackdropLabel'>
+                                    Loan Options
+                                </h5>
+                                <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'>
+                                </button>
+                            </div>
+                            <div class='modal-body'>
+                                <div class='container'>
+                                    <div class='mt-3'>
+                                        <div class='row'>
+                                            <div class='col-2'>
+                                                <img th:src="${l.getBook().getImage()}"
+                                                     width='56' height='87' alt='Book'/>
+                                            </div>
+                                            <div class='col-10'>
+                                                <h6><th:block th:text="${l.getBook().getAuthor()}"/></h6>
+                                                <h4><th:block th:text="${l.getBook().getTitle()}"/></h4>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <p th:if="${l.getDaysLeft() > 0}" class='text-secondary'>
+                                            Due in <th:block th:text="${l.getDaysLeft()}"/> days.
+                                        </p>
+
+
+                                        <p th:if="${l.getDaysLeft() == 0}"class='text-success'>
+                                            Due Today.
+                                        </p>
+
+
+                                        <p th:if="${l.getDaysLeft() < 0}"class='text-danger'>
+                                            Past due by <th:block th:text="${l.getDaysLeft()}"/> days.
+                                        </p>
+
+                                        <div class='list-group mt-3'>
+                                            <button
+                                                    data-bs-dismiss='modal' class='list-group-item list-group-item-action'
+                                                    aria-current='true'>
+                                                Return Book
+                                            </button>
+                                            <button
+                                                    data-bs-dismiss='modal'
+                                                    th:classappend="${l.getDaysLeft() < 0 ? 'list-group-item list-group-item-action inactiveLink'
+                                                             : 'list-group-item list-group-item-action'}">
+                                                <span th:if="${l.getDaysLeft() < 0}">Late dues cannot be renewed'</span>
+                                                <span th:unless="${l.getDaysLeft() < 0}">Renew loan for 7 days</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='modal-footer'>
+                                <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
 
         </div>
