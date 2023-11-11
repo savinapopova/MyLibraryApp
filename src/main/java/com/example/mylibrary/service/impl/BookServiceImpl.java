@@ -71,7 +71,9 @@ public class BookServiceImpl implements BookService {
 
 
           return this.bookRepository.findByTitleContaining(title)
-                    .stream().map(b -> this.modelMapper.map(b, SearchBookDTO.class))
+                    .stream()
+                  .map(TextResizer::resizeDescription)
+                  .map(b -> this.modelMapper.map(b, SearchBookDTO.class))
                     .collect(Collectors.toList());
 
 
@@ -86,7 +88,9 @@ public class BookServiceImpl implements BookService {
         }
 
         return this.bookRepository.findAllByCategoryName(CategoryName.valueOf(category.toUpperCase()))
-                .stream().map(b -> this.modelMapper.map(b, SearchBookDTO.class))
+                .stream()
+                .map(TextResizer::resizeDescription)
+                .map(b -> this.modelMapper.map(b, SearchBookDTO.class))
                 .collect(Collectors.toList());
     }
 
@@ -106,7 +110,9 @@ public class BookServiceImpl implements BookService {
         }
 
         return this.bookRepository.findAllByCategoryNameAndTitleContaining(CategoryName.valueOf(category.toUpperCase()), title)
-                .stream().map(b -> this.modelMapper.map(b, SearchBookDTO.class))
+                .stream()
+                .map(TextResizer::resizeDescription)
+                .map(b -> this.modelMapper.map(b, SearchBookDTO.class))
                 .collect(Collectors.toList());
     }
 }
