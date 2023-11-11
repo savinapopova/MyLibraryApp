@@ -14,4 +14,6 @@ public interface CheckoutService {
     List<CheckOutDTO> getUserCheckouts(Principal principal);
 
     void returnBook(Long id, Principal principal);
+
+    void renewCheckout(Long id, Principal principal);
 }

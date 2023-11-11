@@ -75,4 +75,10 @@ public class CheckoutController {
         this.checkoutService.returnBook(id, principal);
         return "redirect:/shelf";
     }
+
+    @PutMapping("/renew/book/{id}")
+    public String renewCheckout(@PathVariable Long id, Principal principal) {
+        this.checkoutService.renewCheckout(id, principal);
+        return "redirect:/shelf";
+    }
 }

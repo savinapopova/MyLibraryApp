@@ -131,13 +131,17 @@
                                                              Return Book
                                                              </button>
                                                                 </form>
+                                                             <form th:action="@{/renew/book/{id}(id = ${l.getBook().getId()})}"
+                                                                   th:method="put">
                                                              <button
+                                                                     type="submit"
                                                              data-bs-dismiss='modal'
                                                              th:classappend="${l.getDaysLeft() < 0 ? 'list-group-item list-group-item-action inactiveLink'
                                                              : 'list-group-item list-group-item-action'}">
                                                              <span th:if="${l.getDaysLeft() < 0}">Late dues cannot be renewed'</span>
                                                              <span th:unless="${l.getDaysLeft() < 0}">Renew loan for 7 days</span>
                                                              </button>
+                                                             </form>
                                                          </div>
                                                      </div>
                                                  </div>
@@ -279,13 +283,16 @@
                                                 Return Book
                                             </button>
                                             </form>
-                                            <button
+                                            <form th:action="@{/renew/book/{id}(id = ${l.getBook().getId()})}"
+                                                  th:method="put">
+                                            <button type="submit"
                                                     data-bs-dismiss='modal'
                                                     th:classappend="${l.getDaysLeft() < 0 ? 'list-group-item list-group-item-action inactiveLink'
                                                              : 'list-group-item list-group-item-action'}">
                                                 <span th:if="${l.getDaysLeft() < 0}">Late dues cannot be renewed'</span>
                                                 <span th:unless="${l.getDaysLeft() < 0}">Renew loan for 7 days</span>
                                             </button>
+                                                </form>
                                         </div>
                                     </div>
                                 </div>

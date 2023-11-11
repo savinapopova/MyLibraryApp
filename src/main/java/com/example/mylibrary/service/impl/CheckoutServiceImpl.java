@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -83,7 +84,7 @@ public class CheckoutServiceImpl implements CheckoutService {
 
     @Override
     public void returnBook(Long id, Principal principal) {
-        //TODO: handle exception
+
         User user = this.userService.getLoggedUser(principal);
 
 
@@ -92,13 +93,33 @@ public class CheckoutServiceImpl implements CheckoutService {
         if (optionalCheckout.isEmpty()) {
             throw new NoSuchElementException();
         }
-        Checkout checkout = optionalCheckout.get();
+        Checkout checkout = getCheckout(user.getEmail(), id);
+
         user.getBooks().remove(checkout.getBook());
         this.userService.saveUser(user);
         this.checkoutRepository.delete(checkout);
 
 
         this.historyService.registerHistory(checkout);
+    }
+
+    private Checkout getCheckout(String email, Long id) {
+//TODO: handle exception
+        Optional<Checkout> optionalCheckout = this.checkoutRepository
+                .findByUserEmailAndBookId(email, id);
+        if (optionalCheckout.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        return optionalCheckout.get();
+    }
+
+    @Override
+    public void renewCheckout(Long id, Principal principal) {
+        User user = this.userService.getLoggedUser(principal);
+        Checkout checkout = getCheckout(user.getEmail(), id);
+        checkout.setReturnDate(LocalDate.now().plusDays(7));
+        this.checkoutRepository.save(checkout);
+
     }
 }
 
