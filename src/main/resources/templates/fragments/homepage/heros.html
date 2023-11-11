@@ -1,4 +1,4 @@
-<div>
+<div xmlns:sec="http://www.w3.org/1999/xhtml">
   <div class='d-none d-lg-block'>
     <div class='row g-0'>
       <div class='col-sm-6 col-md-6'>
@@ -12,7 +12,7 @@
             Whether it is to learn a new skill or grow within one,
             we will be able to provide the top content for you!
           </p>
-          <a class='btn main-color btn-lg text-white' href='#'>Sign up</a>
+          <a sec:authorize="!isAuthenticated()" class='btn main-color btn-lg text-white' href='#'>Sign up</a>
         </div>
       </div>
     </div>

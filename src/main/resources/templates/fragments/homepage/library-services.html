@@ -1,4 +1,4 @@
-<div class='container my-5'>
+<div class='container my-5' xmlns:sec="http://www.w3.org/1999/xhtml">
   <div class='row p-4 align-items-center border shadow-lg'>
     <div class='col-lg-7 p-3'>
       <h1 class='display-4 fw-bold'>
@@ -8,10 +8,15 @@
         If you cannot find what you are looking for,
         send our library admin's a personal message!
       </p>
-      <div class='d-grid gap-2 justify-content-md-start mb-4 mb-lg-3'>
+      <div sec:authorize="!isAuthenticated()" class='d-grid gap-2 justify-content-md-start mb-4 mb-lg-3'>
         <a class='btn main-color btn-lg text-white' href="#">
           Sign up
         </a>
+      </div>
+      <div sec:authorize="isAuthenticated()"class='d-grid gap-2 justify-content-md-start mb-4 mb-lg-3'>
+        <a type='button' class='btn main-color btn-lg px-4 me-md-2 fw-bold text-white'
+              href='#'>Library Services</a>
+
       </div>
     </div>
     <div class='col-lg-4 offset-lg-1 shadow-lg lost-image'></div>
