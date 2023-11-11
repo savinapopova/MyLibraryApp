@@ -11,12 +11,14 @@ import com.example.mylibrary.repository.UserRepository;
 import com.example.mylibrary.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;

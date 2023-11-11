@@ -26,13 +26,21 @@ public class User {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL)
     private List<Role> roles = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,
+    cascade = CascadeType.ALL)
     private Set<Book> books;
 
+   @OneToMany(mappedBy = "user", targetEntity = History.class,
+           cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<History> histories;
+
     public User() {
+        this.books= new LinkedHashSet<>();
+        this.histories = new ArrayList<>();
     }
 
     public User(String name, String email, String password) {
@@ -40,6 +48,7 @@ public class User {
         this.email = email;
         this.name = name;
         this.books= new LinkedHashSet<>();
+        this.histories = new ArrayList<>();
     }
 
 }
