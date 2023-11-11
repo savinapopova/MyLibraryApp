@@ -13,4 +13,6 @@ public interface UserService {
     boolean isAlreadyCheckedOutByUser(Long id, Principal principal);
 
     User getLoggedUser(Principal principal);
+
+    void saveUser(User user);
 }

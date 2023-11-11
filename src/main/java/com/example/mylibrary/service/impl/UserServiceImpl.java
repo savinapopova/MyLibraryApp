@@ -65,6 +65,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void saveUser(User user) {
+        this.userRepository.save(user);
+    }
+
+    @Override
     public boolean isAlreadyCheckedOutByUser(Long id, Principal principal) {
         // TODO: handle exception
         User user = getLoggedUser(principal);

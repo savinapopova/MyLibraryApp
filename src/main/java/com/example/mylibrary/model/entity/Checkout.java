@@ -30,7 +30,7 @@ public class Checkout {
         this.book = book;
         this.user = user;
         this.checkoutDate = LocalDate.now();
-        this.returnDate = LocalDate.now().plusDays(30);
+        this.returnDate = LocalDate.now().plusDays(7);
     }
 
     public Checkout() {

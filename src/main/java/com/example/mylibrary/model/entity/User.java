@@ -34,13 +34,10 @@ public class User {
     cascade = CascadeType.ALL)
     private Set<Book> books;
 
-   @OneToMany(mappedBy = "user", targetEntity = History.class,
-           cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<History> histories;
 
     public User() {
         this.books= new LinkedHashSet<>();
-        this.histories = new ArrayList<>();
+
     }
 
     public User(String name, String email, String password) {
@@ -48,7 +45,7 @@ public class User {
         this.email = email;
         this.name = name;
         this.books= new LinkedHashSet<>();
-        this.histories = new ArrayList<>();
+
     }
 
 }

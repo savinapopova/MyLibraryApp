@@ -3,6 +3,8 @@ package com.example.mylibrary.model.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "histories")
 @Data
@@ -19,16 +21,16 @@ public class History {
     private Book book;
 
     @Column(name = "checkout_date", nullable = false)
-    private String checkoutDate;
+    private LocalDate checkoutDate;
 
     @Column(name = "return_date", nullable = false)
-    private String returnDate;
+    private LocalDate returnDate;
 
-    public History(User user, Book book, String checkoutDate, String returnDate) {
-        this.user = user;
-        this.book = book;
-        this.checkoutDate = checkoutDate;
-        this.returnDate = returnDate;
+    public History(Checkout checkout) {
+        this.user = checkout.getUser();
+        this.book = checkout.getBook();
+        this.checkoutDate = checkout.getCheckoutDate();
+        this.returnDate = LocalDate.now();
     }
 
     public History() {

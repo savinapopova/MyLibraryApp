@@ -1,6 +1,7 @@
 package com.example.mylibrary.service;
 
 import com.example.mylibrary.model.dto.HistoryDTO;
+import com.example.mylibrary.model.entity.Checkout;
 import com.example.mylibrary.model.entity.History;
 import com.example.mylibrary.repository.HistoryRepository;
 import org.modelmapper.ModelMapper;
@@ -30,5 +31,11 @@ public class HistoryServiceImpl implements HistoryService {
        return histories.stream()
                 .map(h -> modelMapper.map(h, HistoryDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void registerHistory(Checkout checkout) {
+        History history = new History(checkout);
+        this.historyRepository.save(history);
     }
 }

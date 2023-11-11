@@ -1,21 +1,20 @@
 package com.example.mylibrary.service.impl;
 
-import com.example.mylibrary.model.dto.BookDTO;
 import com.example.mylibrary.model.dto.CheckOutDTO;
 import com.example.mylibrary.model.entity.Book;
 import com.example.mylibrary.model.entity.Checkout;
 import com.example.mylibrary.model.entity.User;
 import com.example.mylibrary.repository.BookRepository;
 import com.example.mylibrary.repository.CheckoutRepository;
-import com.example.mylibrary.repository.UserRepository;
+import com.example.mylibrary.service.BookService;
 import com.example.mylibrary.service.CheckoutService;
+import com.example.mylibrary.service.HistoryService;
 import com.example.mylibrary.service.UserService;
 import com.example.mylibrary.util.TimeConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.text.ParseException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -28,18 +27,21 @@ public class CheckoutServiceImpl implements CheckoutService {
 
     private CheckoutRepository checkoutRepository;
 
-    private UserRepository userRepository;
-
     private UserService userService;
+
+    private HistoryService historyService;
+
+
 
     private ModelMapper modelMapper;
 
     public CheckoutServiceImpl(BookRepository bookRepository, CheckoutRepository checkoutRepository,
-                               UserRepository userRepository, UserService userService, ModelMapper modelMapper) {
+                               UserService userService, HistoryService historyService,
+                                ModelMapper modelMapper) {
         this.bookRepository = bookRepository;
         this.checkoutRepository = checkoutRepository;
-        this.userRepository = userRepository;
         this.userService = userService;
+        this.historyService = historyService;
         this.modelMapper = modelMapper;
     }
 
@@ -61,7 +63,7 @@ public class CheckoutServiceImpl implements CheckoutService {
         this.checkoutRepository.save(checkout);
 
         user.getBooks().add(book);
-        this.userRepository.save(user);
+        this.userService.saveUser(user);
 
         book.setCopiesAvailable(book.getCopiesAvailable() - 1);
         this.bookRepository.save(book);
@@ -77,6 +79,26 @@ public class CheckoutServiceImpl implements CheckoutService {
                 .map(c -> c.setDaysLeft(TimeConverter.getTimeDifference(c)))
                 .collect(Collectors.toList());
 
+    }
+
+    @Override
+    public void returnBook(Long id, Principal principal) {
+        //TODO: handle exception
+        User user = this.userService.getLoggedUser(principal);
+
+
+        Optional<Checkout> optionalCheckout = this.checkoutRepository
+                .findByUserEmailAndBookId(user.getEmail(), id);
+        if (optionalCheckout.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        Checkout checkout = optionalCheckout.get();
+        user.getBooks().remove(checkout.getBook());
+        this.userService.saveUser(user);
+        this.checkoutRepository.delete(checkout);
+
+
+        this.historyService.registerHistory(checkout);
     }
 }
 

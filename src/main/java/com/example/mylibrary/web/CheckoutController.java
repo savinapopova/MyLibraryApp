@@ -7,11 +7,13 @@ import com.example.mylibrary.service.BookService;
 import com.example.mylibrary.service.CheckoutService;
 import com.example.mylibrary.service.HistoryService;
 import com.example.mylibrary.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.security.Principal;
 import java.util.List;
@@ -66,5 +68,11 @@ public class CheckoutController {
        List<HistoryDTO> histories = this.historyService.getUserHistories(principal);
          model.addAttribute("histories", histories);
        return "shelf";
+    }
+
+    @PutMapping("/return/book/{id}")
+    public String returnBook(@PathVariable Long id, Principal principal) {
+        this.checkoutService.returnBook(id, principal);
+        return "redirect:/shelf";
     }
 }

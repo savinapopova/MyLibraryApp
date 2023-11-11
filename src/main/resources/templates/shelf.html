@@ -123,11 +123,14 @@
                                                          </p>
 
                                                          <div class='list-group mt-3'>
-                                                             <button
+                                                             <form th:action="@{/return/book/{id}(id = ${l.getBook().getId()})}"
+                                                                   th:method="put">
+                                                             <button type="submit"
                                                              data-bs-dismiss='modal' class='list-group-item list-group-item-action'
                                                              aria-current='true'>
                                                              Return Book
                                                              </button>
+                                                                </form>
                                                              <button
                                                              data-bs-dismiss='modal'
                                                              th:classappend="${l.getDaysLeft() < 0 ? 'list-group-item list-group-item-action inactiveLink'
@@ -267,11 +270,15 @@
                                         </p>
 
                                         <div class='list-group mt-3'>
-                                            <button
+                                            <form th:action="@{/return/book/{id}(id = ${l.getBook().getId()})}"
+                                                  th:method="put"
+                                            >
+                                            <button type="submit"
                                                     data-bs-dismiss='modal' class='list-group-item list-group-item-action'
                                                     aria-current='true'>
                                                 Return Book
                                             </button>
+                                            </form>
                                             <button
                                                     data-bs-dismiss='modal'
                                                     th:classappend="${l.getDaysLeft() < 0 ? 'list-group-item list-group-item-action inactiveLink'
