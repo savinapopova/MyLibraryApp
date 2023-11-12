@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="~{/fragments/head.html}"/>
+<body class="d-flex flex-column min-vh-100">
+<header th:include="~{/fragments/nav-and-footer/nav}"/>
+
+<div class='container'>
+    <div class='mt-3 mb-2'>
+        <nav>
+            <div class='nav nav-tabs' id='nav-tab' role='tablist'>
+                <button class='nav-link active'
+                id='nav-send-message-tab' data-bs-toggle='tab' data-bs-target='#nav-send-message'
+                type='button' role='tab' aria-controls='nav-send-message' aria-selected='true'>
+                Submit Question
+                </button>
+                <button class='nav-link'
+                id='nav-message-tab' data-bs-toggle='tab' data-bs-target='#nav-message'
+                type='button' role='tab' aria-controls='nav-message' aria-selected='false'>
+                Q/A Response
+                </button>
+            </div>
+        </nav>
+        <div class='tab-content' id='nav-tabContent'>
+            <div class='tab-pane fade show active' id='nav-send-message' role='tabpanel'
+                 aria-labelledby='nav-send-message-tab'>
+
+<!--                Post Message-->
+
+                <div class='card mt-3'>
+                    <div class='card-header'>
+                        Ask us a question
+                    </div>
+                    <div class='card-body'>
+                        <form th:action="@{/messages/send}"
+                              th:method="POST"
+                              th:object="${postMessageDTO}"
+                        >
+                            <div th:if="${#fields.hasErrors()}" class='alert alert-danger' role='alert'>
+                                All fields must be filled out
+                            </div>
+                            <div th:if="${successMessage}" class='alert alert-success' role='alert'>
+                                Question added successfully
+                            </div>
+
+                            <div class='mb-3'>
+                                <label class='form-label'>
+                                    Title
+                                </label>
+                                <input th:field="*{title}"
+                                        type='text' class='form-control' id='exampleFormControlInput1'
+                                       placeholder='Title'/>
+                            </div>
+
+                            <div class='mb-3'>
+                                <label class='form-label'>
+                                    Question
+                                </label>
+                                <textarea th:field="*{question}"
+                                        class='form-control' id='exampleFormControlTextarea1'
+                                          rows="3">
+                                </textarea>
+                            </div>
+                            <div>
+                                <button type='submit' class='btn btn-primary main-color mt-3'>
+                                    Submit Question
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            <div class='tab-pane fade' id='nav-message' role='tabpanel' aria-labelledby='nav-message-tab'>
+                <p>Response</p>
+        </div>
+    </div>
+</div>
+</div>
+
+<th:block th:include="~{/fragments/nav-and-footer/footer}"/>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+</body>
+</html>
