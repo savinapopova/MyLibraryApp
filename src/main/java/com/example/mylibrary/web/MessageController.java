@@ -1,5 +1,6 @@
 package com.example.mylibrary.web;
 
+import com.example.mylibrary.model.dto.MessageDTO;
 import com.example.mylibrary.model.dto.PostMessageDTO;
 import com.example.mylibrary.service.MessageService;
 import jakarta.validation.Valid;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class MessageController {
@@ -28,7 +30,9 @@ public class MessageController {
     }
 
     @GetMapping("/messages")
-    public String getMessages(Model model) {
+    public String getMessages(Model model, Principal principal) {
+        List<MessageDTO> messages = this.messageService.getUsersMessages(principal);
+        model.addAttribute("messages", messages);
         return "messages";
     }
 

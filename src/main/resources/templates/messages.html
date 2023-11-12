@@ -72,7 +72,35 @@
 
             </div>
             <div class='tab-pane fade' id='nav-message' role='tabpanel' aria-labelledby='nav-message-tab'>
-                <p>Response</p>
+
+<!--                Response-->
+
+                <div th:if="${messages.size() > 0}" class='mt-2'>
+                    <h5>Current Q/A: </h5>
+                    <div th:each="m: ${messages}">
+                        <div class='card mt-2 shadow p-3 bg-body rounded'>
+                            <h5>Case #<th:block th:text="${m.getId()}"/>: <th:block th:text="${m.getTitle()}"/></h5>
+                            <h6><th:block th:text="${m.getUserEmail()}"/></h6>
+                            <p><th:block th:text="${m.getQuestion()}"/></p>
+                            <hr/>
+                            <div>
+                                <h5>Response: </h5>
+                                    <div th:if="${m.getAdminEmail() != null && m.getResponse() != null}">
+                                <h6><th:block th:text="${m.getAdminEmail()}"/> (admin)</h6>
+                                <p><th:block th:text="${m.getResponse()}"/></p>
+                            </div>
+                                <div th:unless="${m.getAdminEmail() != null && m.getResponse() != null}">
+                                <p><i>Pending response from administration. Please be patient.</i></p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+             <div th:if="${messages.size() == 0}">
+            <h5>All questions you submit will be shown here</h5>
+            </div>
+        </div>
+
         </div>
     </div>
 </div>
