@@ -20,4 +20,6 @@ public interface CheckoutService {
     boolean bookAlreadyCheckedOutByUser(Long bookId, Principal principal);
 
     int getLoansCount(Principal principal);
+
+    boolean isUserBlocked(Principal principal);
 }

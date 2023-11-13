@@ -136,6 +136,18 @@ public class CheckoutServiceImpl implements CheckoutService {
     public int getLoansCount(Principal principal) {
        return this.checkoutRepository.findAllByUserEmail(principal.getName()).size();
     }
+
+    @Override
+    public boolean isUserBlocked(Principal principal) {
+
+        List<CheckOutDTO> userCheckouts = getUserCheckouts(principal);
+        CheckOutDTO checkOutDTO = userCheckouts.stream()
+                .filter(c -> c.getDaysLeft() < 0).findAny().orElse(null);
+        if (checkOutDTO != null) {
+            return true;
+        }
+        return false;
+    }
 }
 
 

@@ -53,6 +53,9 @@ public class CheckoutController {
 
         model.addAttribute("alreadyCheckedOut", alreadyCheckedOut);
 
+       boolean userBlocked = this.checkoutService.isUserBlocked(principal);
+       model.addAttribute("userBlocked", userBlocked);
+
         return "checkout";
     }
 
