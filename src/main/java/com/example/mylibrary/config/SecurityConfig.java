@@ -1,6 +1,7 @@
 package com.example.mylibrary.config;
 
 
+import com.example.mylibrary.model.enums.RoleName;
 import com.example.mylibrary.repository.UserRepository;
 import com.example.mylibrary.service.impl.ApplicationUserDetailsService;
 
@@ -29,7 +30,7 @@ public class SecurityConfig {
 //                        .requestMatchers("/offers/all").permitAll()
 //                        .requestMatchers(HttpMethod.GET, "/offer/**").permitAll()
                         .requestMatchers("/error").permitAll()
-//                        .requestMatchers("/brands").hasRole(UserRoleEnum.ADMIN.name())
+                        .requestMatchers("/admin/**").hasRole(RoleName.ADMIN.name())
                         // all other requests are authenticated.
                         .anyRequest().authenticated()
         ).formLogin(

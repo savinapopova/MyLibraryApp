@@ -87,10 +87,16 @@ code {
   }
 }
 
-.dropdown-item.nav-link:hover {
+.d-lg-none .dropdown-item.nav-link:hover {
   background-color: transparent; /* Задава цвета на фона при хофър състояние на категориите на transparent */
 }
 
+
+
+.dropdown-item:hover {
+  background-color: #0e76a8;
+  color: white/* Задава цвета на фона при хофър състояние на категориите на transparent */
+}
 .d-lg-none .dropdown-menu {
   border: none;
 }
