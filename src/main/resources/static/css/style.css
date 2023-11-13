@@ -87,4 +87,13 @@ code {
   }
 }
 
+.dropdown-item.nav-link:hover {
+  background-color: transparent; /* Задава цвета на фона при хофър състояние на категориите на transparent */
+}
+
+.d-lg-none .dropdown-menu {
+  border: none;
+}
+
+
 

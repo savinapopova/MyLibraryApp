@@ -19,7 +19,81 @@
                 <li sec:authorize="isAuthenticated()" class='nav-item'>
                     <a class='nav-link' href='/shelf'>Shelf</a>
                 </li>
+
+                <li class='dropdown nav-item d-none d-lg-block'>
+                    <div class='dropdown-toggle main-color nav-link' type='button'
+                            id='dropdownMenuButton1' data-bs-toggle='dropdown'
+                            aria-expanded='false'>
+                        Admin
+                    </div>
+                    <ul class='dropdown-menu nav-item' aria-labelledby='dropdownMenuButton1'>
+                        <li>
+                            <a class='dropdown-item'
+                               th:href="@{/admin/messages}">
+                                Messages
+                            </a>
+                        </li>
+                        <li>
+                            <a class='dropdown-item'
+                               th:href="@{/admin/quantity}">
+                                Change quantity
+                            </a>
+                        </li>
+                        <li>
+                            <a class='dropdown-item'
+                               th:href="@{/admin/book/add}">
+                                Add new book
+                            </a>
+                        </li>
+                        <li>
+                            <a class='dropdown-item'
+                               th:href="@{/admin/users}">
+                                Manage users
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+<!--                Mobile dropdown-->
+
+                <li class='dropdown nav-item d-lg-none'>
+                    <div class='dropdown-toggle main-color nav-link' type='button'
+                         id='mobileDropdownMenuButton1' data-bs-toggle='dropdown'
+                         aria-expanded='false'>
+                        Admin
+                    </div>
+                    <ul class='dropdown-menu main-color nav-item' aria-labelledby='mobileDropdownMenuButton1'>
+                        <li>
+                            <a class='dropdown-item nav-link'
+                               th:href="@{/admin/messages}">
+                                Messages
+                            </a>
+                        </li>
+                        <li>
+                            <a class='dropdown-item nav-link'
+                               th:href="@{/admin/quantity}">
+                                Change quantity
+                            </a>
+                        </li>
+                        <li>
+                            <a class='dropdown-item nav-link'
+                               th:href="@{/admin/book/add}">
+                                Add new book
+                            </a>
+                        </li>
+                        <li>
+                            <a class='dropdown-item nav-link'
+                               th:href="@{/admin/users}">
+                                Manage users
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
             </ul>
+
+
+
             <ul sec:authorize="!isAuthenticated()" class='navbar-nav ms-auto'>
                 <li class='nav-item m-1'>
                     <a type='button' class='btn btn-outline-light' th:href="@{/users/login}">Sign in</a>
