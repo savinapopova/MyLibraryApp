@@ -30,13 +30,10 @@ public class User {
             cascade = CascadeType.ALL)
     private List<Role> roles = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER,
-    cascade = CascadeType.ALL)
-    private Set<Book> books;
 
 
     public User() {
-        this.books= new LinkedHashSet<>();
+
 
     }
 
@@ -44,8 +41,6 @@ public class User {
         this.password = password;
         this.email = email;
         this.name = name;
-        this.books= new LinkedHashSet<>();
-
     }
 
 }

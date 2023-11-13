@@ -1,9 +1,10 @@
-package com.example.mylibrary.service;
+package com.example.mylibrary.service.impl;
 
 import com.example.mylibrary.model.dto.HistoryDTO;
 import com.example.mylibrary.model.entity.Checkout;
 import com.example.mylibrary.model.entity.History;
 import com.example.mylibrary.repository.HistoryRepository;
+import com.example.mylibrary.service.HistoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 

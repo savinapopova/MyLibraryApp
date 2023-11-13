@@ -47,11 +47,6 @@ public class UserServiceImpl implements UserService {
         this.userRepository.save(user);
     }
 
-    @Override
-    public int getLoansCount(Principal principal) {
-        User user = getLoggedUser(principal);
-        return user.getBooks().size();
-    }
 
     @Override
     public User getLoggedUser(Principal principal) {
@@ -69,18 +64,6 @@ public class UserServiceImpl implements UserService {
         this.userRepository.save(user);
     }
 
-    @Override
-    public boolean isAlreadyCheckedOutByUser(Long id, Principal principal) {
-        // TODO: handle exception
-        User user = getLoggedUser(principal);
-        Optional<Book> optionalBook = this.bookRepository.findById(id);
-        if (optionalBook.isEmpty()) {
-            throw new NoSuchElementException();
-        }
-        Book book = optionalBook.get();
-        if (user.getBooks().contains(book)) {
-            return true;
-        }
-        return false;
-    }
+
+
 }

@@ -48,7 +48,7 @@ public class MessageController {
         }
         this.messageService.registerMessage(postMessageDTO, principal);
 
-        redirectAttributes.addFlashAttribute("postMessageDTO", postMessageDTO);
+
         redirectAttributes.addFlashAttribute("successMessage", true);
 
 

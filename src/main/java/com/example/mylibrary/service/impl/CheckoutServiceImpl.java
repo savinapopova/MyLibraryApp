@@ -56,15 +56,13 @@ public class CheckoutServiceImpl implements CheckoutService {
             throw new NoSuchElementException();
         }
         Book book = optionalBook.get();
-        if (user.getBooks().contains(book) || user.getBooks().size() >= 5) {
+        if (bookAlreadyCheckedOutByUser(id, principal) || getLoansCount(principal) >= 5) {
             throw new UnsupportedOperationException();
         }
 
         Checkout checkout = new Checkout(book, user);
         this.checkoutRepository.save(checkout);
 
-        user.getBooks().add(book);
-        this.userService.saveUser(user);
 
         book.setCopiesAvailable(book.getCopiesAvailable() - 1);
         this.bookRepository.save(book);
@@ -94,19 +92,21 @@ public class CheckoutServiceImpl implements CheckoutService {
             throw new NoSuchElementException();
         }
         Checkout checkout = getCheckout(user.getEmail(), id);
+        Book book = checkout.getBook();
 
-        user.getBooks().remove(checkout.getBook());
-        this.userService.saveUser(user);
+        book.setCopiesAvailable(book.getCopiesAvailable() + 1);
+        this.bookRepository.save(book);
+
         this.checkoutRepository.delete(checkout);
 
 
         this.historyService.registerHistory(checkout);
     }
 
-    private Checkout getCheckout(String email, Long id) {
+    private Checkout getCheckout(String email, Long bookId) {
 //TODO: handle exception
         Optional<Checkout> optionalCheckout = this.checkoutRepository
-                .findByUserEmailAndBookId(email, id);
+                .findByUserEmailAndBookId(email, bookId);
         if (optionalCheckout.isEmpty()) {
             throw new NoSuchElementException();
         }
@@ -114,12 +114,27 @@ public class CheckoutServiceImpl implements CheckoutService {
     }
 
     @Override
-    public void renewCheckout(Long id, Principal principal) {
+    public void renewCheckout(Long bookId, Principal principal) {
         User user = this.userService.getLoggedUser(principal);
-        Checkout checkout = getCheckout(user.getEmail(), id);
+        Checkout checkout = getCheckout(user.getEmail(), bookId);
         checkout.setReturnDate(LocalDate.now().plusDays(7));
         this.checkoutRepository.save(checkout);
 
+    }
+
+    @Override
+    public boolean bookAlreadyCheckedOutByUser(Long bookId, Principal principal) {
+        Optional<Checkout> optionalCheckout = this.checkoutRepository
+                .findByUserEmailAndBookId(principal.getName(), bookId);
+        if (optionalCheckout.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int getLoansCount(Principal principal) {
+       return this.checkoutRepository.findAllByUserEmail(principal.getName()).size();
     }
 }
 
