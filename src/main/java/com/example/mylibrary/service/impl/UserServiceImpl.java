@@ -1,13 +1,13 @@
 package com.example.mylibrary.service.impl;
 
 import com.example.mylibrary.model.dto.UserRegisterDTO;
-import com.example.mylibrary.model.entity.Book;
 import com.example.mylibrary.model.entity.Role;
 import com.example.mylibrary.model.entity.User;
 import com.example.mylibrary.model.enums.RoleName;
 import com.example.mylibrary.repository.BookRepository;
 import com.example.mylibrary.repository.RoleRepository;
 import com.example.mylibrary.repository.UserRepository;
+import com.example.mylibrary.service.RoleService;
 import com.example.mylibrary.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,17 +22,14 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
-    private RoleRepository roleRepository;
-
-    private BookRepository bookRepository;
+    private RoleService roleService;
     private PasswordEncoder passwordEncoder;
 
 
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BookRepository bookRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.bookRepository = bookRepository;
+        this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
 
     }
@@ -42,7 +39,7 @@ public class UserServiceImpl implements UserService {
         User user = new User(userRegisterDTO.getName(),
                 userRegisterDTO.getEmail(),
                 passwordEncoder.encode(userRegisterDTO.getPassword()));
-        Role userRole = this.roleRepository.findByName(RoleName.USER);
+        Role userRole = this.roleService.findByName(RoleName.USER);
                 user.getRoles().add(userRole);
         this.userRepository.save(user);
     }

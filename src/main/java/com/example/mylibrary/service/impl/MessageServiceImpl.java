@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,5 +47,37 @@ public class MessageServiceImpl implements MessageService {
 
       return messages.stream().map(message -> this.modelMapper.map(message, MessageDTO.class))
               .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<MessageDTO> getOpenMessages() {
+        return this.messageRepository.findAllByClosed(false)
+                .stream().map(m -> modelMapper.map(m, MessageDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Message getMessage(Long id) {
+        // TODO: handle exception
+        Optional<Message> optionalMessage = this.messageRepository.findById(id);
+
+        if (optionalMessage.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        return optionalMessage.get();
+    }
+
+    @Override
+    public void answerMessage(Long id, String response, User admin) {
+        Message message = getMessage(id);
+        message.setResponse(response);
+        message.setAdmin(admin);
+        message.setClosed(true);
+        this.messageRepository.save(message);
+    }
+
+    @Override
+    public void deleteMessage(Long id) {
+        this.messageRepository.deleteById(id);
     }
 }

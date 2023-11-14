@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Service
 public class CheckoutServiceImpl implements CheckoutService {
 
-    private BookRepository bookRepository;
+    private BookService bookService;
 
     private CheckoutRepository checkoutRepository;
 
@@ -36,10 +36,10 @@ public class CheckoutServiceImpl implements CheckoutService {
 
     private ModelMapper modelMapper;
 
-    public CheckoutServiceImpl(BookRepository bookRepository, CheckoutRepository checkoutRepository,
+    public CheckoutServiceImpl(BookService bookService, CheckoutRepository checkoutRepository,
                                UserService userService, HistoryService historyService,
-                                ModelMapper modelMapper) {
-        this.bookRepository = bookRepository;
+                               ModelMapper modelMapper) {
+        this.bookService = bookService;
         this.checkoutRepository = checkoutRepository;
         this.userService = userService;
         this.historyService = historyService;
@@ -51,11 +51,7 @@ public class CheckoutServiceImpl implements CheckoutService {
     public void checkoutBook(Long id, Principal principal) {
         // TODO: handle exceptions
         User user = this.userService.getLoggedUser(principal);
-        Optional<Book> optionalBook = this.bookRepository.findById(id);
-        if (optionalBook.isEmpty()) {
-            throw new NoSuchElementException();
-        }
-        Book book = optionalBook.get();
+        Book book = this.bookService.getBook(id);
         if (bookAlreadyCheckedOutByUser(id, principal) || getLoansCount(principal) >= 5) {
             throw new UnsupportedOperationException();
         }
@@ -63,9 +59,10 @@ public class CheckoutServiceImpl implements CheckoutService {
         Checkout checkout = new Checkout(book, user);
         this.checkoutRepository.save(checkout);
 
+        this.bookService.decreaseCopiesAvailable(book);
 
-        book.setCopiesAvailable(book.getCopiesAvailable() - 1);
-        this.bookRepository.save(book);
+
+
 
     }
 
@@ -94,8 +91,7 @@ public class CheckoutServiceImpl implements CheckoutService {
         Checkout checkout = getCheckout(user.getEmail(), id);
         Book book = checkout.getBook();
 
-        book.setCopiesAvailable(book.getCopiesAvailable() + 1);
-        this.bookRepository.save(book);
+        this.bookService.increaseCopiesAvailable(book);
 
         this.checkoutRepository.delete(checkout);
 

@@ -22,4 +22,7 @@ public interface BookService {
 
     Book getBook(Long id);
 
+    void decreaseCopiesAvailable(Book book);
+    void increaseCopiesAvailable(Book book);
+
 }

@@ -61,6 +61,18 @@ public class BookServiceImpl implements BookService {
         return optionalBook.get();
     }
 
+    @Override
+    public void decreaseCopiesAvailable(Book book) {
+        book.setCopiesAvailable(book.getCopiesAvailable() - 1);
+        this.bookRepository.save(book);
+    }
+
+    @Override
+    public void increaseCopiesAvailable(Book book) {
+        book.setCopiesAvailable(book.getCopiesAvailable() + 1);
+        this.bookRepository.save(book);
+    }
+
 
     @Override
     public List<SearchBookDTO> getBooksByTitle(String title) {

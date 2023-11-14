@@ -30,4 +30,9 @@ public class RoleServiceImpl implements RoleService {
             this.roleRepository.saveAll(roles);
         }
     }
+
+    @Override
+    public Role findByName(RoleName name) {
+       return this.roleRepository.findByName(name);
+    }
 }
