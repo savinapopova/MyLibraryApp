@@ -1,9 +1,8 @@
 package com.example.mylibrary.web;
 
-import com.example.mylibrary.model.dto.AddBookDTO;
-import com.example.mylibrary.model.dto.MessageDTO;
-import com.example.mylibrary.model.dto.MessageResponseDTO;
+import com.example.mylibrary.model.dto.*;
 import com.example.mylibrary.service.AdminService;
+import com.example.mylibrary.service.BookService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,8 +19,11 @@ public class AdminController {
 
     private AdminService adminService;
 
-    public AdminController(AdminService adminService) {
+    private BookService bookService;
+
+    public AdminController(AdminService adminService, BookService bookService) {
         this.adminService = adminService;
+        this.bookService = bookService;
     }
 
     @ModelAttribute
@@ -90,5 +92,32 @@ public class AdminController {
         redirectAttributes.addFlashAttribute("sentSuccess", true);
 
         return "redirect:/admin/book/add";
+    }
+
+    @GetMapping("/quantity")
+    public String changeQuantity(Model model) {
+
+        List<BookDTO> books = this.bookService.getAllBooks();
+        model.addAttribute("books", books);
+
+        return "change-quantity";
+    }
+
+    @PutMapping("/quantity/increase/{id}")
+    public String increaseQuantity(@PathVariable Long id) {
+        this.adminService.increaseBookQuantity(id);
+        return "redirect:/admin/quantity";
+    }
+
+    @PutMapping("/quantity/decrease/{id}")
+    public String decreaseQuantity(@PathVariable Long id) {
+        this.adminService.decreaseBookQuantity(id);
+        return "redirect:/admin/quantity";
+    }
+
+    @DeleteMapping("/book/delete/{id}")
+    public String deleteBook(@PathVariable Long id) {
+        this.adminService.deleteBook(id);
+        return "redirect:/admin/quantity";
     }
 }

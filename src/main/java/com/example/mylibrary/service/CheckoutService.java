@@ -22,4 +22,6 @@ public interface CheckoutService {
     int getLoansCount(Principal principal);
 
     boolean isUserBlocked(Principal principal);
+
+    void deleteBookCheckouts(Long id);
 }

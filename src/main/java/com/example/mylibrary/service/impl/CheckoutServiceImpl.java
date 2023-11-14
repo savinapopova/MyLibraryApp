@@ -145,6 +145,11 @@ public class CheckoutServiceImpl implements CheckoutService {
         }
         return false;
     }
+
+    @Override
+    public void deleteBookCheckouts(Long id) {
+        this.checkoutRepository.deleteAllByBookId(id);
+    }
 }
 
 

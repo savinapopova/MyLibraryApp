@@ -39,4 +39,9 @@ public class HistoryServiceImpl implements HistoryService {
         History history = new History(checkout);
         this.historyRepository.save(history);
     }
+
+    @Override
+    public void deleteBookHistories(Long id) {
+        this.historyRepository.deleteAllByBookId(id);
+    }
 }

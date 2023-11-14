@@ -10,7 +10,9 @@ import com.example.mylibrary.model.entity.Book;
 import java.util.List;
 
 public interface BookService {
-    List<SearchBookDTO> getAllBooks();
+    List<SearchBookDTO> getSearchedBooks();
+
+    List<BookDTO> getAllBooks();
 
     SearchBookDTO getSearchBookDTO(Long id);
 
@@ -27,4 +29,7 @@ public interface BookService {
     void increaseCopiesAvailable(Book book);
 
     void registerBook(AddBookDTO addBookDTO);
+
+
+    void deleteBook(Long id);
 }

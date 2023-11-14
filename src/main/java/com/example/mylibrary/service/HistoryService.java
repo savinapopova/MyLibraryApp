@@ -10,4 +10,6 @@ public interface HistoryService {
     List<HistoryDTO> getUserHistories(Principal principal);
 
     void registerHistory(Checkout checkout);
+
+    void deleteBookHistories(Long id);
 }

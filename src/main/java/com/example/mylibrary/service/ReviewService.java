@@ -12,4 +12,6 @@ public interface ReviewService {
     boolean reviewLeft(Principal principal, Long bookId);
 
     void registerReview(LeaveReviewDTO leaveReviewDTO, Principal principal, Long bookId);
+
+    void deleteBookReviews(Long id);
 }

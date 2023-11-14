@@ -67,4 +67,9 @@ public class ReviewServiceImpl implements ReviewService {
         review.setDate(LocalDate.now());
         this.reviewRepository.save(review);
     }
+
+    @Override
+    public void deleteBookReviews(Long id) {
+        this.reviewRepository.deleteAllByBookId(id);
+    }
 }

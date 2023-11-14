@@ -33,11 +33,20 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<SearchBookDTO> getAllBooks() {
+    public List<SearchBookDTO> getSearchedBooks() {
         return this.bookRepository.findAll()
                 .stream()
                 .map(TextResizer::resizeDescription)
                 .map(b -> this.modelMapper.map(b, SearchBookDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BookDTO> getAllBooks() {
+        return this.bookRepository.findAll()
+                .stream()
+                .map(TextResizer::resizeDescription)
+                .map(b -> this.modelMapper.map(b, BookDTO.class))
                 .collect(Collectors.toList());
     }
 
@@ -88,12 +97,17 @@ public class BookServiceImpl implements BookService {
         this.bookRepository.save(book);
     }
 
+    @Override
+    public void deleteBook(Long id) {
+        this.bookRepository.deleteById(id);
+    }
+
 
     @Override
     public List<SearchBookDTO> getBooksByTitle(String title) {
 
         if (title == null || title.trim().isBlank()) {
-            return getAllBooks();
+            return getSearchedBooks();
         }
 
 
@@ -110,7 +124,7 @@ public class BookServiceImpl implements BookService {
     public List<SearchBookDTO> getBooksByCategory(String category) {
 
         if (category.toLowerCase().equals("all")) {
-            return getAllBooks();
+            return getSearchedBooks();
 
         }
 
@@ -125,7 +139,7 @@ public class BookServiceImpl implements BookService {
     public List<SearchBookDTO> getBooksByTitleAndCategory(String title, String category) {
         if ((category == null || category.toLowerCase().equals("all")) &&
                 (title == null || title.trim().isBlank())) {
-            return getAllBooks();
+            return getSearchedBooks();
         }
 
         if (category == null || category.toLowerCase().equals("all")) {

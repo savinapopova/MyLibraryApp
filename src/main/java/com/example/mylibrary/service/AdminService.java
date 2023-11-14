@@ -13,4 +13,10 @@ public interface AdminService {
     void sendResponse(Long messageId, MessageResponseDTO messageResponseDTO, Principal principal);
 
     void postBook(AddBookDTO addBookDTO);
+
+    void increaseBookQuantity(Long id);
+
+    void decreaseBookQuantity(Long id);
+
+    void deleteBook(Long id);
 }
