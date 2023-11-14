@@ -49,10 +49,11 @@ public class CheckoutServiceImpl implements CheckoutService {
 
     @Override
     public void checkoutBook(Long id, Principal principal) {
-        // TODO: handle exceptions
+        // TODO handle exceptions
         User user = this.userService.getLoggedUser(principal);
         Book book = this.bookService.getBook(id);
-        if (bookAlreadyCheckedOutByUser(id, principal) || getLoansCount(principal) >= 5) {
+        if (bookAlreadyCheckedOutByUser(id, principal) || getLoansCount(principal) >= 5
+                || book.getCopiesAvailable() <= 0) {
             throw new UnsupportedOperationException();
         }
 
