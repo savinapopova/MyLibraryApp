@@ -1,11 +1,14 @@
 package com.example.mylibrary.service.impl;
 
+import com.example.mylibrary.model.dto.AddBookDTO;
 import com.example.mylibrary.model.dto.BookDTO;
 import com.example.mylibrary.model.dto.SearchBookDTO;
 import com.example.mylibrary.model.entity.Book;
+import com.example.mylibrary.model.entity.Category;
 import com.example.mylibrary.model.enums.CategoryName;
 import com.example.mylibrary.repository.BookRepository;
 import com.example.mylibrary.service.BookService;
+import com.example.mylibrary.service.CategoryService;
 import com.example.mylibrary.util.TextResizer;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -21,9 +24,12 @@ public class BookServiceImpl implements BookService {
     private BookRepository bookRepository;
     private ModelMapper modelMapper;
 
-    public BookServiceImpl(BookRepository bookRepository, ModelMapper modelMapper) {
+    private CategoryService categoryService;
+
+    public BookServiceImpl(BookRepository bookRepository, ModelMapper modelMapper, CategoryService categoryService) {
         this.bookRepository = bookRepository;
         this.modelMapper = modelMapper;
+        this.categoryService = categoryService;
     }
 
     @Override
@@ -70,6 +76,15 @@ public class BookServiceImpl implements BookService {
     @Override
     public void increaseCopiesAvailable(Book book) {
         book.setCopiesAvailable(book.getCopiesAvailable() + 1);
+        this.bookRepository.save(book);
+    }
+
+    @Override
+    public void registerBook(AddBookDTO addBookDTO) {
+        Book book = modelMapper.map(addBookDTO, Book.class);
+        book.setCopiesAvailable(addBookDTO.getCopies());
+        Category category = this.categoryService.getCategory(CategoryName.valueOf(addBookDTO.getCategory().toUpperCase()));
+        book.setCategory(category);
         this.bookRepository.save(book);
     }
 

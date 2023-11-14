@@ -4,9 +4,7 @@ async function fetchReviews() {
 
     try {
         const responseReviews = await fetch(reviewsUrl);
-        if (!responseReviews.ok) {
-            throw new Error('Something went wrong!');
-        }
+
 
         const responseJsonReviews = await responseReviews.json();
         const responseData = responseJsonReviews;

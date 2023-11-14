@@ -1,10 +1,11 @@
 package com.example.mylibrary.service.impl;
 
+import com.example.mylibrary.model.dto.AddBookDTO;
 import com.example.mylibrary.model.dto.MessageDTO;
 import com.example.mylibrary.model.dto.MessageResponseDTO;
-import com.example.mylibrary.model.entity.Message;
 import com.example.mylibrary.model.entity.User;
 import com.example.mylibrary.service.AdminService;
+import com.example.mylibrary.service.BookService;
 import com.example.mylibrary.service.MessageService;
 import com.example.mylibrary.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -13,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -24,11 +23,14 @@ public class AdminServiceImpl implements AdminService {
 
     private UserService userService;
 
+    private BookService bookService;
+
     private ModelMapper modelMapper;
 
-    public AdminServiceImpl(MessageService messageService, UserService userService, ModelMapper modelMapper) {
+    public AdminServiceImpl(MessageService messageService, UserService userService, BookService bookService, ModelMapper modelMapper) {
         this.messageService = messageService;
         this.userService = userService;
+        this.bookService = bookService;
         this.modelMapper = modelMapper;
     }
 
@@ -45,6 +47,11 @@ public class AdminServiceImpl implements AdminService {
 
         this.messageService.answerMessage(messageId,messageResponseDTO.getResponse(),admin);
 
+    }
+
+    @Override
+    public void postBook(AddBookDTO addBookDTO) {
+        this.bookService.registerBook(addBookDTO);
     }
 
 

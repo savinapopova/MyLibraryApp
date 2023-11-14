@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,5 +29,15 @@ public class CategoryServiceImpl implements CategoryService {
                     .collect(Collectors.toList());
             this.categoryRepository.saveAll(categories);
         }
+    }
+
+    @Override
+    public Category getCategory(CategoryName category) {
+        //TODO: handle exception
+        Optional<Category> optionalCategory = this.categoryRepository.findByName(category);
+        if (optionalCategory.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+         return optionalCategory.get();
     }
 }

@@ -2,6 +2,7 @@ package com.example.mylibrary.service;
 
 
 
+import com.example.mylibrary.model.dto.AddBookDTO;
 import com.example.mylibrary.model.dto.BookDTO;
 import com.example.mylibrary.model.dto.SearchBookDTO;
 import com.example.mylibrary.model.entity.Book;
@@ -25,4 +26,5 @@ public interface BookService {
     void decreaseCopiesAvailable(Book book);
     void increaseCopiesAvailable(Book book);
 
+    void registerBook(AddBookDTO addBookDTO);
 }

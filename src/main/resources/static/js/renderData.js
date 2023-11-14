@@ -103,7 +103,6 @@ async function renderData() {
         emptyStars = 5;
     }
 
-    // let starsDiv = document.createElement("div");
 
 
     for (let i = 0; i < fullStars; i++) {

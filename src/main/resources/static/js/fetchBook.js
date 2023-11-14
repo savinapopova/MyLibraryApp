@@ -4,9 +4,6 @@ async function fetchBook() {
 
     try {
         const response = await fetch(baseUrl);
-        if (!response.ok) {
-            throw new Error('Something went wrong!');
-        }
 
         const responseJson = await response.json();
         const loadedBook = {

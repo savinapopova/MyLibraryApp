@@ -1,5 +1,6 @@
 package com.example.mylibrary.web;
 
+import com.example.mylibrary.model.dto.AddBookDTO;
 import com.example.mylibrary.model.dto.MessageDTO;
 import com.example.mylibrary.model.dto.MessageResponseDTO;
 import com.example.mylibrary.service.AdminService;
@@ -24,8 +25,13 @@ public class AdminController {
     }
 
     @ModelAttribute
-    public MessageResponseDTO init() {
+    public MessageResponseDTO initMessageResponseDTO() {
         return new MessageResponseDTO();
+    }
+
+    @ModelAttribute
+    public AddBookDTO initAddBook() {
+        return new AddBookDTO();
     }
 
     @GetMapping("/users")
@@ -60,5 +66,29 @@ public class AdminController {
         this.adminService.sendResponse(id, messageResponseDTO, principal);
 
         return "redirect:/admin/messages";
+    }
+
+    @GetMapping("/book/add")
+    public String addBook() {
+        return "book-add";
+    }
+
+    @PostMapping("/book/add")
+    public String addBook(@Valid AddBookDTO addBookDTO,
+                          BindingResult bindingResult,
+                          RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("addBookDTO", addBookDTO);
+            redirectAttributes
+                    .addFlashAttribute("org.springframework.validation.BindingResult.addBookDTO",
+                            bindingResult);
+
+            return "redirect:/admin/book/add";
+        }
+        this.adminService.postBook(addBookDTO);
+        redirectAttributes.addFlashAttribute("sentSuccess", true);
+
+        return "redirect:/admin/book/add";
     }
 }
