@@ -26,4 +26,6 @@ public interface AdminService {
     void addAdmin(Long id);
 
     void removeAdmin(Long id, Principal principal);
+
+    String getUserEmail(Long id);
 }

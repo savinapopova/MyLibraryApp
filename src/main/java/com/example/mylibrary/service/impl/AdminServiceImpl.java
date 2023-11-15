@@ -140,6 +140,12 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
+    @Override
+    public String getUserEmail(Long id) {
+
+       return this.userService.getUser(id).getEmail();
+    }
+
     private boolean checkAdmin(User user) {
         Role adminRole = this.roleService.findByName(RoleName.ADMIN);
        if (user.getRoles().contains(adminRole)) {

@@ -67,9 +67,8 @@ public class CheckoutServiceImpl implements CheckoutService {
     }
 
     @Override
-    public List<CheckOutDTO> getLoggedUserCheckouts(Principal principal) {
-        User user = this.userService.getLoggedUser(principal);
-        List<Checkout> checkouts = this.checkoutRepository.findAllByUserIdOrderByCheckoutDate(user.getId());
+    public List<CheckOutDTO> getUserCheckouts(Long id) {
+        List<Checkout> checkouts = this.checkoutRepository.findAllByUserIdOrderByCheckoutDate(id);
         return checkouts.stream()
                 .map(c -> modelMapper.map(c, CheckOutDTO.class))
                 .map(c -> c.setDaysLeft(TimeConverter.getTimeDifference(c)))
@@ -135,8 +134,9 @@ public class CheckoutServiceImpl implements CheckoutService {
 
     @Override
     public boolean isUserBlocked(Principal principal) {
+        User loggedUser = this.userService.getLoggedUser(principal);
 
-        List<CheckOutDTO> userCheckouts = getLoggedUserCheckouts(principal);
+        List<CheckOutDTO> userCheckouts = getUserCheckouts(loggedUser.getId());
         CheckOutDTO checkOutDTO = userCheckouts.stream()
                 .filter(c -> c.getDaysLeft() < 0).findAny().orElse(null);
         if (checkOutDTO != null) {

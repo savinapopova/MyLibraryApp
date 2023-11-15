@@ -3,6 +3,7 @@ package com.example.mylibrary.web;
 import com.example.mylibrary.model.dto.BookDTO;
 import com.example.mylibrary.model.dto.CheckOutDTO;
 import com.example.mylibrary.model.dto.HistoryDTO;
+import com.example.mylibrary.model.entity.User;
 import com.example.mylibrary.service.BookService;
 import com.example.mylibrary.service.CheckoutService;
 import com.example.mylibrary.service.HistoryService;
@@ -68,7 +69,8 @@ public class CheckoutController {
 
     @GetMapping("/shelf")
     public String shelf(Model model, Principal principal) {
-       List<CheckOutDTO> loans = this.checkoutService.getLoggedUserCheckouts(principal);
+        User loggedUser = this.userService.getLoggedUser(principal);
+        List<CheckOutDTO> loans = this.checkoutService.getUserCheckouts(loggedUser.getId());
        model.addAttribute("loans", loans);
        List<HistoryDTO> histories = this.historyService.getUserHistories(principal);
          model.addAttribute("histories", histories);

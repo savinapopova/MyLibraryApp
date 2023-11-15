@@ -3,6 +3,8 @@ package com.example.mylibrary.web;
 import com.example.mylibrary.model.dto.*;
 import com.example.mylibrary.service.AdminService;
 import com.example.mylibrary.service.BookService;
+import com.example.mylibrary.service.CheckoutService;
+import com.example.mylibrary.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,11 +23,16 @@ public class AdminController {
 
     private BookService bookService;
 
+    private CheckoutService checkoutService;
 
 
-    public AdminController(AdminService adminService, BookService bookService) {
+
+
+    public AdminController(AdminService adminService, BookService bookService,
+                           CheckoutService checkoutService, UserService userService) {
         this.adminService = adminService;
         this.bookService = bookService;
+        this.checkoutService = checkoutService;
     }
 
     @ModelAttribute
@@ -138,6 +145,15 @@ public class AdminController {
         this.adminService.removeAdmin(id,principal);
 
         return "redirect:/admin/users";
+    }
+
+    @GetMapping("/user/checkouts/{id}")
+    public String userCheckouts(@PathVariable Long id, Model model){
+        List<CheckOutDTO> checkouts = this.checkoutService.getUserCheckouts(id);
+        model.addAttribute("checkouts", checkouts);
+       String userEmail = this.adminService.getUserEmail(id);
+        model.addAttribute("userEmail", userEmail);
+        return "checkouts-admin";
     }
 
 }
