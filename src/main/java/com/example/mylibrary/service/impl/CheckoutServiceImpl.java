@@ -4,7 +4,6 @@ import com.example.mylibrary.model.dto.CheckOutDTO;
 import com.example.mylibrary.model.entity.Book;
 import com.example.mylibrary.model.entity.Checkout;
 import com.example.mylibrary.model.entity.User;
-import com.example.mylibrary.repository.BookRepository;
 import com.example.mylibrary.repository.CheckoutRepository;
 import com.example.mylibrary.service.BookService;
 import com.example.mylibrary.service.CheckoutService;
@@ -52,7 +51,7 @@ public class CheckoutServiceImpl implements CheckoutService {
         // TODO handle exceptions
         User user = this.userService.getLoggedUser(principal);
         Book book = this.bookService.getBook(id);
-        if (bookAlreadyCheckedOutByUser(id, principal) || getLoansCount(principal) >= 5
+        if (bookAlreadyCheckedOutByUser(id, principal) || getLoansCount(principal.getName()) >= 5
                 || book.getCopiesAvailable() <= 0) {
             throw new UnsupportedOperationException();
         }
@@ -68,7 +67,7 @@ public class CheckoutServiceImpl implements CheckoutService {
     }
 
     @Override
-    public List<CheckOutDTO> getUserCheckouts(Principal principal) {
+    public List<CheckOutDTO> getLoggedUserCheckouts(Principal principal) {
         User user = this.userService.getLoggedUser(principal);
         List<Checkout> checkouts = this.checkoutRepository.findAllByUserIdOrderByCheckoutDate(user.getId());
         return checkouts.stream()
@@ -130,14 +129,14 @@ public class CheckoutServiceImpl implements CheckoutService {
     }
 
     @Override
-    public int getLoansCount(Principal principal) {
-       return this.checkoutRepository.findAllByUserEmail(principal.getName()).size();
+    public int getLoansCount(String email) {
+       return this.checkoutRepository.findAllByUserEmail(email).size();
     }
 
     @Override
     public boolean isUserBlocked(Principal principal) {
 
-        List<CheckOutDTO> userCheckouts = getUserCheckouts(principal);
+        List<CheckOutDTO> userCheckouts = getLoggedUserCheckouts(principal);
         CheckOutDTO checkOutDTO = userCheckouts.stream()
                 .filter(c -> c.getDaysLeft() < 0).findAny().orElse(null);
         if (checkOutDTO != null) {
@@ -150,6 +149,8 @@ public class CheckoutServiceImpl implements CheckoutService {
     public void deleteBookCheckouts(Long id) {
         this.checkoutRepository.deleteAllByBookId(id);
     }
+
+
 }
 
 

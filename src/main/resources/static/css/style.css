@@ -101,5 +101,19 @@ code {
   border: none;
 }
 
+.active-icon {
+  color: green;
+  font-size: 18px;
+}
+.not-active-icon {
+  color: red;
+  font-size: 18px;
+}
+
+td {
+  vertical-align: middle;
+}
+
+
 
 

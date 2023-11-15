@@ -6,6 +6,77 @@
 <header th:include="~{/fragments/nav-and-footer/nav}"/>
 
 
+<div class="container-fluid">
+      <div class="p-3 text-center">
+            <h4>Manage users</h4>
+            <a class="btn main-color text-white mt-3" th:href="@{/users/register}">Create new user</a>
+      </div>
+<!--      <div th:if="${success != null}" th:text="${success}" class="alert alert-success text-center"></div>-->
+
+      <div>
+            <table class="table table-bordered table-striped table-hover table-responsive-xl shadow bg-body rounded">
+                  <thead class="thead-dark">
+                  <tr>
+                        <th>Id</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Active</th>
+                        <th>Edit</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr th:each="u : ${allUsers}" th:object="${u}">
+                        <td th:text="*{id}"></td>
+                        <td th:text="*{email}"></td>
+                        <td th:text="*{roles}"></td>
+                        <td class="text-center">
+                              <span th:if="*{isActive()}" class="fas fa-check-circle active-icon"></span>
+                              <span th:unless="*{isActive()}" class="fas fa-times not-active-icon"></span>
+                        </td>
+                        <td> <div class="d-none d-lg-block">
+                              <div class="d-flex">
+                              <form th:action="@{/admin/manage/role/add/{id}(id=*{id})}"
+                                    th:method="PUT"
+                                      class="me-1">
+                              <button th:unless="*{isAdmin()}" type="submit" class="btn main-color text-white me-1">Add Admin</button>
+                              </form>
+                              <form>
+                              <button th:if="*{isAdmin() == false && isActive() == false}" type="submit" class="btn bg-danger text-white">Delete</button>
+                              </form>
+                              </div>
+                              <div>
+                              <form th:action="@{/admin/manage/role/remove/{id}(id=*{id})}"
+                                    th:method="PUT"
+                              >
+                              <button th:if="*{isAdmin()}" type="submit" class="btn main-color text-white">Not Admin</button>
+                              </form>
+                              </div>
+                              </div>
+                              <div class="d-lg-none">
+                                          <form th:action="@{/admin/manage/role/add/{id}(id=*{id})}"
+                                                th:method="PUT"
+                                                  class="row g-0 mb-1">
+                                                <button th:unless="*{isAdmin()}" type="submit" class="btn main-color text-white me-1">Add Admin</button>
+                                          </form>
+                                          <form class="row g-0">
+                                                <button th:if="*{isAdmin() == false && isActive() == false}" type="submit" class="btn bg-danger text-white">Delete</button>
+                                          </form>
+
+                                    <form th:action="@{/admin/manage/role/remove/{id}(id=*{id})}"
+                                          th:method="PUT"
+                                            class="row g-0">
+                                          <button th:if="*{isAdmin()}" type="submit" class="btn main-color text-white">Not Admin</button>
+                                    </form>
+
+                              </div>
+                        </td>
+                  </tr>
+                  </tbody>
+
+            </table>
+      </div>
+
+</div>
 
 
 <th:block th:include="~{/fragments/nav-and-footer/footer}"/>

@@ -1,6 +1,10 @@
-<nav class='navbar navbar-expand-lg navbar-dark main-color py-3' xmlns:sec="http://www.w3.org/1999/xhtml">
+<nav class='navbar navbar-expand-lg navbar-dark main-color py-3'
+     xmlns:sec="http://www.w3.org/1999/xhtml"
+
+>
     <div class='container-fluid'>
-        <span class='navbar-brand'>My Library</span>
+        <span sec:authorize="!isAuthenticated()" class='navbar-brand'>My Library</span>
+        <span sec:authorize="isAuthenticated()" class='navbar-brand'><th:block th:text="${name}"/>'s Library</span>
         <button class='navbar-toggler' type='button'
                 data-bs-toggle='collapse' data-bs-target='#navbarNavDropdown'
                 aria-controls={'navbarNavDropdown'} aria-expanded='false'

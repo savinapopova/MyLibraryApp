@@ -21,6 +21,8 @@ public class AdminController {
 
     private BookService bookService;
 
+
+
     public AdminController(AdminService adminService, BookService bookService) {
         this.adminService = adminService;
         this.bookService = bookService;
@@ -37,7 +39,10 @@ public class AdminController {
     }
 
     @GetMapping("/users")
-    public String users() {
+    public String users(Model model, Principal principal) {
+        List<UserDTO> allUsers = this.adminService.getAllUsersExceptPrincipal(principal);
+        model.addAttribute("allUsers", allUsers);
+
         return "people";
     }
 
@@ -120,4 +125,19 @@ public class AdminController {
         this.adminService.deleteBook(id);
         return "redirect:/admin/quantity";
     }
+
+    @PutMapping("/manage/role/add/{id}")
+    public String addAdminRole(@PathVariable Long id) {
+        this.adminService.addAdmin(id);
+
+        return "redirect:/admin/users";
+    }
+
+    @PutMapping("/manage/role/remove/{id}")
+    public String removeAdminRole(@PathVariable Long id, Principal principal) {
+        this.adminService.removeAdmin(id,principal);
+
+        return "redirect:/admin/users";
+    }
+
 }

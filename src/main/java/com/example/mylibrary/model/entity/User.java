@@ -23,12 +23,14 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
-    private String name;
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
 
-    @ManyToMany(fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL)
-    private List<Role> roles = new ArrayList<>();
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles = new LinkedHashSet<>();
 
 
 
@@ -37,10 +39,10 @@ public class User {
 
     }
 
-    public User(String name, String email, String password) {
+    public User(String firstName, String lastName,String email, String password) {
         this.password = password;
         this.email = email;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
-
 }

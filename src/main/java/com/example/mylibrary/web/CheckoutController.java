@@ -7,7 +7,6 @@ import com.example.mylibrary.service.BookService;
 import com.example.mylibrary.service.CheckoutService;
 import com.example.mylibrary.service.HistoryService;
 import com.example.mylibrary.service.UserService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +42,7 @@ public class CheckoutController {
         model.addAttribute("book", book);
 
 //        int booksCount =  this.userService.getLoansCount(principal);
-        int booksCount =  this.checkoutService.getLoansCount(principal);
+        int booksCount =  this.checkoutService.getLoansCount(principal.getName());
 
         model.addAttribute("booksCount", booksCount);
 
@@ -69,7 +68,7 @@ public class CheckoutController {
 
     @GetMapping("/shelf")
     public String shelf(Model model, Principal principal) {
-       List<CheckOutDTO> loans = this.checkoutService.getUserCheckouts(principal);
+       List<CheckOutDTO> loans = this.checkoutService.getLoggedUserCheckouts(principal);
        model.addAttribute("loans", loans);
        List<HistoryDTO> histories = this.historyService.getUserHistories(principal);
          model.addAttribute("histories", histories);

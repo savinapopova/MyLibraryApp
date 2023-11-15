@@ -17,8 +17,12 @@ public class UserRegisterDTO {
     private String email;
 
    @NotBlank(message = "")
-   @Size(min = 3, max = 40,  message = "Name length must be between 3 and 40 characters!")
-   private String name;
+   @Size(min = 3, max = 40,  message = "First name length must be between 3 and 40 characters!")
+   private String firstName;
+
+    @NotBlank(message = "")
+    @Size(min = 3, max = 40,  message = "Last name length must be between 3 and 40 characters!")
+    private String lastName;
 
    @NotBlank(message = "")
    @Size(min = 5, max = 20,  message = "Password length must be between 5 and 20 characters!")

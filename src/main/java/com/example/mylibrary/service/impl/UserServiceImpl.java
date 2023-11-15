@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -36,7 +37,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void register(UserRegisterDTO userRegisterDTO) {
-        User user = new User(userRegisterDTO.getName(),
+        User user = new User(userRegisterDTO.getFirstName(),
+                userRegisterDTO.getLastName(),
                 userRegisterDTO.getEmail(),
                 passwordEncoder.encode(userRegisterDTO.getPassword()));
         Role userRole = this.roleService.findByName(RoleName.USER);
@@ -61,6 +63,21 @@ public class UserServiceImpl implements UserService {
         this.userRepository.save(user);
     }
 
+    @Override
+    public List<User> findAllUsers() {
+
+        return this.userRepository.findAll();
+    }
+
+    @Override
+    public User getUser(Long id) {
+        // TODO: handle exception
+        Optional<User> optionalUser = this.userRepository.findById(id);
+        if (optionalUser.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        return optionalUser.get();
+    }
 
 
 }

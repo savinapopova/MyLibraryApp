@@ -1,6 +1,5 @@
 package com.example.mylibrary.service;
 
-import com.example.mylibrary.model.dto.BookDTO;
 import com.example.mylibrary.model.dto.CheckOutDTO;
 
 import java.security.Principal;
@@ -11,7 +10,7 @@ public interface CheckoutService {
 
     void checkoutBook(Long id, Principal principal);
 
-    List<CheckOutDTO> getUserCheckouts(Principal principal);
+    List<CheckOutDTO> getLoggedUserCheckouts(Principal principal);
 
     void returnBook(Long id, Principal principal);
 
@@ -19,9 +18,11 @@ public interface CheckoutService {
 
     boolean bookAlreadyCheckedOutByUser(Long bookId, Principal principal);
 
-    int getLoansCount(Principal principal);
+    int getLoansCount(String email);
 
     boolean isUserBlocked(Principal principal);
 
     void deleteBookCheckouts(Long id);
+
+
 }
