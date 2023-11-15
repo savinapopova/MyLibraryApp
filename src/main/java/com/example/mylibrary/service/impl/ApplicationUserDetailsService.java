@@ -3,6 +3,7 @@ package com.example.mylibrary.service.impl;
 import com.example.mylibrary.model.entity.Role;
 import com.example.mylibrary.model.entity.User;
 import com.example.mylibrary.repository.UserRepository;
+import com.example.mylibrary.util.CustomUserDetails;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,12 +26,13 @@ public class ApplicationUserDetailsService implements UserDetailsService{
                 .orElseThrow(() -> new UsernameNotFoundException("User " + email + " not found!"));
     }
 
-    private static UserDetails map(User userEntity) {
-        return org.springframework.security.core.userdetails.User
-                .withUsername(userEntity.getEmail())
-                .password(userEntity.getPassword())
-                .authorities(userEntity.getRoles().stream().map(ApplicationUserDetailsService::map).toList())
-                .build();
+    private static CustomUserDetails map(User userEntity) {
+        return new CustomUserDetails(
+                userEntity.getEmail(),
+                userEntity.getPassword(),
+                userEntity.getRoles().stream().map(ApplicationUserDetailsService::map).toList(),
+                userEntity.getFirstName());
+
     }
 
     private static GrantedAuthority map(Role userRoleEntity) {

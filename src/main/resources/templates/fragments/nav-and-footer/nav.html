@@ -4,7 +4,7 @@
 >
     <div class='container-fluid'>
         <span sec:authorize="!isAuthenticated()" class='navbar-brand'>My Library</span>
-        <span sec:authorize="isAuthenticated()" class='navbar-brand'><th:block th:text="${name}"/>'s Library</span>
+        <span sec:authorize="isAuthenticated()" class='navbar-brand'><th:block th:text="${#authentication.principal.getFirstName()}"/>'s Library</span>
         <button class='navbar-toggler' type='button'
                 data-bs-toggle='collapse' data-bs-target='#navbarNavDropdown'
                 aria-controls={'navbarNavDropdown'} aria-expanded='false'
