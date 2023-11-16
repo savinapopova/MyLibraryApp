@@ -20,4 +20,6 @@ public interface MessageService {
     void answerMessage(Long messageId, String response, User admin);
 
     void deleteMessage(Long id);
+
+    void deleteUserMessages(Long userId);
 }

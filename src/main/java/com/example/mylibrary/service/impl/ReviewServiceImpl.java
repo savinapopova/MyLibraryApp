@@ -72,4 +72,9 @@ public class ReviewServiceImpl implements ReviewService {
     public void deleteBookReviews(Long id) {
         this.reviewRepository.deleteAllByBookId(id);
     }
+
+    @Override
+    public void deleteUserReviews(Long userId) {
+        this.reviewRepository.deleteAllByUserId(userId);
+    }
 }

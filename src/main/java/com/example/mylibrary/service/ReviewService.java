@@ -14,4 +14,6 @@ public interface ReviewService {
     void registerReview(LeaveReviewDTO leaveReviewDTO, Principal principal, Long bookId);
 
     void deleteBookReviews(Long id);
+
+    void deleteUserReviews(Long userId);
 }

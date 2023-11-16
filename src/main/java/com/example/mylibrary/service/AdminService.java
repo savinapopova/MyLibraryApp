@@ -28,4 +28,6 @@ public interface AdminService {
     void removeAdmin(Long id, Principal principal);
 
     String getUserEmail(Long id);
+
+    void deleteUser(Long id);
 }

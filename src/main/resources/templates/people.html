@@ -43,7 +43,8 @@
                                       class="me-1">
                               <button th:unless="*{isAdmin()}" type="submit" class="btn main-color text-white me-1">Add Admin</button>
                               </form>
-                              <form>
+                              <form th:action="@{/admin/users/delete/{id}(id=*{id})}"
+                                    th:method="DELETE">
                               <button th:if="*{isAdmin() == false && isActive() == false}" type="submit" class="btn bg-danger text-white">Delete</button>
                               </form>
                               </div>
@@ -61,7 +62,9 @@
                                                   class="row g-0 mb-1">
                                                 <button th:unless="*{isAdmin()}" type="submit" class="btn main-color text-white me-1">Add Admin</button>
                                           </form>
-                                          <form class="row g-0">
+                                          <form th:action="@{/admin/users/delete/{id}(id=*{id})}"
+                                                th:method="DELETE">
+                                                  class="row g-0">
                                                 <button th:if="*{isAdmin() == false && isActive() == false}" type="submit" class="btn bg-danger text-white">Delete</button>
                                           </form>
 

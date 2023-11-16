@@ -146,6 +146,20 @@ public class AdminServiceImpl implements AdminService {
        return this.userService.getUser(id).getEmail();
     }
 
+    @Override
+    public void deleteUser(Long id) {
+        //TODO: handle exception
+        User user = this.userService.getUser(id);
+        int loansCount = this.checkoutService.getLoansCount(user.getEmail());
+        if (loansCount > 0 || checkAdmin(user)) {
+            throw new UnsupportedOperationException();
+        }
+        this.historyService.deleteUserHistories(id);
+        this.reviewService.deleteUserReviews(id);
+        this.messageService.deleteUserMessages(id);
+        this.userService.deleteUser(id);
+    }
+
     private boolean checkAdmin(User user) {
         Role adminRole = this.roleService.findByName(RoleName.ADMIN);
        if (user.getRoles().contains(adminRole)) {

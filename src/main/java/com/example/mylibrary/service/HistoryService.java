@@ -12,4 +12,6 @@ public interface HistoryService {
     void registerHistory(Checkout checkout);
 
     void deleteBookHistories(Long id);
+
+    void deleteUserHistories(Long userId);
 }

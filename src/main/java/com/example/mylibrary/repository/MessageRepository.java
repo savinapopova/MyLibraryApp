@@ -12,4 +12,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     List<Message> findAllByUserEmail(String userEmail);
 
     List<Message> findAllByClosed(boolean closed);
+
+    void deleteAllByUserId(Long id);
 }

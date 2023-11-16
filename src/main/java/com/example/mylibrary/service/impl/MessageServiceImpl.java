@@ -80,4 +80,9 @@ public class MessageServiceImpl implements MessageService {
     public void deleteMessage(Long id) {
         this.messageRepository.deleteById(id);
     }
+
+    @Override
+    public void deleteUserMessages(Long userId) {
+        this.messageRepository.deleteAllByUserId(userId);
+    }
 }

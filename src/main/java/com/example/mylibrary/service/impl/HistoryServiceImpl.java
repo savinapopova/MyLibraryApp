@@ -44,4 +44,9 @@ public class HistoryServiceImpl implements HistoryService {
     public void deleteBookHistories(Long id) {
         this.historyRepository.deleteAllByBookId(id);
     }
+
+    @Override
+    public void deleteUserHistories(Long userId) {
+        this.historyRepository.deleteAllByUserId(userId);
+    }
 }

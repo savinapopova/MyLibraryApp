@@ -147,6 +147,12 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
+    @DeleteMapping("/users/delete/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        this.adminService.deleteUser(id);
+        return "redirect:/admin/users";
+    }
+
     @GetMapping("/user/checkouts/{id}")
     public String userCheckouts(@PathVariable Long id, Model model){
         List<CheckOutDTO> checkouts = this.checkoutService.getUserCheckouts(id);
@@ -155,5 +161,6 @@ public class AdminController {
         model.addAttribute("userEmail", userEmail);
         return "checkouts-admin";
     }
+
 
 }

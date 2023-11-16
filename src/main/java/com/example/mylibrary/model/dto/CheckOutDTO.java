@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 
-public class CheckOutDTO {
+public class  CheckOutDTO {
 
     private SearchBookDTO book;
 
