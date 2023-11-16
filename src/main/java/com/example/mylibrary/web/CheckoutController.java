@@ -69,7 +69,7 @@ public class CheckoutController {
 
     @GetMapping("/shelf")
     public String shelf(Model model, Principal principal) {
-        User loggedUser = this.userService.getLoggedUser(principal);
+        User loggedUser = this.userService.getUser(principal.getName());
         List<CheckOutDTO> loans = this.checkoutService.getUserCheckouts(loggedUser.getId());
        model.addAttribute("loans", loans);
        List<HistoryDTO> histories = this.historyService.getUserHistories(principal);

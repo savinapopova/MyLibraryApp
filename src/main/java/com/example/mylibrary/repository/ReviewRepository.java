@@ -12,7 +12,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long>
 {
     List<Review> findAllByBookIdOrderByDateDesc(Long bookId);
 
-    Optional<Review> findByUserIdAndBookId(Long id, Long bookId);
+    Optional<Review> findByUserEmailAndBookId(String userEmail, Long bookId);
 
     void deleteAllByBookId(Long id);
 

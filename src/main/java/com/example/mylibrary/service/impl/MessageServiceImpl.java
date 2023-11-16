@@ -1,5 +1,6 @@
 package com.example.mylibrary.service.impl;
 
+import com.example.mylibrary.errors.ObjectNotFoundException;
 import com.example.mylibrary.model.dto.MessageDTO;
 import com.example.mylibrary.model.dto.PostMessageDTO;
 import com.example.mylibrary.model.entity.Message;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -35,7 +35,7 @@ public class MessageServiceImpl implements MessageService {
     public void registerMessage(PostMessageDTO postMessageDTO, Principal principal) {
 
         Message message = modelMapper.map(postMessageDTO, Message.class);
-        User user = this.userService.getLoggedUser(principal);
+        User user = this.userService.getUser(principal.getName());
         message.setUser(user);
         this.messageRepository.save(message);
 
@@ -58,11 +58,11 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public Message getMessage(Long id) {
-        // TODO: handle exception
+        // TODO: handled
         Optional<Message> optionalMessage = this.messageRepository.findById(id);
 
         if (optionalMessage.isEmpty()) {
-            throw new NoSuchElementException();
+            throw new ObjectNotFoundException("message not found");
         }
         return optionalMessage.get();
     }

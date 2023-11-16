@@ -1,5 +1,6 @@
 package com.example.mylibrary.service.impl;
 
+import com.example.mylibrary.errors.NotAllowedException;
 import com.example.mylibrary.model.dto.AddBookDTO;
 import com.example.mylibrary.model.dto.MessageDTO;
 import com.example.mylibrary.model.dto.MessageResponseDTO;
@@ -62,7 +63,7 @@ public class AdminServiceImpl implements AdminService {
     public void sendResponse(Long messageId, MessageResponseDTO messageResponseDTO,
                              Principal principal) {
 
-        User admin = userService.getLoggedUser(principal);
+        User admin = userService.getUser(principal.getName());
 
         this.messageService.answerMessage(messageId,messageResponseDTO.getResponse(),admin);
 
@@ -148,11 +149,11 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void deleteUser(Long id) {
-        //TODO: handle exception
+        //TODO: handled
         User user = this.userService.getUser(id);
         int loansCount = this.checkoutService.getLoansCount(user.getEmail());
         if (loansCount > 0 || checkAdmin(user)) {
-            throw new UnsupportedOperationException();
+            throw new NotAllowedException();
         }
         this.historyService.deleteUserHistories(id);
         this.reviewService.deleteUserReviews(id);

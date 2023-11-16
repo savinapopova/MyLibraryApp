@@ -49,8 +49,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public boolean reviewLeft(Principal principal, Long bookId) {
-        User user = this.userService.getLoggedUser(principal);
-        Optional<Review> optionalReview = this.reviewRepository.findByUserIdAndBookId(user.getId(), bookId);
+        Optional<Review> optionalReview = this.reviewRepository.findByUserEmailAndBookId(principal.getName(), bookId);
         if (optionalReview.isEmpty()) {
             return false;
         }
@@ -60,7 +59,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public void registerReview(LeaveReviewDTO leaveReviewDTO, Principal principal, Long bookId) {
         Review review = modelMapper.map(leaveReviewDTO, Review.class);
-        User user = this.userService.getLoggedUser(principal);
+        User user = this.userService.getUser(principal.getName());
         Book book = this.bookService.getBook(bookId);
         review.setBook(book);
         review.setUser(user);

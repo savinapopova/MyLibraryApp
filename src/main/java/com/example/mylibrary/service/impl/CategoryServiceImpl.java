@@ -1,5 +1,6 @@
 package com.example.mylibrary.service.impl;
 
+import com.example.mylibrary.errors.ObjectNotFoundException;
 import com.example.mylibrary.model.entity.Category;
 import com.example.mylibrary.model.enums.CategoryName;
 import com.example.mylibrary.repository.CategoryRepository;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -33,10 +33,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category getCategory(CategoryName category) {
-        //TODO: handle exception
+        //TODO: handled
         Optional<Category> optionalCategory = this.categoryRepository.findByName(category);
         if (optionalCategory.isEmpty()) {
-            throw new NoSuchElementException();
+            throw new ObjectNotFoundException("category " + category  + " not found");
         }
          return optionalCategory.get();
     }

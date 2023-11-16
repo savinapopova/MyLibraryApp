@@ -15,13 +15,13 @@ public class MaintenanceScheduler {
         this.maintenanceInterceptor = maintenanceInterceptor;
     }
 
-    @Scheduled(cron = "0 13 12 * * TUE") // Крон израз за неделя в 03:00
+    @Scheduled(cron = "0 3 9 * * THU") // Крон израз за неделя в 03:00
     public void activateMaintenance() {
         System.out.println("MAINTENANCE ON");
         maintenanceInterceptor.activateMaintenanceMode();
     }
 
-    @Scheduled(cron = "0 14 12 * * TUE") // Крон израз за неделя в 03:20
+    @Scheduled(cron = "0 5 9 * * THU") // Крон израз за неделя в 03:20
     public void deactivateMaintenance() {
         System.out.println("MAINTENANCE OFF");
         maintenanceInterceptor.deactivateMaintenanceMode();
