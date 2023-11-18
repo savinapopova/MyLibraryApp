@@ -11,7 +11,7 @@ import java.util.List;
 public interface AdminService {
     List<MessageDTO> getOpenMessages();
 
-    void sendResponse(Long messageId, MessageResponseDTO messageResponseDTO, Principal principal);
+    void sendResponse(Long messageId, MessageResponseDTO messageResponseDTO, String email);
 
     void postBook(AddBookDTO addBookDTO);
 
@@ -21,11 +21,11 @@ public interface AdminService {
 
     void deleteBook(Long id);
 
-    List<UserDTO> getAllUsersExceptPrincipal(Principal principal);
+    List<UserDTO> getAllUsersExceptPrincipal(String email);
 
     void addAdmin(Long id);
 
-    void removeAdmin(Long id, Principal principal);
+    void removeAdmin(Long id, String email);
 
     String getUserEmail(Long id);
 

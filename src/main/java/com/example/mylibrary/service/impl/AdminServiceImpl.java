@@ -61,9 +61,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void sendResponse(Long messageId, MessageResponseDTO messageResponseDTO,
-                             Principal principal) {
+                             String email) {
 
-        User admin = userService.getUser(principal.getName());
+        User admin = userService.getUser(email);
 
         this.messageService.answerMessage(messageId,messageResponseDTO.getResponse(),admin);
 
@@ -99,10 +99,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<UserDTO> getAllUsersExceptPrincipal(Principal principal) {
+    public List<UserDTO> getAllUsersExceptPrincipal(String email) {
 
         List<User> users = this.userService.findAllUsers()
-                .stream().filter(u -> !u.getEmail().equals(principal.getName()))
+                .stream().filter(u -> !u.getEmail().equals(email))
                 .collect(Collectors.toList());
 
         List<UserDTO> userDTOs = new ArrayList<>();
@@ -132,9 +132,9 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void removeAdmin(Long id, Principal principal) {
+    public void removeAdmin(Long id, String email) {
         User user = this.userService.getUser(id);
-        if (!user.getEmail().equals(principal.getName()) && checkAdmin(user)) {
+        if (!user.getEmail().equals(email) && checkAdmin(user)) {
             Role adminRole = this.roleService.findByName(RoleName.ADMIN);
             user.getRoles().remove(adminRole);
             this.userService.saveUser(user);

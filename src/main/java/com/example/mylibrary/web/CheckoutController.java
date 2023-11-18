@@ -48,12 +48,12 @@ public class CheckoutController {
         model.addAttribute("booksCount", booksCount);
 
 //        boolean alreadyCheckedOut = this.userService.isAlreadyCheckedOutByUser(id, principal);
-        boolean alreadyCheckedOut = this.checkoutService.bookAlreadyCheckedOutByUser(id, principal);
+        boolean alreadyCheckedOut = this.checkoutService.bookAlreadyCheckedOutByUser(id, principal.getName());
 
 
         model.addAttribute("alreadyCheckedOut", alreadyCheckedOut);
 
-       boolean userBlocked = this.checkoutService.isUserBlocked(principal);
+       boolean userBlocked = this.checkoutService.isUserBlocked(principal.getName());
        model.addAttribute("userBlocked", userBlocked);
 
         return "checkout";
@@ -62,7 +62,7 @@ public class CheckoutController {
     @PostMapping("/checkout/book/{id}")
     public String checkoutBook(@PathVariable Long id,Principal principal) {
 
-        this.checkoutService.checkoutBook(id, principal);
+        this.checkoutService.checkoutBook(id, principal.getName());
 
         return "redirect:/checkout/book/" + id;
     }
@@ -79,13 +79,13 @@ public class CheckoutController {
 
     @PutMapping("/return/book/{id}")
     public String returnBook(@PathVariable Long id, Principal principal) {
-        this.checkoutService.returnBook(id, principal);
+        this.checkoutService.returnBook(id, principal.getName());
         return "redirect:/shelf";
     }
 
     @PutMapping("/renew/book/{id}")
     public String renewCheckout(@PathVariable Long id, Principal principal) {
-        this.checkoutService.renewCheckout(id, principal);
+        this.checkoutService.renewCheckout(id, principal.getName());
         return "redirect:/shelf";
     }
 }

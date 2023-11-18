@@ -47,7 +47,7 @@ public class AdminController {
 
     @GetMapping("/users")
     public String users(Model model, Principal principal) {
-        List<UserDTO> allUsers = this.adminService.getAllUsersExceptPrincipal(principal);
+        List<UserDTO> allUsers = this.adminService.getAllUsersExceptPrincipal(principal.getName());
         model.addAttribute("allUsers", allUsers);
 
         return "people";
@@ -77,7 +77,7 @@ public class AdminController {
             return "redirect:/admin/messages";
         }
 
-        this.adminService.sendResponse(id, messageResponseDTO, principal);
+        this.adminService.sendResponse(id, messageResponseDTO, principal.getName());
 
         return "redirect:/admin/messages";
     }
@@ -142,7 +142,7 @@ public class AdminController {
 
     @PutMapping("/manage/role/remove/{id}")
     public String removeAdminRole(@PathVariable Long id, Principal principal) {
-        this.adminService.removeAdmin(id,principal);
+        this.adminService.removeAdmin(id,principal.getName());
 
         return "redirect:/admin/users";
     }

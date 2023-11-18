@@ -49,11 +49,11 @@ public class CheckoutServiceImpl implements CheckoutService {
 
 
     @Override
-    public void checkoutBook(Long id, Principal principal) {
+    public void checkoutBook(Long id, String email) {
         // TODO handled
-        User user = this.userService.getUser(principal.getName());
+        User user = this.userService.getUser(email);
         Book book = this.bookService.getBook(id);
-        if (bookAlreadyCheckedOutByUser(id, principal) || getLoansCount(principal.getName()) >= 5
+        if (bookAlreadyCheckedOutByUser(id, email) || getLoansCount(email) >= 5
                 || book.getCopiesAvailable() <= 0) {
             throw new NotAllowedException();
         }
@@ -79,17 +79,10 @@ public class CheckoutServiceImpl implements CheckoutService {
     }
 
     @Override
-    public void returnBook(Long id, Principal principal) {
+    public void returnBook(Long bookId, String email) {
 
-        User user = this.userService.getUser(principal.getName());
+        Checkout checkout = getCheckout( email, bookId);
 
-
-        Optional<Checkout> optionalCheckout = this.checkoutRepository
-                .findByUserEmailAndBookId(user.getEmail(), id);
-        if (optionalCheckout.isEmpty()) {
-            throw new NoSuchElementException();
-        }
-        Checkout checkout = getCheckout(user.getEmail(), id);
         Book book = checkout.getBook();
 
         this.bookService.increaseCopiesAvailable(book);
@@ -111,17 +104,17 @@ public class CheckoutServiceImpl implements CheckoutService {
     }
 
     @Override
-    public void renewCheckout(Long bookId, Principal principal) {
-        Checkout checkout = getCheckout(principal.getName(), bookId);
+    public void renewCheckout(Long bookId, String email) {
+        Checkout checkout = getCheckout(email, bookId);
         checkout.setReturnDate(LocalDate.now().plusDays(7));
         this.checkoutRepository.save(checkout);
 
     }
 
     @Override
-    public boolean bookAlreadyCheckedOutByUser(Long bookId, Principal principal) {
+    public boolean bookAlreadyCheckedOutByUser(Long bookId, String email) {
         Optional<Checkout> optionalCheckout = this.checkoutRepository
-                .findByUserEmailAndBookId(principal.getName(), bookId);
+                .findByUserEmailAndBookId(email, bookId);
         if (optionalCheckout.isEmpty()) {
             return false;
         }
@@ -134,8 +127,8 @@ public class CheckoutServiceImpl implements CheckoutService {
     }
 
     @Override
-    public boolean isUserBlocked(Principal principal) {
-        User loggedUser = this.userService.getUser(principal.getName());
+    public boolean isUserBlocked(String email) {
+        User loggedUser = this.userService.getUser(email);
 
         List<CheckOutDTO> userCheckouts = getUserCheckouts(loggedUser.getId());
         CheckOutDTO checkOutDTO = userCheckouts.stream()
