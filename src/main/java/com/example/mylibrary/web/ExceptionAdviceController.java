@@ -14,7 +14,7 @@ public class ExceptionAdviceController {
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ModelAndView onObjectNotFound(ObjectNotFoundException onfe) {
         ModelAndView modelAndView = new ModelAndView("object-not-found");
-        modelAndView.addObject("message", onfe.getMassage());
+        modelAndView.addObject("message", onfe.getMessage());
         return modelAndView;
 
     }

@@ -25,9 +25,9 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public List<HistoryDTO> getUserHistories(Principal principal) {
+    public List<HistoryDTO> getUserHistories(String email) {
 
-        List<History> histories = this.historyRepository.findAllByUserEmail(principal.getName());
+        List<History> histories = this.historyRepository.findAllByUserEmail(email);
 
        return histories.stream()
                 .map(h -> modelMapper.map(h, HistoryDTO.class))

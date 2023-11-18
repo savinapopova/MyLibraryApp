@@ -72,7 +72,7 @@ public class CheckoutController {
         User loggedUser = this.userService.getUser(principal.getName());
         List<CheckOutDTO> loans = this.checkoutService.getUserCheckouts(loggedUser.getId());
        model.addAttribute("loans", loans);
-       List<HistoryDTO> histories = this.historyService.getUserHistories(principal);
+       List<HistoryDTO> histories = this.historyService.getUserHistories(principal.getName());
          model.addAttribute("histories", histories);
        return "shelf";
     }

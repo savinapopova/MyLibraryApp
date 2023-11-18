@@ -34,10 +34,22 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category getCategory(CategoryName category) {
         //TODO: handled
+        checkCategoryNameAvailable(String.valueOf(category));
         Optional<Category> optionalCategory = this.categoryRepository.findByName(category);
         if (optionalCategory.isEmpty()) {
             throw new ObjectNotFoundException("category " + category  + " not found");
         }
          return optionalCategory.get();
+    }
+
+    public void checkCategoryNameAvailable(String categoryName) {
+        List<String> categoryNames = Arrays
+                .stream(CategoryName.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
+
+        if (!categoryNames.contains(categoryName.toUpperCase())) {
+            throw new ObjectNotFoundException("category " + categoryName + " not found");
+        }
     }
 }

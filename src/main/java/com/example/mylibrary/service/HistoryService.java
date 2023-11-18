@@ -7,7 +7,7 @@ import java.security.Principal;
 import java.util.List;
 
 public interface HistoryService {
-    List<HistoryDTO> getUserHistories(Principal principal);
+    List<HistoryDTO> getUserHistories(String email);
 
     void registerHistory(Checkout checkout);
 

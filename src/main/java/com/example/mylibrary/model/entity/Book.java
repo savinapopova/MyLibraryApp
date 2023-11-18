@@ -34,4 +34,16 @@ public class Book {
 
     public Book() {
     }
+
+    public Book(Long id, String title, String author, String image, String description,
+                int copies, int copiesAvailable, Category category) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.image = image;
+        this.description = description;
+        this.copies = copies;
+        this.copiesAvailable = copiesAvailable;
+        this.category = category;
+    }
 }

@@ -7,4 +7,6 @@ public interface CategoryService {
     void seedCategories();
 
     Category getCategory(CategoryName category);
+
+    void checkCategoryNameAvailable(String categoryName);
 }

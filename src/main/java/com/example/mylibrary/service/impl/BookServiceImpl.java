@@ -1,5 +1,6 @@
 package com.example.mylibrary.service.impl;
 
+import com.example.mylibrary.errors.ObjectNotFoundException;
 import com.example.mylibrary.model.dto.AddBookDTO;
 import com.example.mylibrary.model.dto.BookDTO;
 import com.example.mylibrary.model.dto.SearchBookDTO;
@@ -68,10 +69,10 @@ public class BookServiceImpl implements BookService {
 
 
     public Book getBook(Long id) {
-        // TODO: handle exception
+        // TODO: handled
         Optional<Book> optionalBook = this.bookRepository.findById(id);
         if (optionalBook.isEmpty()) {
-            throw new NoSuchElementException();
+            throw new ObjectNotFoundException("book with id " + id + " not found");
         }
         return optionalBook.get();
     }
@@ -121,14 +122,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<SearchBookDTO> getBooksByCategory(String category) {
+    public List<SearchBookDTO> getBooksByCategory(String categoryName) {
 
-        if (category.toLowerCase().equals("all")) {
+        if (categoryName.toLowerCase().equals("all")) {
             return getSearchedBooks();
 
         }
 
-        return this.bookRepository.findAllByCategoryName(CategoryName.valueOf(category.toUpperCase()))
+        categoryService.checkCategoryNameAvailable(categoryName);
+
+        return this.bookRepository.findAllByCategoryName(CategoryName.valueOf(categoryName.toUpperCase()))
                 .stream()
                 .map(TextResizer::resizeDescription)
                 .map(b -> this.modelMapper.map(b, SearchBookDTO.class))
@@ -137,14 +140,18 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<SearchBookDTO> getBooksByTitleAndCategory(String title, String category) {
-        if ((category == null || category.toLowerCase().equals("all")) &&
+
+
+        if ((category == null || category.toLowerCase().equals("all") || category.trim().isBlank()) &&
                 (title == null || title.trim().isBlank())) {
             return getSearchedBooks();
         }
 
-        if (category == null || category.toLowerCase().equals("all")) {
+        if (category == null || category.equalsIgnoreCase("all") || category.trim().isBlank()) {
             return getBooksByTitle(title);
         }
+
+        categoryService.checkCategoryNameAvailable(category);
 
         if (title == null || title.trim().isBlank()) {
             return getBooksByCategory(category);

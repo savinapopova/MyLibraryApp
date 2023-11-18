@@ -30,4 +30,13 @@ public class AddBookDTO {
 
     public AddBookDTO() {
     }
+
+    public AddBookDTO(String title, String author, String description, String category, String image, int copies) {
+        this.title = title;
+        this.author = author;
+        this.description = description;
+        this.category = category;
+        this.image = image;
+        this.copies = copies;
+    }
 }

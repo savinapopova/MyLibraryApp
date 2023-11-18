@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Data
 public class ObjectNotFoundException extends RuntimeException {
 
-    private String massage;
+    private String message;
 
     public ObjectNotFoundException(String message) {
-        this.massage = message;
+        this.message = message;
     }
 
 
