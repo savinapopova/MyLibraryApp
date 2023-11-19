@@ -9,9 +9,9 @@ import java.util.List;
 public interface ReviewService {
     List<ReviewDTO> getByBook(Long bookId);
 
-    boolean reviewLeft(Principal principal, Long bookId);
+    boolean reviewLeft(String userEmail, Long bookId);
 
-    void registerReview(LeaveReviewDTO leaveReviewDTO, Principal principal, Long bookId);
+    void registerReview(LeaveReviewDTO leaveReviewDTO, String userEmail, Long bookId);
 
     void deleteBookReviews(Long id);
 

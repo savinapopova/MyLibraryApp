@@ -19,4 +19,9 @@ public class LeaveReviewDTO {
 
     public LeaveReviewDTO() {
     }
+
+    public LeaveReviewDTO(Double rating, String comment) {
+        this.rating = rating;
+        this.comment = comment;
+    }
 }

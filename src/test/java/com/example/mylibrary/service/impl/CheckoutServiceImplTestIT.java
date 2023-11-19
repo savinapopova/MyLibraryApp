@@ -319,7 +319,21 @@ void testReturnBookWhenCheckoutNotFound() {
         assertFalse(this.serviceToTest.isUserBlocked(user.getEmail()));
     }
 
+    @Test
+    @Transactional
+    void testDeleteBookCheckouts() {
+           this.bookRepository.save(book1);
+           this.bookRepository.save(book2);
+           this.bookRepository.save(book3);
+
+           this.checkoutRepository.save(checkout1);
+           this.checkoutRepository.save(checkout2);
+           this.checkoutRepository.save(checkout3);
+
+           assertEquals(3, this.checkoutRepository.count());
+           this.serviceToTest.deleteBookCheckouts(book1.getId());
+           assertEquals(2, this.checkoutRepository.count());
 
 
-
+       }
 }

@@ -40,7 +40,7 @@ public class ReviewController {
 
         model.addAttribute("bookId", id);
 
-        boolean reviewLeft = this.reviewService.reviewLeft(principal, id);
+        boolean reviewLeft = this.reviewService.reviewLeft(principal.getName(), id);
 
         model.addAttribute("reviewLeft", reviewLeft);
 
@@ -61,7 +61,7 @@ public class ReviewController {
                 return "redirect:/reviews/form/" + id;
             }
 
-            this.reviewService.registerReview(leaveReviewDTO, principal, id);
+            this.reviewService.registerReview(leaveReviewDTO, principal.getName(), id);
 
 
 

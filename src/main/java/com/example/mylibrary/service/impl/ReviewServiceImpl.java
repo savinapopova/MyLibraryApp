@@ -1,5 +1,6 @@
 package com.example.mylibrary.service.impl;
 
+import com.example.mylibrary.errors.NotAllowedException;
 import com.example.mylibrary.model.dto.LeaveReviewDTO;
 import com.example.mylibrary.model.dto.ReviewDTO;
 import com.example.mylibrary.model.entity.Book;
@@ -48,8 +49,8 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public boolean reviewLeft(Principal principal, Long bookId) {
-        Optional<Review> optionalReview = this.reviewRepository.findByUserEmailAndBookId(principal.getName(), bookId);
+    public boolean reviewLeft(String userEmail, Long bookId) {
+        Optional<Review> optionalReview = this.reviewRepository.findByUserEmailAndBookId(userEmail, bookId);
         if (optionalReview.isEmpty()) {
             return false;
         }
@@ -57,9 +58,13 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void registerReview(LeaveReviewDTO leaveReviewDTO, Principal principal, Long bookId) {
+    public void registerReview(LeaveReviewDTO leaveReviewDTO, String userEmail, Long bookId) {
+        if (reviewLeft(userEmail, bookId)) {
+            throw new NotAllowedException();
+        }
+
         Review review = modelMapper.map(leaveReviewDTO, Review.class);
-        User user = this.userService.getUser(principal.getName());
+        User user = this.userService.getUser(userEmail);
         Book book = this.bookService.getBook(bookId);
         review.setBook(book);
         review.setUser(user);
