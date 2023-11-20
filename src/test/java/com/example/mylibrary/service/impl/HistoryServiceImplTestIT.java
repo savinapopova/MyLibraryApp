@@ -39,6 +39,9 @@ class HistoryServiceImplTestIT {
     private CheckoutRepository checkoutRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private CategoryService categoryService;
 
 
@@ -58,6 +61,10 @@ class HistoryServiceImplTestIT {
     @BeforeEach
     void setUp() {
         this.historyRepository.deleteAll();
+        this.checkoutRepository.deleteAll();
+        this.bookRepository.deleteAll();
+        this.userRepository.deleteAll();
+
         User user = new User("firstName", "lastName", "userEmail", "password");
 
         this.userService.saveUser(user);
@@ -73,6 +80,9 @@ class HistoryServiceImplTestIT {
     @AfterEach
     void tearDown() {
         historyRepository.deleteAll();
+        checkoutRepository.deleteAll();
+        bookRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test

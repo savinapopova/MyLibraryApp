@@ -32,18 +32,18 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void registerMessage(PostMessageDTO postMessageDTO, Principal principal) {
+    public void registerMessage(PostMessageDTO postMessageDTO, String userEmail) {
 
         Message message = modelMapper.map(postMessageDTO, Message.class);
-        User user = this.userService.getUser(principal.getName());
+        User user = this.userService.getUser(userEmail);
         message.setUser(user);
         this.messageRepository.save(message);
 
     }
 
     @Override
-    public List<MessageDTO> getUsersMessages(Principal principal) {
-      List<Message> messages = this.messageRepository.findAllByUserEmail(principal.getName());
+    public List<MessageDTO> getUsersMessages(String userEmail) {
+      List<Message> messages = this.messageRepository.findAllByUserEmail(userEmail);
 
       return messages.stream().map(message -> this.modelMapper.map(message, MessageDTO.class))
               .collect(Collectors.toList());
@@ -78,7 +78,10 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void deleteMessage(Long id) {
-        this.messageRepository.deleteById(id);
+
+        Message message = getMessage(id);
+
+        this.messageRepository.delete(message);
     }
 
     @Override

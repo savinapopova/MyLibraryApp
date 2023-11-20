@@ -9,9 +9,9 @@ import java.security.Principal;
 import java.util.List;
 
 public interface MessageService {
-    void registerMessage(PostMessageDTO postMessageDTO, Principal principal);
+    void registerMessage(PostMessageDTO postMessageDTO, String userEmail);
 
-    List<MessageDTO> getUsersMessages(Principal principal);
+    List<MessageDTO> getUsersMessages(String userEmail);
 
     List<MessageDTO> getOpenMessages();
 

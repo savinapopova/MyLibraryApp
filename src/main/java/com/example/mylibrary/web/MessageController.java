@@ -29,7 +29,7 @@ public class MessageController {
 
     @GetMapping("/messages")
     public String getMessages(Model model, Principal principal) {
-        List<MessageDTO> messages = this.messageService.getUsersMessages(principal);
+        List<MessageDTO> messages = this.messageService.getUsersMessages(principal.getName());
         model.addAttribute("messages", messages);
         return "messages";
     }
@@ -44,7 +44,7 @@ public class MessageController {
                             bindingResult);
             return "redirect:/messages";
         }
-        this.messageService.registerMessage(postMessageDTO, principal);
+        this.messageService.registerMessage(postMessageDTO, principal.getName());
 
 
         redirectAttributes.addFlashAttribute("successMessage", true);

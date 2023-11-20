@@ -5,6 +5,8 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.PropertyAccessorFactory;
+import org.springframework.stereotype.Component;
+
 
 public class PasswordMatchValidator implements ConstraintValidator<PasswordMatch, Object> {
 

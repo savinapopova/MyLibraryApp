@@ -2,6 +2,7 @@ package com.example.mylibrary.service.impl;
 
 import com.example.mylibrary.errors.NotAllowedException;
 import com.example.mylibrary.model.dto.LeaveReviewDTO;
+import com.example.mylibrary.model.dto.ReviewDTO;
 import com.example.mylibrary.model.entity.*;
 import com.example.mylibrary.model.enums.CategoryName;
 import com.example.mylibrary.model.enums.RoleName;
@@ -17,13 +18,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class ReviewServiceImplTestIT {
 
     @Autowired
@@ -132,6 +136,81 @@ class ReviewServiceImplTestIT {
             this.serviceToTest.registerReview(leaveReviewDTO2, user.getEmail(), book1.getId());
         });
 
+    }
+
+    @Test
+    @Transactional
+    void testGetByBook() {
+        this.bookRepository.save(book1);
+        this.bookRepository.save(book2);
+        this.checkoutRepository.save(checkout1);
+        this.checkoutRepository.save(checkout2);
+
+        this.serviceToTest.registerReview(new LeaveReviewDTO(5, "comment1"),
+                user.getEmail(), book1.getId());
+        this.serviceToTest.registerReview(new LeaveReviewDTO(4, "comment2"),
+                user.getEmail(), book2.getId());
+
+        List<ReviewDTO> reviews = this.serviceToTest.getByBook(book1.getId());
+        assertEquals(1, reviews.size());
+
+    }
+
+    @Test
+    @Transactional
+    void testReviewLeft() {
+        this.bookRepository.save(book1);
+        this.bookRepository.save(book2);
+        this.checkoutRepository.save(checkout1);
+        this.checkoutRepository.save(checkout2);
+
+        this.serviceToTest.registerReview(new LeaveReviewDTO(5, "comment1"),
+                user.getEmail(), book1.getId());
+        this.serviceToTest.registerReview(new LeaveReviewDTO(4, "comment2"),
+                admin.getEmail(), book2.getId());
+
+        assertTrue(this.serviceToTest.reviewLeft(user.getEmail(), book1.getId()));
+        assertFalse(this.serviceToTest.reviewLeft(admin.getEmail(), book1.getId()));
+        assertTrue(this.serviceToTest.reviewLeft(admin.getEmail(), book2.getId()));
+        assertFalse(this.serviceToTest.reviewLeft(user.getEmail(), book2.getId()));
+    }
+
+    @Test
+    @Transactional
+    void testDeleteBookReviews() {
+        this.bookRepository.save(book1);
+        this.bookRepository.save(book2);
+        this.checkoutRepository.save(checkout1);
+        this.checkoutRepository.save(checkout2);
+
+        this.serviceToTest.registerReview(new LeaveReviewDTO(5, "comment1"),
+                user.getEmail(), book1.getId());
+        this.serviceToTest.registerReview(new LeaveReviewDTO(4, "comment2"),
+                admin.getEmail(), book2.getId());
+
+        assertEquals(2, this.reviewRepository.count());
+        this.serviceToTest.deleteBookReviews(book1.getId());
+        assertEquals(1, this.reviewRepository.count());
+        assertEquals(admin.getEmail(), this.reviewRepository.findAll().get(0).getUser().getEmail());
+    }
+
+    @Test
+    @Transactional
+    void testDeleteUserReviews() {
+        this.bookRepository.save(book1);
+        this.bookRepository.save(book2);
+        this.checkoutRepository.save(checkout1);
+        this.checkoutRepository.save(checkout2);
+
+        this.serviceToTest.registerReview(new LeaveReviewDTO(5, "comment1"),
+                user.getEmail(), book1.getId());
+        this.serviceToTest.registerReview(new LeaveReviewDTO(4, "comment2"),
+                admin.getEmail(), book2.getId());
+
+        assertEquals(2, this.reviewRepository.count());
+        this.serviceToTest.deleteUserReviews(user.getId());
+        assertEquals(1, this.reviewRepository.count());
+        assertEquals(admin.getEmail(), this.reviewRepository.findAll().get(0).getUser().getEmail());
     }
 
 }
