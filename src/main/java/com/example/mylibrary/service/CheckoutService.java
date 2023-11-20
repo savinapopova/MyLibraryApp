@@ -25,4 +25,5 @@ public interface CheckoutService {
     void deleteBookCheckouts(Long id);
 
 
+    void checkIfUserHasBook(String userEmail, Long bookId);
 }

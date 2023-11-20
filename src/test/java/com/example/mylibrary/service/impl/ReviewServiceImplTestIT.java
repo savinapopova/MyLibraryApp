@@ -1,6 +1,7 @@
 package com.example.mylibrary.service.impl;
 
 import com.example.mylibrary.errors.NotAllowedException;
+import com.example.mylibrary.errors.ObjectNotFoundException;
 import com.example.mylibrary.model.dto.LeaveReviewDTO;
 import com.example.mylibrary.model.dto.ReviewDTO;
 import com.example.mylibrary.model.entity.*;
@@ -11,6 +12,7 @@ import com.example.mylibrary.repository.CheckoutRepository;
 import com.example.mylibrary.repository.ReviewRepository;
 import com.example.mylibrary.repository.UserRepository;
 import com.example.mylibrary.service.CategoryService;
+import com.example.mylibrary.service.CheckoutService;
 import com.example.mylibrary.service.ReviewService;
 import com.example.mylibrary.service.RoleService;
 import org.junit.jupiter.api.AfterEach;
@@ -43,6 +45,9 @@ class ReviewServiceImplTestIT {
     private CheckoutRepository checkoutRepository;
 
     @Autowired
+    private CheckoutService checkoutService;
+
+    @Autowired
     private BookRepository bookRepository;
 
     @Autowired
@@ -62,6 +67,8 @@ class ReviewServiceImplTestIT {
     private Checkout checkout1;
 
     private Checkout checkout2;
+
+    private Checkout checkout3;
 
 
     @BeforeEach
@@ -93,6 +100,7 @@ class ReviewServiceImplTestIT {
 
         checkout1 = new Checkout(book1, user);
         checkout2 = new Checkout(book2, user);
+        checkout3 = new Checkout(book2, admin);
 
 
     }
@@ -122,7 +130,7 @@ class ReviewServiceImplTestIT {
 
     @Test
     @Transactional
-    void testRegisterReviewWheAlreadyLeft() {
+    void testRegisterReviewWhenAlreadyLeft() {
         this.bookRepository.save(book1);
         this.checkoutRepository.save(checkout1);
 
@@ -136,6 +144,39 @@ class ReviewServiceImplTestIT {
             this.serviceToTest.registerReview(leaveReviewDTO2, user.getEmail(), book1.getId());
         });
 
+    }
+
+    @Test
+    @Transactional
+    void registerReviewWhenNoSuchCheckout() {
+        this.bookRepository.save(book1);
+        this.bookRepository.save(book2);
+        this.checkoutRepository.save(checkout1);
+
+        LeaveReviewDTO leaveReviewDTO = new LeaveReviewDTO(5, "comment");
+        this.serviceToTest.registerReview(leaveReviewDTO, user.getEmail(), book1.getId());
+
+        LeaveReviewDTO leaveReviewDTO2 = new LeaveReviewDTO(5, "comment2");
+
+        assertThrows(NotAllowedException.class, () -> {
+            this.serviceToTest.registerReview(leaveReviewDTO2, user.getEmail(), book2.getId());
+        });
+
+    }
+
+    @Test
+    @Transactional
+    void testRegisterReviewWhenBookNotExisting() {
+        LeaveReviewDTO leaveReviewDTO = new LeaveReviewDTO(5, "comment");
+        assertThrows(ObjectNotFoundException.class, () -> {
+            this.serviceToTest.registerReview(leaveReviewDTO, user.getEmail(), 100L);
+        });
+
+        try {
+            this.serviceToTest.registerReview(leaveReviewDTO, user.getEmail(), 100L);
+        } catch (ObjectNotFoundException exception) {
+            assertEquals("book with id 100 not found", exception.getMessage());
+        }
     }
 
     @Test
@@ -163,6 +204,7 @@ class ReviewServiceImplTestIT {
         this.bookRepository.save(book2);
         this.checkoutRepository.save(checkout1);
         this.checkoutRepository.save(checkout2);
+        this.checkoutRepository.save(checkout3);
 
         this.serviceToTest.registerReview(new LeaveReviewDTO(5, "comment1"),
                 user.getEmail(), book1.getId());
@@ -182,6 +224,7 @@ class ReviewServiceImplTestIT {
         this.bookRepository.save(book2);
         this.checkoutRepository.save(checkout1);
         this.checkoutRepository.save(checkout2);
+        this.checkoutRepository.save(checkout3);
 
         this.serviceToTest.registerReview(new LeaveReviewDTO(5, "comment1"),
                 user.getEmail(), book1.getId());
@@ -201,6 +244,7 @@ class ReviewServiceImplTestIT {
         this.bookRepository.save(book2);
         this.checkoutRepository.save(checkout1);
         this.checkoutRepository.save(checkout2);
+        this.checkoutRepository.save(checkout3);
 
         this.serviceToTest.registerReview(new LeaveReviewDTO(5, "comment1"),
                 user.getEmail(), book1.getId());

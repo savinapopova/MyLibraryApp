@@ -35,5 +35,11 @@ public class UserRegisterDTO {
     public UserRegisterDTO() {
     }
 
-
+    public UserRegisterDTO(String email, String firstName, String lastName, String password, String confirmPassword) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.confirmPassword = confirmPassword;
+    }
 }

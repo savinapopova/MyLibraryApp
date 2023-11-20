@@ -336,4 +336,14 @@ void testReturnBookWhenCheckoutNotFound() {
 
 
        }
+
+         @Test
+         void testCheckIfUserHasBook() {
+                this.bookRepository.save(book1);
+                this.checkoutRepository.save(checkout1);
+
+                assertThrows(NotAllowedException.class, () -> {
+                    this.serviceToTest.checkIfUserHasBook(user.getEmail(), book2.getId());
+                });
+         }
 }

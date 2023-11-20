@@ -8,14 +8,13 @@ import com.example.mylibrary.model.entity.Review;
 import com.example.mylibrary.model.entity.User;
 import com.example.mylibrary.repository.ReviewRepository;
 import com.example.mylibrary.service.BookService;
+import com.example.mylibrary.service.CheckoutService;
 import com.example.mylibrary.service.ReviewService;
 import com.example.mylibrary.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,13 +27,17 @@ public class ReviewServiceImpl implements ReviewService {
     private UserService userService;
 
     private BookService bookService;
+
+    private CheckoutService checkoutService;
     private ModelMapper modelMapper;
 
     public ReviewServiceImpl(ReviewRepository reviewRepository, UserService userService,
-                             BookService bookService, ModelMapper modelMapper) {
+                             BookService bookService, CheckoutService checkoutService,
+                             ModelMapper modelMapper) {
         this.reviewRepository = reviewRepository;
         this.userService = userService;
         this.bookService = bookService;
+        this.checkoutService = checkoutService;
         this.modelMapper = modelMapper;
     }
 
@@ -59,9 +62,14 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void registerReview(LeaveReviewDTO leaveReviewDTO, String userEmail, Long bookId) {
+
+        checkBooKExisting(bookId);
+
         if (reviewLeft(userEmail, bookId)) {
             throw new NotAllowedException();
         }
+
+        this.checkoutService.checkIfUserHasBook(userEmail, bookId);
 
         Review review = modelMapper.map(leaveReviewDTO, Review.class);
         User user = this.userService.getUser(userEmail);
@@ -70,6 +78,10 @@ public class ReviewServiceImpl implements ReviewService {
         review.setUser(user);
         review.setDate(LocalDate.now());
         this.reviewRepository.save(review);
+    }
+
+    private void checkBooKExisting(Long bookId) {
+        this.bookService.getBook(bookId);
     }
 
     @Override

@@ -144,6 +144,17 @@ public class CheckoutServiceImpl implements CheckoutService {
         this.checkoutRepository.deleteAllByBookId(id);
     }
 
+    @Override
+    public void checkIfUserHasBook(String userEmail, Long bookId) {
+        Optional<Checkout> optionalCheckout = this.checkoutRepository
+                .findByUserEmailAndBookId(userEmail, bookId);
+
+        if (optionalCheckout.isEmpty()) {
+            throw new NotAllowedException();
+        }
+
+    }
+
 
 }
 
