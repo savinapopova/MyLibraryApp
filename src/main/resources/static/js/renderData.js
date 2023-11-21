@@ -58,7 +58,7 @@ async function renderData() {
 
                                      <div class='m-3 d-flex justify-content-center align-items-center'>
                             <a type='button' class='btn main-color btn-lg text-white'
-                                  href= href="http://localhost:8080/checkout/book/${book.id}">
+                                  href="http://localhost:8080/checkout/book/${book.id}">
                                 CheckOut
                             </a>
 
