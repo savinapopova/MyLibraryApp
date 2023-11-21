@@ -11,7 +11,7 @@
             <h4>Manage users</h4>
             <a class="btn main-color text-white mt-3" th:href="@{/users/register}">Create new user</a>
       </div>
-<!--      <div th:if="${success != null}" th:text="${success}" class="alert alert-success text-center"></div>-->
+
 
       <div>
             <table class="table table-bordered table-striped table-hover table-responsive-xl shadow bg-body rounded">
@@ -19,6 +19,8 @@
                   <tr>
                         <th>Id</th>
                         <th>Email</th>
+                        <th class="d-none d-lg-table-cell">First Name</th>
+                        <th class="d-none d-lg-table-cell">Last Name</th>
                         <th>Role</th>
                         <th>Active</th>
                         <th>Edit</th>
@@ -31,6 +33,8 @@
                                th:text="*{email}"
                                class="btn"
                         ></a></td>
+                        <td class="d-none d-lg-table-cell" th:text="*{firstName}"></td>
+                        <td class="d-none d-lg-table-cell" th:text="*{lastName}"></td>
                         <td th:text="*{roles}"></td>
                         <td class="text-center">
                               <span th:if="*{isActive()}" class="fas fa-check-circle active-icon"></span>
@@ -63,7 +67,7 @@
                                                 <button th:unless="*{isAdmin()}" type="submit" class="btn main-color text-white me-1">Add Admin</button>
                                           </form>
                                           <form th:action="@{/admin/users/delete/{id}(id=*{id})}"
-                                                th:method="DELETE">
+                                                th:method="DELETE"
                                                   class="row g-0">
                                                 <button th:if="*{isAdmin() == false && isActive() == false}" type="submit" class="btn bg-danger text-white">Delete</button>
                                           </form>
