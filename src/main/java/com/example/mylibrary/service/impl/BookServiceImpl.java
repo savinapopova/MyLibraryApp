@@ -1,6 +1,8 @@
 package com.example.mylibrary.service.impl;
 
 import com.example.mylibrary.errors.ObjectNotFoundException;
+import com.example.mylibrary.event.BookReturnedEvent;
+import com.example.mylibrary.event.CheckoutCreatedEvent;
 import com.example.mylibrary.model.dto.AddBookDTO;
 import com.example.mylibrary.model.dto.BookDTO;
 import com.example.mylibrary.model.dto.SearchBookDTO;
@@ -12,6 +14,7 @@ import com.example.mylibrary.service.BookService;
 import com.example.mylibrary.service.CategoryService;
 import com.example.mylibrary.util.TextResizer;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -78,16 +81,27 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void decreaseCopiesAvailable(Book book) {
+    @EventListener(BookReturnedEvent.class)
+    public void increaseCopiesAvailable(BookReturnedEvent bookReturnedEvent) {
+        Book book = bookReturnedEvent.getCheckout().getBook();
+        book.setCopiesAvailable(book.getCopiesAvailable() + 1);
+        this.bookRepository.save(book);
+    }
+
+    @Override
+    @EventListener(CheckoutCreatedEvent.class)
+    public void decreaseCopiesAvailable(CheckoutCreatedEvent checkoutCreatedEvent) {
+        Book book = checkoutCreatedEvent.getBook();
         book.setCopiesAvailable(book.getCopiesAvailable() - 1);
         this.bookRepository.save(book);
     }
 
     @Override
-    public void increaseCopiesAvailable(Book book) {
-        book.setCopiesAvailable(book.getCopiesAvailable() + 1);
+    public void saveBook(Book book) {
         this.bookRepository.save(book);
     }
+
+
 
     @Override
     public void registerBook(AddBookDTO addBookDTO) {

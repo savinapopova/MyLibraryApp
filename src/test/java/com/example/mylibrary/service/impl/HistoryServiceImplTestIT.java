@@ -1,5 +1,6 @@
 package com.example.mylibrary.service.impl;
 
+import com.example.mylibrary.event.BookReturnedEvent;
 import com.example.mylibrary.model.dto.HistoryDTO;
 import com.example.mylibrary.model.entity.*;
 import com.example.mylibrary.model.enums.CategoryName;
@@ -104,7 +105,8 @@ class HistoryServiceImplTestIT {
 
     @Test
     void testRegisterHistory() {
-        this.serviceToTest.registerHistory(checkout);
+        BookReturnedEvent bookReturnedEvent = new BookReturnedEvent(this).setCheckout(checkout);
+        this.serviceToTest.registerHistory(bookReturnedEvent);
         List<HistoryDTO> histories = this.serviceToTest.getUserHistories("userEmail");
 
         assertEquals(1, histories.size());
@@ -114,7 +116,8 @@ class HistoryServiceImplTestIT {
     @Test
     @Transactional
     void testDeleteBookHistories() {
-        this.serviceToTest.registerHistory(checkout);
+        BookReturnedEvent bookReturnedEvent = new BookReturnedEvent(this).setCheckout(checkout);
+        this.serviceToTest.registerHistory(bookReturnedEvent);
         this.serviceToTest.deleteBookHistories(1L);
         List<HistoryDTO> histories = this.serviceToTest.getUserHistories("userEmail");
 

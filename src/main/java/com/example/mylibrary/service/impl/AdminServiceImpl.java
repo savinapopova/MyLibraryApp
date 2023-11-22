@@ -78,7 +78,9 @@ public class AdminServiceImpl implements AdminService {
     public void increaseBookQuantity(Long id) {
         Book book = this.bookService.getBook(id);
         book.setCopies(book.getCopies() + 1);
-        this.bookService.increaseCopiesAvailable(book);
+        book.setCopiesAvailable(book.getCopiesAvailable() + 1);
+        this.bookService.saveBook(book);
+
     }
 
     @Override
@@ -86,7 +88,8 @@ public class AdminServiceImpl implements AdminService {
         Book book = this.bookService.getBook(id);
         if (book.getCopies() > 0 && book.getCopiesAvailable() > 0) {
             book.setCopies(book.getCopies() - 1);
-            this.bookService.decreaseCopiesAvailable(book);
+            book .setCopiesAvailable(book.getCopiesAvailable() - 1);
+            this.bookService.saveBook(book);
         }
     }
 

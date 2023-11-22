@@ -1,11 +1,13 @@
 package com.example.mylibrary.service.impl;
 
+import com.example.mylibrary.event.BookReturnedEvent;
 import com.example.mylibrary.model.dto.HistoryDTO;
 import com.example.mylibrary.model.entity.Checkout;
 import com.example.mylibrary.model.entity.History;
 import com.example.mylibrary.repository.HistoryRepository;
 import com.example.mylibrary.service.HistoryService;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -35,7 +37,9 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public void registerHistory(Checkout checkout) {
+    @EventListener(BookReturnedEvent.class)
+    public void registerHistory(BookReturnedEvent bookReturnedEvent) {
+        Checkout checkout = bookReturnedEvent.getCheckout();
         History history = new History(checkout);
         this.historyRepository.save(history);
     }

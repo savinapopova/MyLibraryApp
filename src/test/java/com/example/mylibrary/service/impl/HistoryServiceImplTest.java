@@ -1,5 +1,6 @@
 package com.example.mylibrary.service.impl;
 
+import com.example.mylibrary.event.BookReturnedEvent;
 import com.example.mylibrary.model.dto.HistoryDTO;
 import com.example.mylibrary.model.entity.*;
 import com.example.mylibrary.model.enums.CategoryName;
@@ -24,6 +25,7 @@ class HistoryServiceImplTest {
 
     @Mock
     private HistoryRepository mockHistoryRepository;
+
 
     @Mock
     private ModelMapper mockModelMapper;
@@ -76,7 +78,10 @@ class HistoryServiceImplTest {
 
     @Test
     void testRegisterHistory() {
-       serviceToTest.registerHistory(checkout);
+
+        BookReturnedEvent bookReturnedEvent = new BookReturnedEvent(this).setCheckout(checkout);
+
+       serviceToTest.registerHistory(bookReturnedEvent);
         verify(mockHistoryRepository).save(history);
     }
 

@@ -2,6 +2,8 @@ package com.example.mylibrary.service.impl;
 
 import com.example.mylibrary.errors.NotAllowedException;
 import com.example.mylibrary.errors.ObjectNotFoundException;
+import com.example.mylibrary.event.BookReturnedEvent;
+import com.example.mylibrary.event.CheckoutCreatedEvent;
 import com.example.mylibrary.model.dto.CheckOutDTO;
 import com.example.mylibrary.model.entity.Book;
 import com.example.mylibrary.model.entity.Checkout;
@@ -13,12 +15,11 @@ import com.example.mylibrary.service.HistoryService;
 import com.example.mylibrary.service.UserService;
 import com.example.mylibrary.util.TimeConverter;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -37,14 +38,17 @@ public class CheckoutServiceImpl implements CheckoutService {
 
     private ModelMapper modelMapper;
 
+    private final ApplicationEventPublisher appEventPublisher;
+
     public CheckoutServiceImpl(BookService bookService, CheckoutRepository checkoutRepository,
                                UserService userService, HistoryService historyService,
-                               ModelMapper modelMapper) {
+                               ModelMapper modelMapper, ApplicationEventPublisher appEventPublisher) {
         this.bookService = bookService;
         this.checkoutRepository = checkoutRepository;
         this.userService = userService;
         this.historyService = historyService;
         this.modelMapper = modelMapper;
+        this.appEventPublisher = appEventPublisher;
     }
 
 
@@ -61,9 +65,11 @@ public class CheckoutServiceImpl implements CheckoutService {
         Checkout checkout = new Checkout(book, user);
         this.checkoutRepository.save(checkout);
 
-        this.bookService.decreaseCopiesAvailable(book);
 
+        CheckoutCreatedEvent checkoutCreatedEvent = new CheckoutCreatedEvent(this)
+                .setBook(book);
 
+        appEventPublisher.publishEvent(checkoutCreatedEvent);
 
 
     }
@@ -83,14 +89,15 @@ public class CheckoutServiceImpl implements CheckoutService {
 
         Checkout checkout = getCheckout( email, bookId);
 
-        Book book = checkout.getBook();
 
-        this.bookService.increaseCopiesAvailable(book);
+        BookReturnedEvent bookReturnedEvent = new BookReturnedEvent(this)
+                .setCheckout(checkout);
+        appEventPublisher.publishEvent(bookReturnedEvent);
+
+
 
         this.checkoutRepository.delete(checkout);
 
-
-        this.historyService.registerHistory(checkout);
     }
 
     private Checkout getCheckout(String email, Long bookId) {

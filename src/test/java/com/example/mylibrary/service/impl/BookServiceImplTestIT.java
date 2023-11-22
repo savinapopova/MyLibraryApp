@@ -1,11 +1,14 @@
 package com.example.mylibrary.service.impl;
 
 import com.example.mylibrary.errors.ObjectNotFoundException;
+import com.example.mylibrary.event.BookReturnedEvent;
+import com.example.mylibrary.event.CheckoutCreatedEvent;
 import com.example.mylibrary.model.dto.AddBookDTO;
 import com.example.mylibrary.model.dto.BookDTO;
 import com.example.mylibrary.model.dto.SearchBookDTO;
 import com.example.mylibrary.model.entity.Book;
 import com.example.mylibrary.model.entity.Category;
+import com.example.mylibrary.model.entity.Checkout;
 import com.example.mylibrary.model.enums.CategoryName;
 import com.example.mylibrary.repository.BookRepository;
 import com.example.mylibrary.service.BookService;
@@ -143,7 +146,9 @@ class BookServiceImplTestIT {
 
         assertEquals(1, book.getCopiesAvailable());
 
-        this.serviceToTest.decreaseCopiesAvailable(book);
+        CheckoutCreatedEvent checkoutCreatedEvent = new CheckoutCreatedEvent(this).setBook(book);
+
+        this.serviceToTest.decreaseCopiesAvailable(checkoutCreatedEvent);
 
         assertEquals(0, book.getCopiesAvailable());
 
@@ -154,11 +159,16 @@ class BookServiceImplTestIT {
         this.bookRepository.save(book1);
         this.bookRepository.save(book2);
 
+
         Book book = this.serviceToTest.getBook(1L);
 
         assertEquals(1, book.getCopiesAvailable());
 
-        this.serviceToTest.increaseCopiesAvailable(book);
+        Checkout checkout = new Checkout(book, null);
+
+        BookReturnedEvent bookReturnedEvent = new BookReturnedEvent(this).setCheckout(checkout);
+
+        this.serviceToTest.increaseCopiesAvailable(bookReturnedEvent);
 
         assertEquals(2, book.getCopiesAvailable());
 
