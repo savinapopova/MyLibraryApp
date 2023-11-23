@@ -58,8 +58,8 @@ class HistoryServiceImplTest {
         History history1 = new History();
         History history2 = new History();
         History history3 = new History();
-        when(mockHistoryRepository.findAllByUserEmail(validEmail)).thenReturn(List.of(history1, history2, history3));
-        when(mockHistoryRepository.findAllByUserEmail(invalidEmail)).thenReturn(List.of());
+        when(mockHistoryRepository.findAllByUserEmailOrderByReturnDateDesc(validEmail)).thenReturn(List.of(history1, history2, history3));
+        when(mockHistoryRepository.findAllByUserEmailOrderByReturnDateDesc(invalidEmail)).thenReturn(List.of());
 
         when(mockModelMapper.map(history1, HistoryDTO.class)).thenReturn(new HistoryDTO());
         when(mockModelMapper.map(history2, HistoryDTO.class)).thenReturn(new HistoryDTO());

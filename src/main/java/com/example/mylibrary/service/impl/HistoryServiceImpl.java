@@ -29,7 +29,7 @@ public class HistoryServiceImpl implements HistoryService {
     @Override
     public List<HistoryDTO> getUserHistories(String email) {
 
-        List<History> histories = this.historyRepository.findAllByUserEmail(email);
+        List<History> histories = this.historyRepository.findAllByUserEmailOrderByReturnDateDesc(email);
 
        return histories.stream()
                 .map(h -> modelMapper.map(h, HistoryDTO.class))

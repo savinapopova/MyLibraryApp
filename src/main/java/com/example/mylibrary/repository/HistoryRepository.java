@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface HistoryRepository extends JpaRepository<History, Long> {
-    List<History> findAllByUserEmail(String userEmail);
+    List<History> findAllByUserEmailOrderByReturnDateDesc(String userEmail);
 
     void deleteAllByBookId(Long id);
 
