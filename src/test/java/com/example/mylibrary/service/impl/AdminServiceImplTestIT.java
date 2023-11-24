@@ -40,14 +40,11 @@ class AdminServiceImplTestIT {
     @Autowired
     private MessageRepository messageRepository;
 
-    @Autowired
-    private CheckoutRepository checkoutRepository;
+
 
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
 
     @Autowired
     private BookRepository bookRepository;

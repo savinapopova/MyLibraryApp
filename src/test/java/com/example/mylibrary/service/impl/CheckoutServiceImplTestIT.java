@@ -72,9 +72,6 @@ class CheckoutServiceImplTestIT {
 
     private Book book6;
 
-    private Category biography;
-
-    private Category cookbook;
 
     private Checkout checkout1;
 
@@ -104,8 +101,8 @@ class CheckoutServiceImplTestIT {
         this.userRepository.save(user);
         this.userRepository.save(admin);
 
-        biography = this.categoryService.getCategory(CategoryName.BIOGRAPHY);
-        cookbook = this.categoryService.getCategory(CategoryName.COOKBOOK);
+       Category biography = this.categoryService.getCategory(CategoryName.BIOGRAPHY);
+        Category cookbook = this.categoryService.getCategory(CategoryName.COOKBOOK);
 
         book1 = new Book(1L, "title1", "author1",
                 "image1", "description1", 1, 1, biography);

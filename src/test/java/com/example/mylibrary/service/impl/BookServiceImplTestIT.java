@@ -32,8 +32,6 @@ class BookServiceImplTestIT {
     @Autowired
     private BookRepository bookRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
 
     @Autowired
     private CategoryService categoryService;
@@ -41,9 +39,6 @@ class BookServiceImplTestIT {
     @Autowired
     private BookService serviceToTest;
 
-    private Category biography;
-
-    private Category cookbook;
 
     private Book book1;
 
@@ -52,8 +47,8 @@ class BookServiceImplTestIT {
     @BeforeEach
     void setUp() {
         this.bookRepository.deleteAll();
-        biography = this.categoryService.getCategory(CategoryName.BIOGRAPHY);
-        cookbook = this.categoryService.getCategory(CategoryName.COOKBOOK);
+       Category biography = this.categoryService.getCategory(CategoryName.BIOGRAPHY);
+       Category cookbook = this.categoryService.getCategory(CategoryName.COOKBOOK);
         book1 = new Book(1L, "title1", "author1",
                 "image1", "description1", 1, 1, biography);
         book2 = new Book(2L, "title2", "author2",
