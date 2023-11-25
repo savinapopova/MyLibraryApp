@@ -6,6 +6,7 @@ import com.example.mylibrary.repository.UserRepository;
 import com.example.mylibrary.service.impl.ApplicationUserDetailsService;
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,13 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
+
+    private final String rememberMeKey;
+
+    public SecurityConfig(@Value("${MyLibrary.remember.me.key}")
+                                 String rememberMeKey) {
+        this.rememberMeKey = rememberMeKey;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -42,7 +50,7 @@ public class SecurityConfig {
                             // The names of the input fields (in our case in auth-login.html)
                             .usernameParameter("email")
                             .passwordParameter("password")
-                            .defaultSuccessUrl("/", true)
+                            .defaultSuccessUrl("/")
                             .failureForwardUrl("/users/login-error");
                 }
         ).logout(
@@ -56,14 +64,14 @@ public class SecurityConfig {
                             .invalidateHttpSession(true);
                 }
         )
-//                .rememberMe(
-//                rememberMe -> {
-//                    rememberMe
-//                            .key(rememberMeKey)
-//                            .rememberMeParameter("rememberme")
-//                            .rememberMeCookieName("rememberme");
-//                }
-//        )
+                .rememberMe(
+                rememberMe -> {
+                    rememberMe
+                            .key(rememberMeKey)
+                            .rememberMeParameter("remember-me")
+                            .rememberMeCookieName("remember-me");
+                }
+        )
                 .build();
     }
 

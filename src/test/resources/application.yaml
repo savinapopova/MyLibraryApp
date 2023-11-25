@@ -12,13 +12,12 @@ spring:
         enabled: true
 
 
-
-
 logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.orm.jdbc.bind: TRACE
 
-
+MyLibrary:
+  remember.me.key: test
 
 
