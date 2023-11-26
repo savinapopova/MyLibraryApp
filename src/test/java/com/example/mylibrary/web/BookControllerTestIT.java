@@ -12,6 +12,7 @@ import com.example.mylibrary.repository.UserRepository;
 import com.example.mylibrary.service.BookService;
 import com.example.mylibrary.service.CategoryService;
 import com.example.mylibrary.service.RoleService;
+import com.example.mylibrary.utils.TestUserData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,20 +41,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class BookControllerTestIT {
 
-    @Autowired
-    private BookController controllerToTest;
-
-    @Autowired
-    private BookService bookService;
-
-    @Autowired
-    private RoleService roleService;
 
     @Autowired
     private BookRepository bookRepository;
 
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private MockMvc mockMvc;
@@ -61,9 +52,8 @@ class BookControllerTestIT {
     @Autowired
     private ModelMapper modelMapper;
 
-    private User user;
-
-    private User admin;
+    @Autowired
+    private TestUserData testUserData;
     @Autowired
     private CategoryService categoryService;
 
@@ -77,21 +67,11 @@ class BookControllerTestIT {
     @BeforeEach
     void setUp() {
         bookRepository.deleteAll();
-        userRepository.deleteAll();
+        testUserData.cleanUp();
 
-        Role userRole = this.roleService.findByName(RoleName.USER);
-        Role adminRole = this.roleService.findByName(RoleName.ADMIN);
+        testUserData.createTestUser();
 
-        user = new User("userFirstName", "userLastName", "userEmail",
-                "userPassword");
-        user.getRoles().add(userRole);
-        admin = new User("adminFirstName", "adminLastName", "adminEmail",
-                "adminPassword");
-        admin.setRoles(Set.of(userRole, adminRole));
-        this.userRepository.save(user);
-        this.userRepository.save(admin);
-
-        Category biography = this.categoryService.getCategory(CategoryName.BIOGRAPHY);
+       Category biography = this.categoryService.getCategory(CategoryName.BIOGRAPHY);
         Category cookbook = this.categoryService.getCategory(CategoryName.COOKBOOK);
         Category fantasy = this.categoryService.getCategory(CategoryName.FANTASY);
         Category education = this.categoryService.getCategory(CategoryName.EDUCATION);
@@ -114,7 +94,7 @@ class BookControllerTestIT {
     @AfterEach
     void tearDown() {
         bookRepository.deleteAll();
-        userRepository.deleteAll();
+        testUserData.cleanUp();
     }
 
     @Test
@@ -125,7 +105,7 @@ class BookControllerTestIT {
     }
 
     @Test
-    @WithMockUser(username = "userEmail", roles = {"USER", "ADMIN"})
+    @WithMockUser(username = "userEmail")
     void testSearchWithAuthenticatedUser() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/search"))
                 .andExpect(status().is3xxRedirection())

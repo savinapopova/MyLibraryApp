@@ -9,6 +9,7 @@ import com.example.mylibrary.repository.*;
 import com.example.mylibrary.service.CategoryService;
 import com.example.mylibrary.service.HistoryService;
 import com.example.mylibrary.service.UserService;
+import com.example.mylibrary.utils.TestUserData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,8 +40,6 @@ class HistoryServiceImplTestIT {
     @Autowired
     private CheckoutRepository checkoutRepository;
 
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private CategoryService categoryService;
@@ -48,7 +47,7 @@ class HistoryServiceImplTestIT {
 
 
     @Autowired
-    private UserService userService;
+    private TestUserData testUserData;
 
     @Autowired
     private BookRepository bookRepository;
@@ -64,11 +63,11 @@ class HistoryServiceImplTestIT {
         this.historyRepository.deleteAll();
         this.checkoutRepository.deleteAll();
         this.bookRepository.deleteAll();
-        this.userRepository.deleteAll();
+        testUserData.cleanUp();
 
-        User user = new User("firstName", "lastName", "userEmail", "password");
+        User user = testUserData.createTestUser();
 
-        this.userService.saveUser(user);
+
         Category category = this.categoryService.getCategory(CategoryName.BIOGRAPHY);
         Book book = new Book(1L, "title", "author",
                 "image", "description", 1, 1, category);
@@ -83,7 +82,7 @@ class HistoryServiceImplTestIT {
         historyRepository.deleteAll();
         checkoutRepository.deleteAll();
         bookRepository.deleteAll();
-        userRepository.deleteAll();
+        testUserData.cleanUp();
     }
 
     @Test

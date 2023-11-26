@@ -11,6 +11,7 @@ import com.example.mylibrary.repository.MessageRepository;
 import com.example.mylibrary.repository.UserRepository;
 import com.example.mylibrary.service.MessageService;
 import com.example.mylibrary.service.RoleService;
+import com.example.mylibrary.utils.TestUserData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,11 +35,9 @@ class MessageServiceImplTestIT {
     @Autowired
     private MessageRepository messageRepository;
 
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
-    private RoleService roleService;
+    private TestUserData testUserData;
 
     private User user;
 
@@ -55,19 +54,10 @@ class MessageServiceImplTestIT {
     @BeforeEach
     void setUp() {
         this.messageRepository.deleteAll();
-        this.userRepository.deleteAll();
+        testUserData.cleanUp();
 
-        Role userRole = this.roleService.findByName(RoleName.USER);
-        Role adminRole = this.roleService.findByName(RoleName.ADMIN);
-
-        user = new User("userFirstName", "userLastName", "userEmail",
-                "userPassword");
-        user.getRoles().add(userRole);
-        admin = new User("adminFirstName", "adminLastName", "adminEmail",
-                "adminPassword");
-        admin.setRoles(Set.of(userRole, adminRole));
-        this.userRepository.save(user);
-        this.userRepository.save(admin);
+        user = testUserData.createTestUser();
+        admin = testUserData.createTestAdmin();
 
         openMessage1 = new Message("title1","question1");
         openMessage1.setUser(user);
@@ -84,7 +74,7 @@ class MessageServiceImplTestIT {
     @AfterEach
     void tearDown() {
         this.messageRepository.deleteAll();
-        this.userRepository.deleteAll();
+        testUserData.cleanUp();
     }
 
     @Test

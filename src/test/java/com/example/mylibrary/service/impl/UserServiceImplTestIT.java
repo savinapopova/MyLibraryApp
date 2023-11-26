@@ -8,6 +8,8 @@ import com.example.mylibrary.model.enums.RoleName;
 import com.example.mylibrary.repository.UserRepository;
 import com.example.mylibrary.service.RoleService;
 import com.example.mylibrary.service.UserService;
+import com.example.mylibrary.utils.TestUserData;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,7 @@ class UserServiceImplTestIT {
     private UserRepository userRepository;
 
     @Autowired
-    private RoleService roleService;
+    private TestUserData testUserData;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -42,19 +44,15 @@ class UserServiceImplTestIT {
 
     @BeforeEach
     void setUp() {
-        this.userRepository.deleteAll();
+        testUserData.cleanUp();
 
-        Role userRole = this.roleService.findByName(RoleName.USER);
-        Role adminRole = this.roleService.findByName(RoleName.ADMIN);
+        user = testUserData.createTestUser();
+        admin = testUserData.createTestAdmin();
+    }
 
-        user = new User("userFirstName", "userLastName", "userEmail",
-                "userPassword");
-        user.getRoles().add(userRole);
-        admin = new User("adminFirstName", "adminLastName", "adminEmail",
-                "adminPassword");
-        admin.setRoles(Set.of(userRole, adminRole));
-        this.userRepository.save(user);
-        this.userRepository.save(admin);
+    @AfterEach
+    void tearDown() {
+        testUserData.cleanUp();
     }
 
     @Test

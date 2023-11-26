@@ -15,6 +15,7 @@ import com.example.mylibrary.service.CategoryService;
 import com.example.mylibrary.service.CheckoutService;
 import com.example.mylibrary.service.ReviewService;
 import com.example.mylibrary.service.RoleService;
+import com.example.mylibrary.utils.TestUserData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,20 +39,16 @@ class ReviewServiceImplTestIT {
     @Autowired
     private ReviewRepository reviewRepository;
 
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private CheckoutRepository checkoutRepository;
 
-    @Autowired
-    private CheckoutService checkoutService;
 
     @Autowired
     private BookRepository bookRepository;
 
     @Autowired
-    private RoleService roleService;
+    private TestUserData testUserData;
 
     @Autowired
     private CategoryService categoryService;
@@ -74,21 +71,14 @@ class ReviewServiceImplTestIT {
     @BeforeEach
     public void setUp() {
         reviewRepository.deleteAll();
-        userRepository.deleteAll();
         checkoutRepository.deleteAll();
         bookRepository.deleteAll();
+       testUserData.cleanUp();
 
-        Role userRole = this.roleService.findByName(RoleName.USER);
-        Role adminRole = this.roleService.findByName(RoleName.ADMIN);
+        user = testUserData.createTestUser();
+        admin = testUserData.createTestAdmin();
 
-        user = new User("userFirstName", "userLastName", "userEmail",
-                "userPassword");
-        user.getRoles().add(userRole);
-        admin = new User("adminFirstName", "adminLastName", "adminEmail",
-                "adminPassword");
-        admin.setRoles(Set.of(userRole, adminRole));
-        this.userRepository.save(user);
-        this.userRepository.save(admin);
+
 
        Category biography = this.categoryService.getCategory(CategoryName.BIOGRAPHY);
         Category cookbook = this.categoryService.getCategory(CategoryName.COOKBOOK);
@@ -108,9 +98,9 @@ class ReviewServiceImplTestIT {
     @AfterEach
     public void tearDown() {
         reviewRepository.deleteAll();
-        userRepository.deleteAll();
         checkoutRepository.deleteAll();
         bookRepository.deleteAll();
+        testUserData.cleanUp();
     }
 
     @Test

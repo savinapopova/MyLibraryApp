@@ -14,6 +14,7 @@ import com.example.mylibrary.repository.CheckoutRepository;
 import com.example.mylibrary.repository.MessageRepository;
 import com.example.mylibrary.repository.UserRepository;
 import com.example.mylibrary.service.*;
+import com.example.mylibrary.utils.TestUserData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,14 +44,15 @@ class AdminServiceImplTestIT {
 
 
     @Autowired
-    private UserRepository userRepository;
+    private TestUserData testUserData;
 
 
     @Autowired
     private BookRepository bookRepository;
 
     @Autowired
-    private RoleService roleService;
+    private UserRepository userRepository;
+
 
     @Autowired
     private CategoryService categoryService;
@@ -77,27 +79,15 @@ class AdminServiceImplTestIT {
     private Checkout checkout1;
 
 
-    private Category biography;
-
-    private Category cookbook;
-
     @BeforeEach
     void setUp() {
         this.messageRepository.deleteAll();
-        this.userRepository.deleteAll();
         this.bookRepository.deleteAll();
+        testUserData.cleanUp();
 
-        Role userRole = this.roleService.findByName(RoleName.USER);
-        Role adminRole = this.roleService.findByName(RoleName.ADMIN);
+        user = testUserData.createTestUser();
+        admin = testUserData.createTestAdmin();
 
-        user = new User("userFirstName", "userLastName", "userEmail",
-                "userPassword");
-        user.getRoles().add(userRole);
-        admin = new User("adminFirstName", "adminLastName", "adminEmail",
-                "adminPassword");
-        admin.setRoles(Set.of(userRole, adminRole));
-        this.userRepository.save(user);
-        this.userRepository.save(admin);
 
         openMessage1 = new Message("title1","question1");
         openMessage1.setUser(user);
@@ -108,8 +98,8 @@ class AdminServiceImplTestIT {
         closedMessage.setClosed(true);
         closedMessage.setAdmin(admin);
 
-        biography = this.categoryService.getCategory(CategoryName.BIOGRAPHY);
-        cookbook = this.categoryService.getCategory(CategoryName.COOKBOOK);
+       Category biography = this.categoryService.getCategory(CategoryName.BIOGRAPHY);
+       Category cookbook = this.categoryService.getCategory(CategoryName.COOKBOOK);
 
         book1 = new Book(1L, "title1", "author1",
                 "image1", "description1", 1, 1, biography);
@@ -130,8 +120,8 @@ class AdminServiceImplTestIT {
     @AfterEach
     void tearDown() {
         this.messageRepository.deleteAll();
-        this.userRepository.deleteAll();
         this.bookRepository.deleteAll();
+        testUserData.cleanUp();
     }
 
     @Test

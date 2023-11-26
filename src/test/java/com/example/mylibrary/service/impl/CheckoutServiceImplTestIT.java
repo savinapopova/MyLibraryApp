@@ -13,6 +13,7 @@ import com.example.mylibrary.repository.UserRepository;
 import com.example.mylibrary.service.CategoryService;
 import com.example.mylibrary.service.CheckoutService;
 import com.example.mylibrary.service.RoleService;
+import com.example.mylibrary.utils.TestUserData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,8 +39,6 @@ class CheckoutServiceImplTestIT {
     @Autowired
     private CheckoutRepository checkoutRepository;
 
-    @Autowired
-    private RoleService roleService;
 
     @Autowired
     private CategoryService categoryService;
@@ -48,17 +47,12 @@ class CheckoutServiceImplTestIT {
     private BookRepository bookRepository;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private TestUserData testUserData;
 
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private HistoryRepository historyRepository;
 
-    private User user;
-
-    private User admin;
 
     private Book book1;
 
@@ -71,6 +65,10 @@ class CheckoutServiceImplTestIT {
     private Book book5;
 
     private Book book6;
+
+    private User user;
+
+    private User admin;
 
 
     private Checkout checkout1;
@@ -87,19 +85,11 @@ class CheckoutServiceImplTestIT {
     void setUp() {
         checkoutRepository.deleteAll();
         bookRepository.deleteAll();
-        userRepository.deleteAll();
+        testUserData.cleanUp();
 
-        Role userRole = this.roleService.findByName(RoleName.USER);
-        Role adminRole = this.roleService.findByName(RoleName.ADMIN);
+        user = testUserData.createTestUser();
+        admin = testUserData.createTestAdmin();
 
-        user = new User("userFirstName", "userLastName", "userEmail",
-                "userPassword");
-        user.getRoles().add(userRole);
-        admin = new User("adminFirstName", "adminLastName", "adminEmail",
-                "adminPassword");
-        admin.setRoles(Set.of(userRole, adminRole));
-        this.userRepository.save(user);
-        this.userRepository.save(admin);
 
        Category biography = this.categoryService.getCategory(CategoryName.BIOGRAPHY);
         Category cookbook = this.categoryService.getCategory(CategoryName.COOKBOOK);
@@ -128,7 +118,7 @@ class CheckoutServiceImplTestIT {
     void tearDown() {
         checkoutRepository.deleteAll();
         bookRepository.deleteAll();
-        userRepository.deleteAll();
+        testUserData.cleanUp();
     }
 
     @Test
