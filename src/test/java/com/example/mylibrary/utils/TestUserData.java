@@ -42,6 +42,20 @@ public class TestUserData {
         return admin;
     }
 
+    public User createSecondAdmin() {
+        Role userRole = this.roleService.findByName(RoleName.USER);
+        Role adminRole = this.roleService.findByName(RoleName.ADMIN);
+
+        User admin = new User("admin2FirstName", "admin2LastName", "admin2Email",
+                "admin2Password");
+        admin.setRoles(Set.of(userRole, adminRole));
+        this.userRepository.save(admin);
+
+        return admin;
+    }
+
+
+
     public void cleanUp() {
         this.userRepository.deleteAll();
     }

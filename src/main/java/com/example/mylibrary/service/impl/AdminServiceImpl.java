@@ -95,6 +95,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void deleteBook(Long id) {
+        this.bookService.getBook(id);
+
         this.checkoutService.deleteBookCheckouts(id);
         this.historyService.deleteBookHistories(id);
         this.reviewService.deleteBookReviews(id);
