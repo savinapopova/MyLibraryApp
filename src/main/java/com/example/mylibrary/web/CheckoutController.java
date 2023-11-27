@@ -42,12 +42,12 @@ public class CheckoutController {
         BookDTO book = this.bookService.getBookDTO(id);
         model.addAttribute("book", book);
 
-//        int booksCount =  this.userService.getLoansCount(principal);
+
         int booksCount =  this.checkoutService.getLoansCount(principal.getName());
 
         model.addAttribute("booksCount", booksCount);
 
-//        boolean alreadyCheckedOut = this.userService.isAlreadyCheckedOutByUser(id, principal);
+
         boolean alreadyCheckedOut = this.checkoutService.bookAlreadyCheckedOutByUser(id, principal.getName());
 
 

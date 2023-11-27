@@ -58,7 +58,7 @@ public class CheckoutServiceImpl implements CheckoutService {
         User user = this.userService.getUser(email);
         Book book = this.bookService.getBook(id);
         if (bookAlreadyCheckedOutByUser(id, email) || getLoansCount(email) >= 5
-                || book.getCopiesAvailable() <= 0) {
+                || book.getCopiesAvailable() <= 0 || isUserBlocked(email)) {
             throw new NotAllowedException();
         }
 
