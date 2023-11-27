@@ -12,16 +12,16 @@ import lombok.Data;
 public class UserRegisterDTO {
 
    @NotBlank(message = "Email cannot be empty.")
-   @Email
+   @Email(message = "Email must be valid!")
    @UniqueEmail
     private String email;
 
    @NotBlank(message = "")
-   @Size(min = 3, max = 40,  message = "First name length must be between 3 and 40 characters!")
+   @Size(min = 2, max = 20,  message = "First name length must be between 2 and 20 characters!")
    private String firstName;
 
     @NotBlank(message = "")
-    @Size(min = 3, max = 40,  message = "Last name length must be between 3 and 40 characters!")
+    @Size(min = 2, max = 20,  message = "Last name length must be between 2 and 20 characters!")
     private String lastName;
 
    @NotBlank(message = "")
