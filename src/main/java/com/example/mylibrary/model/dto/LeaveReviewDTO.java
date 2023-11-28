@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class LeaveReviewDTO {
 
-    @NotNull
+    @NotNull(message = "Rating is required!")
     private Double rating;
 
     private String comment;

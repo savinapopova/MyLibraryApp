@@ -8,10 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
 public class BookDetailsRestController {
 
     private BookService bookService;
@@ -22,7 +23,7 @@ public class BookDetailsRestController {
         this.reviewService = reviewService;
     }
 
-    @GetMapping("/books/getDetails/{id}")
+    @GetMapping("/api/books/details/{id}")
     public ResponseEntity<SearchBookDTO> getBookById(@PathVariable Long id) {
         SearchBookDTO book = this.bookService.getSearchBookDTO(id);
         if (book != null) {
@@ -32,10 +33,11 @@ public class BookDetailsRestController {
         }
     }
 
-    @GetMapping("/reviews/book/{bookId}")
+    @GetMapping("api/reviews/book/{bookId}")
     public ResponseEntity<List<ReviewDTO>> getBookReviews(@PathVariable Long bookId) {
         List<ReviewDTO> reviews = this.reviewService.getByBook(bookId);
-        if (reviews != null) {
+        SearchBookDTO book = this.bookService.getSearchBookDTO(bookId);
+        if (reviews != null && book != null) {
             return ResponseEntity.ok(reviews);
         } else {
             return ResponseEntity.notFound().build();

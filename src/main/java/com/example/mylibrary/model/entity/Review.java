@@ -33,6 +33,9 @@ public class Review {
     public Review() {
     }
 
-
-
+    public Review(double rating, User user, Book book) {
+        this.rating = rating;
+        this.user = user;
+        this.book = book;
+    }
 }

@@ -1,6 +1,6 @@
 async function fetchReviews() {
     const bookId = window.location.pathname.split('/')[2];
-    const reviewsUrl = `http://localhost:8080/reviews/book/${bookId}`;
+    const reviewsUrl = `http://localhost:8080/api/reviews/book/${bookId}`;
 
     try {
         const responseReviews = await fetch(reviewsUrl);
