@@ -1,5 +1,7 @@
 package com.example.mylibrary.service.impl;
 
+
+import com.example.mylibrary.errors.NotAllowedException;
 import com.example.mylibrary.errors.ObjectNotFoundException;
 import com.example.mylibrary.model.dto.MessageDTO;
 import com.example.mylibrary.model.dto.PostMessageDTO;
@@ -65,6 +67,7 @@ public class MessageServiceImpl implements MessageService {
             throw new ObjectNotFoundException("message not found");
         }
         return optionalMessage.get();
+
     }
 
     @Override
@@ -77,9 +80,15 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void deleteMessage(Long id) {
+    public void deleteMessage(Long id, String userEmail) {
 
         Message message = getMessage(id);
+
+        if (!message.getUser().getEmail().equals(userEmail)) {
+            throw new NotAllowedException();
+        }
+
+
 
         this.messageRepository.delete(message);
     }

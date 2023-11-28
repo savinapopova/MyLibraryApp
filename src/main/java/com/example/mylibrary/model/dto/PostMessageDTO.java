@@ -6,10 +6,10 @@ import lombok.Data;
 @Data
 public class PostMessageDTO {
 
-    @NotBlank
+    @NotBlank(message = "Title cannot be empty!")
     private String title;
 
-    @NotBlank
+    @NotBlank(message = "Question cannot be empty!")
     private String question;
 
     public PostMessageDTO(String title, String question) {

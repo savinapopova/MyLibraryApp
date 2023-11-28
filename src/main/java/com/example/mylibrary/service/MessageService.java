@@ -19,7 +19,7 @@ public interface MessageService {
 
     void answerMessage(Long messageId, String response, User admin);
 
-    void deleteMessage(Long id);
+    void deleteMessage(Long id, String userEmail);
 
     void deleteUserMessages(Long userId);
 }

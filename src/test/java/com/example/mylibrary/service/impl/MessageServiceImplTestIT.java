@@ -1,5 +1,6 @@
 package com.example.mylibrary.service.impl;
 
+import com.example.mylibrary.errors.NotAllowedException;
 import com.example.mylibrary.errors.ObjectNotFoundException;
 import com.example.mylibrary.model.dto.MessageDTO;
 import com.example.mylibrary.model.dto.PostMessageDTO;
@@ -171,7 +172,7 @@ class MessageServiceImplTestIT {
         this.messageRepository.save(openMessage2);
         this.messageRepository.save(openMessage3);
 
-        this.serviceToTest.deleteMessage(openMessage2.getId());
+        this.serviceToTest.deleteMessage(openMessage2.getId(),user.getEmail());
 
         List<Message> messages = this.messageRepository.findAll();
 
@@ -187,13 +188,25 @@ class MessageServiceImplTestIT {
         this.messageRepository.save(openMessage3);
 
         assertThrows(ObjectNotFoundException.class, () -> {
-            this.serviceToTest.deleteMessage(100L);
+            this.serviceToTest.deleteMessage(100L, user.getEmail());
         });
         try {
-            this.serviceToTest.deleteMessage(100L);
+            this.serviceToTest.deleteMessage(100L, user.getEmail());
         } catch (ObjectNotFoundException exception) {
             assertEquals("message not found", exception.getMessage());
         }
+    }
+
+    @Test
+    void testDeleteMessageWhenMessageIsSentFromAnother() {
+        this.messageRepository.save(openMessage1);
+        this.messageRepository.save(openMessage2);
+        this.messageRepository.save(openMessage3);
+
+        assertThrows(NotAllowedException.class, () -> {
+            this.serviceToTest.deleteMessage(openMessage1.getId(), admin.getEmail());
+        });
+
     }
 
     @Test

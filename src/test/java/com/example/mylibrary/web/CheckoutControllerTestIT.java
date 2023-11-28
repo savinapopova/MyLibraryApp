@@ -8,6 +8,7 @@ import com.example.mylibrary.model.entity.User;
 import com.example.mylibrary.model.enums.CategoryName;
 import com.example.mylibrary.repository.BookRepository;
 import com.example.mylibrary.repository.CheckoutRepository;
+import com.example.mylibrary.repository.HistoryRepository;
 import com.example.mylibrary.service.CategoryService;
 import com.example.mylibrary.util.TimeConverter;
 import com.example.mylibrary.utils.TestUserData;
@@ -20,6 +21,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -34,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class CheckoutControllerTestIT {
 
     @Autowired
@@ -53,6 +56,9 @@ class CheckoutControllerTestIT {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private HistoryRepository historyRepository;
 
     private Book book1;
 
@@ -84,6 +90,7 @@ class CheckoutControllerTestIT {
     @BeforeEach
     void setUp() {
         this.checkoutRepository.deleteAll();
+        this.historyRepository.deleteAll();
         this.bookRepository.deleteAll();
         this.testUserData.cleanUp();
 
@@ -116,6 +123,7 @@ class CheckoutControllerTestIT {
     @AfterEach
     void tearDown() {
         this.checkoutRepository.deleteAll();
+        this.historyRepository.deleteAll();
         this.bookRepository.deleteAll();
         this.testUserData.cleanUp();
     }
@@ -130,7 +138,8 @@ class CheckoutControllerTestIT {
     }
 
     @Test
-    @WithUserDetails(value = "userEmail", userDetailsServiceBeanName = "userDetailsService", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @WithUserDetails(value = "userEmail", userDetailsServiceBeanName = "userDetailsService",
+            setupBefore = TestExecutionEvent.TEST_EXECUTION)
     void checkoutBook() throws Exception {
 
         this.bookRepository.save(book1);
@@ -315,6 +324,137 @@ class CheckoutControllerTestIT {
                 .andExpect(model().attribute("loans", hasSize(5)))
                 .andExpect(model().attributeExists("histories"))
                 .andExpect(model().attribute("histories", hasSize(0)));
+    }
+
+    @Test
+    void testReturnBookWhenAnonymous() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.put("/return/book/{id}", 1L)
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("http://localhost/users/login"));
+    }
+
+    @Test
+    @WithUserDetails(value = "userEmail", userDetailsServiceBeanName = "userDetailsService", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+     void testReturnBook() throws Exception {
+
+        this.bookRepository.save(book1);
+        this.bookRepository.save(book2);
+        this.bookRepository.save(book3);
+        this.bookRepository.save(book4);
+        this.bookRepository.save(book5);
+        this.bookRepository.save(book6);
+        this.checkoutRepository.save(checkout1);
+        this.checkoutRepository.save(checkout2);
+        this.checkoutRepository.save(checkout3);
+        this.checkoutRepository.save(checkout4);
+        this.checkoutRepository.save(checkout5);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/return/book/{id}", book1.getId())
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/shelf"));
+
+        List<Checkout> checkouts = this.checkoutRepository.findAll();
+        List<CheckOutDTO> histories = this.historyRepository.findAllByUserEmailOrderByReturnDateDesc("userEmail")
+                .stream()
+                .map(h -> this.modelMapper.map(h, CheckOutDTO.class))
+                .collect(Collectors.toList());
+
+        assertEquals(4, this.checkoutRepository.count());
+        assertEquals(1,histories.size());
+        assertEquals(1, histories.get(0).getBook().getId());
+        assertEquals(LocalDate.now(), histories.get(0).getReturnDate());
+
+
+    }
+
+    @Test
+    @WithUserDetails(value = "userEmail", userDetailsServiceBeanName = "userDetailsService", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    void testReturnBookWhenNotExists() throws Exception {
+
+            this.bookRepository.save(book1);
+            this.bookRepository.save(book2);
+            this.bookRepository.save(book3);
+            this.bookRepository.save(book4);
+            this.bookRepository.save(book5);
+            this.bookRepository.save(book6);
+            this.checkoutRepository.save(checkout1);
+            this.checkoutRepository.save(checkout2);
+            this.checkoutRepository.save(checkout3);
+            this.checkoutRepository.save(checkout4);
+            this.checkoutRepository.save(checkout5);
+
+            mockMvc.perform(MockMvcRequestBuilders.put("/return/book/{id}", 10L)
+                            .with(csrf()))
+                    .andExpect(status().isNotFound())
+                    .andExpect(view().name("object-not-found"))
+                    .andExpect(redirectedUrl(null))
+                    .andExpect(model().attributeExists("message"))
+                    .andExpect(model().attribute("message", "checkout not found"));
+
+            List<Checkout> checkouts = this.checkoutRepository.findAll();
+            List<CheckOutDTO> histories = this.historyRepository.findAllByUserEmailOrderByReturnDateDesc("userEmail")
+                    .stream()
+                    .map(h -> this.modelMapper.map(h, CheckOutDTO.class))
+                    .collect(Collectors.toList());
+
+            assertEquals(5, this.checkoutRepository.count());
+            assertEquals(0,histories.size());
+    }
+
+    @Test
+    void testRenewBookWhenAnonymous() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.put("/renew/book/{id}", 1L)
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("http://localhost/users/login"));
+    }
+
+    @Test
+    @WithUserDetails(value = "userEmail", userDetailsServiceBeanName = "userDetailsService", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    void testRenewBookWhenNotExists() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.put("/renew/book/{id}", 10L)
+                        .with(csrf()))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("object-not-found"))
+                .andExpect(redirectedUrl(null))
+                .andExpect(model().attributeExists("message"))
+                .andExpect(model().attribute("message", "checkout not found"));
+    }
+
+    @Test
+    @WithUserDetails(value = "userEmail", userDetailsServiceBeanName = "userDetailsService", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    void testRenewBookWhenUserBlocked() throws Exception {
+        this.bookRepository.save(book1);
+        this.bookRepository.save(book2);
+        checkout1.setReturnDate(LocalDate.now().minusDays(1));
+        this.checkoutRepository.save(checkout1);
+        this.checkoutRepository.save(checkout2);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/renew/book/{id}", book2.getId())
+                        .with(csrf()))
+                .andExpect(status().isMethodNotAllowed());
+    }
+
+    @Test
+    @WithUserDetails(value = "userEmail", userDetailsServiceBeanName = "userDetailsService", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    void  testRenewBook() throws Exception {
+        this.bookRepository.save(book1);
+        this.bookRepository.save(book2);
+        checkout1.setReturnDate(LocalDate.now().plusDays(1));
+        this.checkoutRepository.save(checkout1);
+        this.checkoutRepository.save(checkout2);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/renew/book/{id}", book2.getId())
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/shelf"));
+
+        List<Checkout> checkouts = this.checkoutRepository.findAll();
+
+        assertEquals(2, this.checkoutRepository.count());
+        assertEquals(LocalDate.now().plusDays(7), checkouts.get(1).getReturnDate());
     }
 
 }

@@ -54,8 +54,8 @@ public class MessageController {
     }
 
     @DeleteMapping("messages/delete/{id}")
-    public String deleteMessage(@PathVariable Long id) {
-        this.messageService.deleteMessage(id);
+    public String deleteMessage(@PathVariable Long id, Principal principal) {
+        this.messageService.deleteMessage(id, principal.getName());
         return "redirect:/messages";
     }
 }

@@ -112,6 +112,9 @@ public class CheckoutServiceImpl implements CheckoutService {
 
     @Override
     public void renewCheckout(Long bookId, String email) {
+        if (isUserBlocked(email)) {
+            throw new NotAllowedException();
+        }
         Checkout checkout = getCheckout(email, bookId);
         checkout.setReturnDate(LocalDate.now().plusDays(7));
         this.checkoutRepository.save(checkout);
