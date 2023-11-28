@@ -1,7 +1,7 @@
 package com.example.mylibrary.service.impl;
 
-import com.example.mylibrary.errors.NotAllowedException;
-import com.example.mylibrary.errors.ObjectNotFoundException;
+import com.example.mylibrary.exceptions.NotAllowedException;
+import com.example.mylibrary.exceptions.ObjectNotFoundException;
 import com.example.mylibrary.model.dto.AddBookDTO;
 import com.example.mylibrary.model.dto.MessageDTO;
 import com.example.mylibrary.model.dto.MessageResponseDTO;
@@ -10,7 +10,6 @@ import com.example.mylibrary.model.entity.*;
 import com.example.mylibrary.model.enums.CategoryName;
 import com.example.mylibrary.model.enums.RoleName;
 import com.example.mylibrary.repository.BookRepository;
-import com.example.mylibrary.repository.CheckoutRepository;
 import com.example.mylibrary.repository.MessageRepository;
 import com.example.mylibrary.repository.UserRepository;
 import com.example.mylibrary.service.*;
@@ -18,14 +17,11 @@ import com.example.mylibrary.utils.TestUserData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;

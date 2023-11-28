@@ -1,6 +1,6 @@
 package com.example.mylibrary.service.impl;
 
-import com.example.mylibrary.errors.ObjectNotFoundException;
+import com.example.mylibrary.exceptions.ObjectNotFoundException;
 import com.example.mylibrary.model.dto.UserRegisterDTO;
 import com.example.mylibrary.model.entity.Role;
 import com.example.mylibrary.model.entity.User;

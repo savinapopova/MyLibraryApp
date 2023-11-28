@@ -1,8 +1,6 @@
 package com.example.mylibrary.service.impl;
 
-import com.example.mylibrary.errors.ObjectNotFoundException;
 import com.example.mylibrary.model.entity.Role;
-import com.example.mylibrary.model.enums.CategoryName;
 import com.example.mylibrary.model.enums.RoleName;
 import com.example.mylibrary.repository.RoleRepository;
 import org.junit.jupiter.api.BeforeEach;

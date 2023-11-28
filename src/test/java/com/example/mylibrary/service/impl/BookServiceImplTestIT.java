@@ -1,6 +1,6 @@
 package com.example.mylibrary.service.impl;
 
-import com.example.mylibrary.errors.ObjectNotFoundException;
+import com.example.mylibrary.exceptions.ObjectNotFoundException;
 import com.example.mylibrary.event.BookReturnedEvent;
 import com.example.mylibrary.event.CheckoutCreatedEvent;
 import com.example.mylibrary.model.dto.AddBookDTO;
@@ -16,7 +16,6 @@ import com.example.mylibrary.service.CategoryService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;

@@ -1,17 +1,13 @@
 package com.example.mylibrary.service.impl;
 
-import com.example.mylibrary.errors.NotAllowedException;
-import com.example.mylibrary.errors.ObjectNotFoundException;
+import com.example.mylibrary.exceptions.NotAllowedException;
+import com.example.mylibrary.exceptions.ObjectNotFoundException;
 import com.example.mylibrary.model.dto.MessageDTO;
 import com.example.mylibrary.model.dto.PostMessageDTO;
 import com.example.mylibrary.model.entity.Message;
-import com.example.mylibrary.model.entity.Role;
 import com.example.mylibrary.model.entity.User;
-import com.example.mylibrary.model.enums.RoleName;
 import com.example.mylibrary.repository.MessageRepository;
-import com.example.mylibrary.repository.UserRepository;
 import com.example.mylibrary.service.MessageService;
-import com.example.mylibrary.service.RoleService;
 import com.example.mylibrary.utils.TestUserData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +18,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,6 +1,6 @@
 package com.example.mylibrary.web;
 
-import com.example.mylibrary.errors.ObjectNotFoundException;
+import com.example.mylibrary.exceptions.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

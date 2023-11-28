@@ -1,6 +1,6 @@
 package com.example.mylibrary.service.impl;
 
-import com.example.mylibrary.errors.ObjectNotFoundException;
+import com.example.mylibrary.exceptions.ObjectNotFoundException;
 import com.example.mylibrary.model.entity.Category;
 import com.example.mylibrary.model.enums.CategoryName;
 import com.example.mylibrary.repository.CategoryRepository;

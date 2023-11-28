@@ -1,6 +1,6 @@
 package com.example.mylibrary.service.impl;
 
-import com.example.mylibrary.errors.ObjectNotFoundException;
+import com.example.mylibrary.exceptions.ObjectNotFoundException;
 import com.example.mylibrary.event.BookReturnedEvent;
 import com.example.mylibrary.event.CheckoutCreatedEvent;
 import com.example.mylibrary.model.dto.AddBookDTO;
@@ -18,7 +18,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 

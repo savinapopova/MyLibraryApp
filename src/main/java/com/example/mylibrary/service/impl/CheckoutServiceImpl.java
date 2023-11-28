@@ -1,7 +1,7 @@
 package com.example.mylibrary.service.impl;
 
-import com.example.mylibrary.errors.NotAllowedException;
-import com.example.mylibrary.errors.ObjectNotFoundException;
+import com.example.mylibrary.exceptions.NotAllowedException;
+import com.example.mylibrary.exceptions.ObjectNotFoundException;
 import com.example.mylibrary.event.BookReturnedEvent;
 import com.example.mylibrary.event.CheckoutCreatedEvent;
 import com.example.mylibrary.model.dto.CheckOutDTO;

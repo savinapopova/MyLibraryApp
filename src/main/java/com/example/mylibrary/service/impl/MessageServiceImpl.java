@@ -1,8 +1,8 @@
 package com.example.mylibrary.service.impl;
 
 
-import com.example.mylibrary.errors.NotAllowedException;
-import com.example.mylibrary.errors.ObjectNotFoundException;
+import com.example.mylibrary.exceptions.NotAllowedException;
+import com.example.mylibrary.exceptions.ObjectNotFoundException;
 import com.example.mylibrary.model.dto.MessageDTO;
 import com.example.mylibrary.model.dto.PostMessageDTO;
 import com.example.mylibrary.model.entity.Message;
@@ -13,7 +13,6 @@ import com.example.mylibrary.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

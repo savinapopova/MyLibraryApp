@@ -1,4 +1,4 @@
-package com.example.mylibrary.errors;
+package com.example.mylibrary.exceptions;
 
 import lombok.Data;
 import org.springframework.http.HttpStatus;

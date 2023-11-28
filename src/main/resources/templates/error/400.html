@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>400 Error - Bad Request</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="robots" content="index,follow">
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Ubuntu');
+
+    * {
+        margin: 0px auto;
+        padding: 0px;
+        text-align: center;
+    }
+
+    body {
+        background: url('/images/bg.svg');
+        z-index: -1;
+    }
+
+    body > * {
+        position: relative;
+        z-index: 99999999;
+    }
+
+    .cont_principal {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .cont_error {
+        position: absolute;
+        width: 100%;
+        height: 300px;
+        top: 50%;
+        margin-top: -150px;
+    }
+
+    .cont_error>h1 {
+        font-family: 'Ubuntu', sans-serif;
+        font-weight: 600;
+        font-size: 150px;
+        color: #fff;
+        position: relative;
+        left: -100%;
+        transition: all 0.5s;
+    }
+
+    .cont_error>button {
+        font-family: 'Ubuntu', sans-serif;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: -100%;
+        transition: all 0.5s;
+        transition-delay: 0.5s;
+    }
+
+
+    .cont_error>p {
+        font-family: 'Ubuntu', sans-serif;
+        font-weight: 500;
+        font-size: 50px;
+        letter-spacing: 1.5px;
+        color: #dadada;
+        position: relative;
+        left: 100%;
+        transition: all 0.5s;
+        transition-delay: 0.5s;
+        -webkit-transition: all 0.5s;
+        -webkit-transition-delay: 0.5s;
+    }
+
+    .cont_aura_1 {
+        position: absolute;
+        width: 300px;
+        height: 120%;
+        top: 25px;
+        right: -340px;
+        background-color: #14151b;
+        box-shadow: 0px 0px 60px 20px rgba(0, 0, 0, 0.5);
+        -webkit-transition: all 0.5s;
+        transition: all 0.5s;
+    }
+
+    .cont_aura_2 {
+        position: absolute;
+        width: 100%;
+        height: 300px;
+        right: -10%;
+        bottom: -301px;
+        background-color: #14151b;
+        box-shadow: 0px 0px 60px 10px rgba(0, 0, 0, 0.5), 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+        z-index: 5;
+        transition: all 0.5s;
+        -webkit-transition: all 0.5s;
+    }
+
+
+    .cont_error_active>.cont_error>button {
+        margin-bottom: 0%;
+    }
+
+    .cont_error_active>.cont_error>h1 {
+        left: 0%;
+    }
+
+    .cont_error_active>.cont_error>p {
+        left: 0%;
+    }
+
+    .cont_error_active>.cont_aura_2 {
+        animation-name: animation_error_2;
+        animation-duration: 4s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        transform: rotate(-20deg);
+    }
+
+    .cont_error_active>.cont_aura_1 {
+        transform: rotate(20deg);
+        right: -170px;
+        animation-name: animation_error_1;
+        animation-duration: 4s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+    }
+
+
+    .error_btn {
+        display: inline-block;
+        margin-right: 10px;
+        margin-left: 10px;
+        margin-top: 10px;
+        padding: 10px 30px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        -webkit-transition: background-color 300ms ease, border 300ms ease, color 300ms ease;
+        transition: background-color 300ms ease, border 300ms ease, color 300ms ease;
+        background: #26272D;
+        line-height: 21px;
+        font-weight: 300;
+        letter-spacing: 2px;
+        text-decoration: none;
+        text-transform: uppercase;
+    }
+
+    @-webkit-keyframes animation_error_1 {
+        from {
+            -webkit-transform: rotate(20deg);
+            transform: rotate(20deg);
+        }
+
+        to {
+            -webkit-transform: rotate(25deg);
+            transform: rotate(25deg);
+        }
+    }
+
+    @-o-keyframes animation_error_1 {
+        from {
+            -webkit-transform: rotate(20deg);
+            transform: rotate(20deg);
+        }
+
+        to {
+            -webkit-transform: rotate(25deg);
+            transform: rotate(25deg);
+        }
+
+    }
+
+    @-moz-keyframes animation_error_1 {
+        from {
+            -webkit-transform: rotate(20deg);
+            transform: rotate(20deg);
+        }
+
+        to {
+            -webkit-transform: rotate(25deg);
+            transform: rotate(25deg);
+        }
+
+    }
+
+    @keyframes animation_error_1 {
+        from {
+            -webkit-transform: rotate(20deg);
+            transform: rotate(20deg);
+        }
+
+        to {
+            -webkit-transform: rotate(25deg);
+            transform: rotate(25deg);
+        }
+    }
+
+
+
+
+    @-webkit-keyframes animation_error_2 {
+        from {
+            -webkit-transform: rotate(-15deg);
+            transform: rotate(-15deg);
+        }
+
+        to {
+            -webkit-transform: rotate(-20deg);
+            transform: rotate(-20deg);
+        }
+    }
+
+    @-o-keyframes animation_error_2 {
+        from {
+            -webkit-transform: rotate(-15deg);
+            transform: rotate(-15deg);
+        }
+
+        to {
+            -webkit-transform: rotate(-20deg);
+            transform: rotate(-20deg);
+        }
+    }
+
+
+    @-moz-keyframes animation_error_2 {
+        from {
+            -webkit-transform: rotate(-15deg);
+            transform: rotate(-15deg);
+        }
+
+        to {
+            -webkit-transform: rotate(-20deg);
+            transform: rotate(-20deg);
+        }
+    }
+
+    @keyframes animation_error_2 {
+        from {
+            -webkit-transform: rotate(-15deg);
+            transform: rotate(-15deg);
+        }
+
+        to {
+            -webkit-transform: rotate(-20deg);
+            transform: rotate(-20deg);
+        }
+    }
+</style>
+
+</head>
+
+<body>
+
+<div class="cont_principal">
+    <div class="cont_error">
+        <h1>400</h1>
+        <p>Bad Request.</p>
+        <button class="btn error_btn" onclick="goBack()"></i> Go Back</button>
+    </div>
+    <div class="cont_aura_1"></div>
+    <div class="cont_aura_2"></div>
+</div>
+<script>
+    window.onload = function() {
+        document.querySelector('.cont_principal').className = 'cont_principal cont_error_active';
+    };
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</body>
+</html>
