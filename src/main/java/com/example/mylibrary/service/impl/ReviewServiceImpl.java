@@ -1,8 +1,8 @@
 package com.example.mylibrary.service.impl;
 
 import com.example.mylibrary.exceptions.NotAllowedException;
-import com.example.mylibrary.model.dto.LeaveReviewDTO;
-import com.example.mylibrary.model.dto.ReviewDTO;
+import com.example.mylibrary.model.dto.review.LeaveReviewDTO;
+import com.example.mylibrary.model.dto.review.ReviewDTO;
 import com.example.mylibrary.model.entity.Book;
 import com.example.mylibrary.model.entity.Review;
 import com.example.mylibrary.model.entity.User;

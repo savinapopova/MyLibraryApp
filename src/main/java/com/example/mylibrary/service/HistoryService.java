@@ -1,10 +1,8 @@
 package com.example.mylibrary.service;
 
 import com.example.mylibrary.event.BookReturnedEvent;
-import com.example.mylibrary.model.dto.HistoryDTO;
-import com.example.mylibrary.model.entity.Checkout;
+import com.example.mylibrary.model.dto.history.HistoryDTO;
 
-import java.security.Principal;
 import java.util.List;
 
 public interface HistoryService {

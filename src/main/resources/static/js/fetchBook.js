@@ -11,9 +11,9 @@ async function fetchBook() {
             title: responseJson.title,
             author: responseJson.author,
             description: responseJson.description,
-            copies: responseJson.copies,
-            copiesAvailable: responseJson.copiesAvailable,
-            category: responseJson.category,
+            // copies: responseJson.copies,
+            // copiesAvailable: responseJson.copiesAvailable,
+            // category: responseJson.category,
             image: responseJson.image
         };
         return loadedBook;

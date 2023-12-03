@@ -1,8 +1,8 @@
 package com.example.mylibrary.web;
 
-import com.example.mylibrary.model.dto.BookDTO;
-import com.example.mylibrary.model.dto.CheckOutDTO;
-import com.example.mylibrary.model.dto.HistoryDTO;
+import com.example.mylibrary.model.dto.book.BookDTO;
+import com.example.mylibrary.model.dto.checkout.CheckOutDTO;
+import com.example.mylibrary.model.dto.history.HistoryDTO;
 import com.example.mylibrary.model.entity.User;
 import com.example.mylibrary.service.BookService;
 import com.example.mylibrary.service.CheckoutService;

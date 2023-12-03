@@ -1,17 +1,11 @@
 package com.example.mylibrary.web;
 
-import com.example.mylibrary.model.dto.SearchBookDTO;
+import com.example.mylibrary.model.dto.book.SearchBookDTO;
 import com.example.mylibrary.model.entity.Book;
 import com.example.mylibrary.model.entity.Category;
-import com.example.mylibrary.model.entity.Role;
-import com.example.mylibrary.model.entity.User;
 import com.example.mylibrary.model.enums.CategoryName;
-import com.example.mylibrary.model.enums.RoleName;
 import com.example.mylibrary.repository.BookRepository;
-import com.example.mylibrary.repository.UserRepository;
-import com.example.mylibrary.service.BookService;
 import com.example.mylibrary.service.CategoryService;
-import com.example.mylibrary.service.RoleService;
 import com.example.mylibrary.utils.TestUserData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +23,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 
 import java.util.List;
-import java.util.Set;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;

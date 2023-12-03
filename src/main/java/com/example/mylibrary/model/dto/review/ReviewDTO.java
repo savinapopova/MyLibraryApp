@@ -1,4 +1,4 @@
-package com.example.mylibrary.model.dto;
+package com.example.mylibrary.model.dto.review;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;

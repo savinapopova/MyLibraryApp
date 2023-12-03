@@ -1,6 +1,5 @@
 package com.example.mylibrary.repository;
 
-import com.example.mylibrary.model.dto.MessageDTO;
 import com.example.mylibrary.model.entity.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -3,8 +3,8 @@ package com.example.mylibrary.service.impl;
 
 import com.example.mylibrary.exceptions.NotAllowedException;
 import com.example.mylibrary.exceptions.ObjectNotFoundException;
-import com.example.mylibrary.model.dto.MessageDTO;
-import com.example.mylibrary.model.dto.PostMessageDTO;
+import com.example.mylibrary.model.dto.message.MessageDTO;
+import com.example.mylibrary.model.dto.message.PostMessageDTO;
 import com.example.mylibrary.model.entity.Message;
 import com.example.mylibrary.model.entity.User;
 import com.example.mylibrary.repository.MessageRepository;

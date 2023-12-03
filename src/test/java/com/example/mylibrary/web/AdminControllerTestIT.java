@@ -1,8 +1,8 @@
 package com.example.mylibrary.web;
 
-import com.example.mylibrary.model.dto.MessageDTO;
-import com.example.mylibrary.model.dto.MessageResponseDTO;
-import com.example.mylibrary.model.dto.UserDTO;
+import com.example.mylibrary.model.dto.message.MessageDTO;
+import com.example.mylibrary.model.dto.message.MessageResponseDTO;
+import com.example.mylibrary.model.dto.user.UserDTO;
 import com.example.mylibrary.model.entity.*;
 import com.example.mylibrary.model.enums.CategoryName;
 import com.example.mylibrary.model.enums.RoleName;
@@ -24,7 +24,6 @@ import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 

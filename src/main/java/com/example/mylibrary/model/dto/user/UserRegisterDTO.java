@@ -1,4 +1,4 @@
-package com.example.mylibrary.model.dto;
+package com.example.mylibrary.model.dto.user;
 
 import com.example.mylibrary.validation.annotation.PasswordMatch;
 import com.example.mylibrary.validation.annotation.UniqueEmail;

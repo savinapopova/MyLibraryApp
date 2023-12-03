@@ -1,4 +1,4 @@
-package com.example.mylibrary.model.dto;
+package com.example.mylibrary.model.dto.user;
 
 import com.example.mylibrary.model.enums.CategoryName;
 import com.example.mylibrary.model.enums.RoleName;

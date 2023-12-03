@@ -2,7 +2,7 @@ package com.example.mylibrary.service.impl;
 
 import com.example.mylibrary.exceptions.NotAllowedException;
 import com.example.mylibrary.exceptions.ObjectNotFoundException;
-import com.example.mylibrary.model.dto.CheckOutDTO;
+import com.example.mylibrary.model.dto.checkout.CheckOutDTO;
 import com.example.mylibrary.model.entity.*;
 import com.example.mylibrary.model.enums.CategoryName;
 import com.example.mylibrary.repository.BookRepository;

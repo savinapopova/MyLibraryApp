@@ -1,9 +1,8 @@
 package com.example.mylibrary.web;
 
-import com.example.mylibrary.model.dto.UserRegisterDTO;
+import com.example.mylibrary.model.dto.user.UserRegisterDTO;
 import com.example.mylibrary.service.UserService;
 import jakarta.validation.Valid;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

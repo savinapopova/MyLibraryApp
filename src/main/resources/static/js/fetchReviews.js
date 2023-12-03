@@ -16,10 +16,10 @@ async function fetchReviews() {
             reviews.push({
                 // id: responseData[key].id,
                 // bookId: responseData[key].bookId,
-                userEmail: responseData[key].userEmail,
+                // userEmail: responseData[key].userEmail,
                 rating: responseData[key].rating,
-                comment: responseData[key].comment,
-                date: responseData[key].date
+                // comment: responseData[key].comment,
+                // date: responseData[key].date
             });
             weightedStarReviews += responseData[key].rating;
         }

@@ -1,5 +1,6 @@
-package com.example.mylibrary.model.dto;
+package com.example.mylibrary.model.dto.history;
 
+import com.example.mylibrary.model.dto.book.SearchBookDTO;
 import lombok.Data;
 
 @Data

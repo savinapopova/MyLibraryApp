@@ -1,15 +1,12 @@
 package com.example.mylibrary.service.impl;
 
 import com.example.mylibrary.event.BookReturnedEvent;
-import com.example.mylibrary.model.dto.HistoryDTO;
+import com.example.mylibrary.model.dto.history.HistoryDTO;
 import com.example.mylibrary.model.entity.*;
-import com.example.mylibrary.model.enums.CategoryName;
 import com.example.mylibrary.repository.HistoryRepository;
-import com.example.mylibrary.service.HistoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;

@@ -1,11 +1,10 @@
 package com.example.mylibrary.web;
 
-import com.example.mylibrary.model.dto.ReviewDTO;
-import com.example.mylibrary.model.dto.SearchBookDTO;
+import com.example.mylibrary.model.dto.review.ReviewDTO;
+import com.example.mylibrary.model.dto.book.SearchBookDTO;
 import com.example.mylibrary.service.BookService;
 import com.example.mylibrary.service.ReviewService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;

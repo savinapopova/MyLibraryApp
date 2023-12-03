@@ -1,11 +1,10 @@
 package com.example.mylibrary.service;
 
-import com.example.mylibrary.model.dto.MessageDTO;
-import com.example.mylibrary.model.dto.PostMessageDTO;
+import com.example.mylibrary.model.dto.message.MessageDTO;
+import com.example.mylibrary.model.dto.message.PostMessageDTO;
 import com.example.mylibrary.model.entity.Message;
 import com.example.mylibrary.model.entity.User;
 
-import java.security.Principal;
 import java.util.List;
 
 public interface MessageService {

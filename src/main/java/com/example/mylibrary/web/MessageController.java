@@ -1,7 +1,7 @@
 package com.example.mylibrary.web;
 
-import com.example.mylibrary.model.dto.MessageDTO;
-import com.example.mylibrary.model.dto.PostMessageDTO;
+import com.example.mylibrary.model.dto.message.MessageDTO;
+import com.example.mylibrary.model.dto.message.PostMessageDTO;
 import com.example.mylibrary.service.MessageService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;

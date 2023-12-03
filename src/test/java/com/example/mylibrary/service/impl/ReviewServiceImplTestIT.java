@@ -2,8 +2,8 @@ package com.example.mylibrary.service.impl;
 
 import com.example.mylibrary.exceptions.NotAllowedException;
 import com.example.mylibrary.exceptions.ObjectNotFoundException;
-import com.example.mylibrary.model.dto.LeaveReviewDTO;
-import com.example.mylibrary.model.dto.ReviewDTO;
+import com.example.mylibrary.model.dto.review.LeaveReviewDTO;
+import com.example.mylibrary.model.dto.review.ReviewDTO;
 import com.example.mylibrary.model.entity.*;
 import com.example.mylibrary.model.enums.CategoryName;
 import com.example.mylibrary.repository.BookRepository;

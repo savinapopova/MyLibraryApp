@@ -1,7 +1,6 @@
-package com.example.mylibrary.model.dto;
+package com.example.mylibrary.model.dto.checkout;
 
-import jakarta.persistence.Column;
-import lombok.Data;
+import com.example.mylibrary.model.dto.book.SearchBookDTO;
 
 import java.time.LocalDate;
 

@@ -1,14 +1,12 @@
 package com.example.mylibrary.service.impl;
 
 import com.example.mylibrary.event.BookReturnedEvent;
-import com.example.mylibrary.model.dto.HistoryDTO;
+import com.example.mylibrary.model.dto.history.HistoryDTO;
 import com.example.mylibrary.model.entity.*;
 import com.example.mylibrary.model.enums.CategoryName;
-import com.example.mylibrary.model.enums.RoleName;
 import com.example.mylibrary.repository.*;
 import com.example.mylibrary.service.CategoryService;
 import com.example.mylibrary.service.HistoryService;
-import com.example.mylibrary.service.UserService;
 import com.example.mylibrary.utils.TestUserData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +18,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 

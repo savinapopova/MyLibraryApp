@@ -1,7 +1,7 @@
 package com.example.mylibrary.service.impl;
 
 import com.example.mylibrary.exceptions.ObjectNotFoundException;
-import com.example.mylibrary.model.dto.UserRegisterDTO;
+import com.example.mylibrary.model.dto.user.UserRegisterDTO;
 import com.example.mylibrary.model.entity.User;
 import com.example.mylibrary.repository.UserRepository;
 import com.example.mylibrary.service.UserService;

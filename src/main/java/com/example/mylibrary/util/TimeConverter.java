@@ -1,14 +1,9 @@
 package com.example.mylibrary.util;
 
-import com.example.mylibrary.model.dto.CheckOutDTO;
+import com.example.mylibrary.model.dto.checkout.CheckOutDTO;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 public class TimeConverter {
 

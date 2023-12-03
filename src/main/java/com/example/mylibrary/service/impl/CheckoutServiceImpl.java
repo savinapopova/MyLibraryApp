@@ -4,7 +4,7 @@ import com.example.mylibrary.exceptions.NotAllowedException;
 import com.example.mylibrary.exceptions.ObjectNotFoundException;
 import com.example.mylibrary.event.BookReturnedEvent;
 import com.example.mylibrary.event.CheckoutCreatedEvent;
-import com.example.mylibrary.model.dto.CheckOutDTO;
+import com.example.mylibrary.model.dto.checkout.CheckOutDTO;
 import com.example.mylibrary.model.entity.Book;
 import com.example.mylibrary.model.entity.Checkout;
 import com.example.mylibrary.model.entity.User;

@@ -1,4 +1,4 @@
-package com.example.mylibrary.model.dto;
+package com.example.mylibrary.model.dto.book;
 
 import com.example.mylibrary.model.enums.CategoryName;
 import jakarta.validation.constraints.NotBlank;

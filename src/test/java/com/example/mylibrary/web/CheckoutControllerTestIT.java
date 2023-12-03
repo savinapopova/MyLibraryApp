@@ -1,6 +1,6 @@
 package com.example.mylibrary.web;
 
-import com.example.mylibrary.model.dto.CheckOutDTO;
+import com.example.mylibrary.model.dto.checkout.CheckOutDTO;
 import com.example.mylibrary.model.entity.Book;
 import com.example.mylibrary.model.entity.Category;
 import com.example.mylibrary.model.entity.Checkout;
@@ -10,7 +10,6 @@ import com.example.mylibrary.repository.BookRepository;
 import com.example.mylibrary.repository.CheckoutRepository;
 import com.example.mylibrary.repository.HistoryRepository;
 import com.example.mylibrary.service.CategoryService;
-import com.example.mylibrary.util.TimeConverter;
 import com.example.mylibrary.utils.TestUserData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

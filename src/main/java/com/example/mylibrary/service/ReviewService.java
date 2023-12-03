@@ -1,9 +1,8 @@
 package com.example.mylibrary.service;
 
-import com.example.mylibrary.model.dto.LeaveReviewDTO;
-import com.example.mylibrary.model.dto.ReviewDTO;
+import com.example.mylibrary.model.dto.review.LeaveReviewDTO;
+import com.example.mylibrary.model.dto.review.ReviewDTO;
 
-import java.security.Principal;
 import java.util.List;
 
 public interface ReviewService {

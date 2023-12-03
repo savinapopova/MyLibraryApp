@@ -1,7 +1,7 @@
 package com.example.mylibrary.service.impl;
 
 import com.example.mylibrary.event.BookReturnedEvent;
-import com.example.mylibrary.model.dto.HistoryDTO;
+import com.example.mylibrary.model.dto.history.HistoryDTO;
 import com.example.mylibrary.model.entity.Checkout;
 import com.example.mylibrary.model.entity.History;
 import com.example.mylibrary.repository.HistoryRepository;
@@ -10,7 +10,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 

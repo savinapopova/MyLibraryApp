@@ -1,6 +1,11 @@
 package com.example.mylibrary.web;
 
-import com.example.mylibrary.model.dto.*;
+import com.example.mylibrary.model.dto.book.AddBookDTO;
+import com.example.mylibrary.model.dto.book.BookDTO;
+import com.example.mylibrary.model.dto.checkout.CheckOutDTO;
+import com.example.mylibrary.model.dto.message.MessageDTO;
+import com.example.mylibrary.model.dto.message.MessageResponseDTO;
+import com.example.mylibrary.model.dto.user.UserDTO;
 import com.example.mylibrary.service.AdminService;
 import com.example.mylibrary.service.BookService;
 import com.example.mylibrary.service.CheckoutService;

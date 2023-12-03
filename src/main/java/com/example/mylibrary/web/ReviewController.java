@@ -1,9 +1,9 @@
 package com.example.mylibrary.web;
 
 
-import com.example.mylibrary.model.dto.LeaveReviewDTO;
-import com.example.mylibrary.model.dto.ReviewDTO;
-import com.example.mylibrary.model.dto.SearchBookDTO;
+import com.example.mylibrary.model.dto.review.LeaveReviewDTO;
+import com.example.mylibrary.model.dto.review.ReviewDTO;
+import com.example.mylibrary.model.dto.book.SearchBookDTO;
 import com.example.mylibrary.service.BookService;
 import com.example.mylibrary.service.ReviewService;
 import jakarta.validation.Valid;

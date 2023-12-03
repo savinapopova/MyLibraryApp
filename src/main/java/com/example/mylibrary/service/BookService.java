@@ -4,11 +4,10 @@ package com.example.mylibrary.service;
 
 import com.example.mylibrary.event.BookReturnedEvent;
 import com.example.mylibrary.event.CheckoutCreatedEvent;
-import com.example.mylibrary.model.dto.AddBookDTO;
-import com.example.mylibrary.model.dto.BookDTO;
-import com.example.mylibrary.model.dto.SearchBookDTO;
+import com.example.mylibrary.model.dto.book.AddBookDTO;
+import com.example.mylibrary.model.dto.book.BookDTO;
+import com.example.mylibrary.model.dto.book.SearchBookDTO;
 import com.example.mylibrary.model.entity.Book;
-import org.springframework.context.event.EventListener;
 
 import java.util.List;
 
