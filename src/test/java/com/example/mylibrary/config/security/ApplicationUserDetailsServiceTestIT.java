@@ -1,10 +1,10 @@
-package com.example.mylibrary.service.impl;
+package com.example.mylibrary.config.security;
 
 import com.example.mylibrary.model.entity.Role;
 import com.example.mylibrary.model.entity.User;
 import com.example.mylibrary.model.enums.RoleName;
 import com.example.mylibrary.repository.UserRepository;
-import com.example.mylibrary.util.CustomUserDetails;
+import com.example.mylibrary.service.impl.RoleServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class ApplicationUserDetailsServiceTestIT {
@@ -74,5 +74,4 @@ class ApplicationUserDetailsServiceTestIT {
 
 
     }
-
 }

@@ -1,12 +1,10 @@
-package com.example.mylibrary.service.impl;
+package com.example.mylibrary.config.security;
 
 import com.example.mylibrary.model.entity.Role;
 import com.example.mylibrary.model.entity.User;
 import com.example.mylibrary.repository.UserRepository;
-import com.example.mylibrary.util.CustomUserDetails;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 

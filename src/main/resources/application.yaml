@@ -16,8 +16,11 @@ spring:
 
     password: ${MYSQL_PASSWORD}
     username: ${MYSQL_USERNAME}
+#    ${MYSQL_USERNAME}
 
-    url: jdbc:mysql://localhost:3306/library?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
+#    url: jdbc:mysql://localhost:3306/library?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
+    url: jdbc:mysql://my-library.mysql.database.azure.com:3306/db?createDatabaseIfNotExist=true
+
 logging:
   level:
     org:
@@ -32,6 +35,9 @@ server:
 
 MyLibrary:
   remember.me.key: ${REMEMBER_ME_KEY:test}
+
+
+
 
 
 

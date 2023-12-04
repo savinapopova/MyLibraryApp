@@ -1,9 +1,8 @@
-package com.example.mylibrary.config;
+package com.example.mylibrary.config.security;
 
 
 import com.example.mylibrary.model.enums.RoleName;
 import com.example.mylibrary.repository.UserRepository;
-import com.example.mylibrary.service.impl.ApplicationUserDetailsService;
 
 
 import org.springframework.beans.factory.annotation.Value;

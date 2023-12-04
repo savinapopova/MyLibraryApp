@@ -1,6 +1,6 @@
 async function fetchBook() {
     const bookId = window.location.pathname.split('/')[2];
-    const baseUrl = `http://localhost:8080/api/books/details/${bookId}`;
+    const baseUrl = `${window.location.origin}/api/books/details/${bookId}`;
 
     try {
         const response = await fetch(baseUrl);

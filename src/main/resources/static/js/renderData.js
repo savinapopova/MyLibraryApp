@@ -19,7 +19,7 @@ async function renderData() {
                                     <p class="lead">${book.description}</p>
 
                                  <a type='button' class='btn second-color btn-md text-light m-4'
-                                 href="http://localhost:8080/reviews/${book.id}">
+                                 href="${window.location.origin}/reviews/${book.id}">
                                 Reach all reviews
                             </a>
                               </div>
@@ -29,7 +29,7 @@ async function renderData() {
 
                    <div class='m-3 d-flex justify-content-center align-items-center'>
                             <a type='button' class='btn main-color btn-lg text-white'
-                                  href="http://localhost:8080/checkout/book/${book.id}">
+                                  href="${window.location.origin}/checkout/book/${book.id}">
                                 CheckOut
                             </a>
                   </div>
@@ -49,7 +49,7 @@ async function renderData() {
 <p class='lead'>${book.description}</p>
 <div class='m-3 d-flex justify-content-center align-items-center'>
                             <a type='button' class='btn second-color btn-md text-white'
-                                  href="http://localhost:8080/reviews/${book.id}">
+                                  href="${window.location.origin}/reviews/${book.id}">
                                 Reach all reviews
                             </a>
                         </div>
@@ -58,7 +58,7 @@ async function renderData() {
 
                                      <div class='m-3 d-flex justify-content-center align-items-center'>
                             <a type='button' class='btn main-color btn-lg text-white'
-                                  href="http://localhost:8080/checkout/book/${book.id}">
+                                  href="${window.location.origin}/checkout/book/${book.id}">
                                 CheckOut
                             </a>
 
