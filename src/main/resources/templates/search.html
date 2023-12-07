@@ -10,15 +10,16 @@
         <div>
             <div class='row mt-5'>
                 <form th:action="@{/search/{category}(category=*{category})}"
-                       th:method="POST"
-                        class='col-6'>
+                      th:method="POST"
+                      class='col-6'>
                     <div class='d-flex'>
                         <input name="title"
+                               th:value="${title}"
                                class='form-control me-2' type='search'
                                placeholder='Search' aria-labelledby='Search'/>
                         <button type="submit" class='btn btn-outline-success'
-                                >
-                        Search
+                        >
+                            Search
                         </button>
                     </div>
                 </form>
@@ -31,34 +32,34 @@
                         </button>
                         <ul class='dropdown-menu' aria-labelledby='dropdownMenuButton1'>
                             <li>
-                            <a class='dropdown-item'
-                               th:href="@{/search/all}">
-                                All
-                            </a>
+                                <a class='dropdown-item'
+                                   th:href="@{/search/all}">
+                                    All
+                                </a>
                             </li>
                             <li>
-                            <a class='dropdown-item'
-                               th:href="@{/search/biography}">
-                                Biography
-                            </a>
+                                <a class='dropdown-item'
+                                   th:href="@{/search/biography}">
+                                    Biography
+                                </a>
                             </li>
                             <li>
-                            <a class='dropdown-item'
-                               th:href="@{/search/cookbook}">
-                                Cookbook
-                            </a>
+                                <a class='dropdown-item'
+                                   th:href="@{/search/cookbook}">
+                                    Cookbook
+                                </a>
                             </li>
                             <li>
-                            <a class='dropdown-item'
-                               th:href="@{/search/fantasy}">
-                                Fantasy
-                            </a>
+                                <a class='dropdown-item'
+                                   th:href="@{/search/fantasy}">
+                                    Fantasy
+                                </a>
                             </li>
                             <li>
-                            <a class='dropdown-item'
-                               th:href="@{/search/education}">
-                                Education
-                            </a>
+                                <a class='dropdown-item'
+                                   th:href="@{/search/education}">
+                                    Education
+                                </a>
                             </li>
                             <li>
                                 <a class='dropdown-item'
@@ -72,7 +73,13 @@
             </div>
 
             <div class='mt-3'>
-                <h5>Number of results: (<th:block th:text="${books.size()}"/>)</h5>
+                <h5>Number of results: (<th:block th:text="${totalAmountOfBooks}"/>)</h5>
+                <p th:if="${totalAmountOfBooks > 0 && books.size() > 1}">
+                    <th:block th:text="${indexOfFirstBook + 1}"/> - <th:block th:text="${lastItem}"/> of <th:block th:text="${totalAmountOfBooks}"/> items:
+                </p>
+                <p th:if="${totalAmountOfBooks > 0 && books.size() <= 1}">
+                    <th:block th:text="${lastItem}"/> of <th:block th:text="${totalAmountOfBooks}"/> items:
+                </p>
             </div>
             <div th:each="book: ${books}" class='card mt-3 shadow p-3 mb-3 bg-body rounded'>
                 <div class='row g-0'>
@@ -110,10 +117,11 @@
                     </div>
                     <div class='col-md-4 d-flex justify-content-center align-items-center'>
                         <a class='btn btn-md main-color text-white' th:href="@{/books/{id}(id=*{book.getId()})}" >
-                        View Details
+                            View Details
                         </a>
                     </div>
                 </div>
+
             </div>
             <div th:if="${books.size() == 0}" class='m-5'>
                 <h3>
@@ -122,10 +130,36 @@
                 <a type='button' class='btn main-color btn-md px-4 me-md-2 fw-bold text-white'
                    href='/messages'>Library Services</a>
             </div>
+            <nav th:if="${books.size() > 0}" aria-label="...">
+                <ul class="pagination">
+                    <li class="page-item" th:if="${currentPage > 1}">
+                        <form th:action="@{/search/{category}(category=${category}, page=${currentPage - 1}, title=${title})}"
+                              th:method="POST">
+                            <button type="submit" class="page-link text-main-color">Previous</button>
+                        </form>
+                    </li>
+                    <li class="page-item" th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
+                        <form th:action="@{/search/{category}(category=${category}, page=${pageNumber}, title=${title})}"
+                              th:method="POST">
+                            <button type="submit" class="page-link text-main-color" th:text="${pageNumber}"
+                                    th:classappend="${pageNumber == currentPage} ? 'active main-color text-white' : ''"></button>
+                        </form>
+                    </li>
+
+                    <li class="page-item" th:if="${currentPage < totalPages}">
+                        <form th:action="@{/search/{category}(category=${category}, page=${currentPage + 1}, title=${title})}"
+                              th:method="POST">
+
+                            <button type="submit" class="page-link text-main-color">Next</button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </div>
 <th:block th:include="~{fragments/nav-and-footer/footer}"/>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

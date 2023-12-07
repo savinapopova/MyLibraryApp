@@ -263,7 +263,7 @@
     <div class="cont_error">
         <h1>400</h1>
         <p>Bad Request.</p>
-        <button class="btn error_btn" onclick="goBack()"></i> Go Back</button>
+        <a class="btn error_btn" href="/"></i> Go Back</a>
     </div>
     <div class="cont_aura_1"></div>
     <div class="cont_aura_2"></div>
@@ -272,9 +272,6 @@
     window.onload = function() {
         document.querySelector('.cont_principal').className = 'cont_principal cont_error_active';
     };
-    function goBack() {
-        window.history.back();
-    }
 </script>
 </body>
 </html>

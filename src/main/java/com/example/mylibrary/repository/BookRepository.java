@@ -2,6 +2,8 @@ package com.example.mylibrary.repository;
 
 import com.example.mylibrary.model.entity.Book;
 import com.example.mylibrary.model.enums.CategoryName;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,9 +12,11 @@ import java.util.Optional;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
-    List<Book> findAllByCategoryName(CategoryName name);
+    Page<Book> findAllByCategoryName(CategoryName name, Pageable pageable);
 
-    List<Book> findAllByCategoryNameAndTitleContaining(CategoryName category, String title);
+    Page<Book> findAllByCategoryNameAndTitleContaining(CategoryName category, String title, Pageable pageable);
 
-    List<Book> findByTitleContaining(String title);
+    Page<Book> findByTitleContaining(String title, Pageable pageable);
+
+    Page<Book> findAll(Pageable pageable);
 }

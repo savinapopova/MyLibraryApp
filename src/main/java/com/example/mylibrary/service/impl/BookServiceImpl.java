@@ -15,6 +15,8 @@ import com.example.mylibrary.service.CategoryService;
 import com.example.mylibrary.util.TextResizer;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.event.EventListener;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,12 +38,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<SearchBookDTO> getSearchedBooks() {
-        return this.bookRepository.findAll()
-                .stream()
+    public Page<SearchBookDTO> getSearchedBooks(Pageable pageable) {
+        return this.bookRepository.findAll(pageable)
+
                 .map(TextResizer::resizeDescription)
-                .map(b -> this.modelMapper.map(b, SearchBookDTO.class))
-                .collect(Collectors.toList());
+                .map(b -> this.modelMapper.map(b, SearchBookDTO.class));
     }
 
     @Override
@@ -56,9 +57,9 @@ public class BookServiceImpl implements BookService {
     @Override
     public SearchBookDTO getSearchBookDTO(Long id) {
 
-            Book book = getBook(id);
+        Book book = getBook(id);
 
-            return modelMapper.map(book, SearchBookDTO.class);
+        return modelMapper.map(book, SearchBookDTO.class);
 
     }
 
@@ -118,62 +119,59 @@ public class BookServiceImpl implements BookService {
 
 
     @Override
-    public List<SearchBookDTO> getBooksByTitle(String title) {
+    public Page<SearchBookDTO> getBooksByTitle(String title, Pageable pageable) {
 
         if (title == null || title.trim().isBlank()) {
-            return getSearchedBooks();
+            return getSearchedBooks(pageable);
         }
 
 
-          return this.bookRepository.findByTitleContaining(title)
-                    .stream()
-                  .map(TextResizer::resizeDescription)
-                  .map(b -> this.modelMapper.map(b, SearchBookDTO.class))
-                    .collect(Collectors.toList());
+        return this.bookRepository.findByTitleContaining(title, pageable)
+
+                .map(TextResizer::resizeDescription)
+                .map(b -> this.modelMapper.map(b, SearchBookDTO.class));
 
 
     }
 
     @Override
-    public List<SearchBookDTO> getBooksByCategory(String categoryName) {
+    public Page<SearchBookDTO> getBooksByCategory(String categoryName, Pageable pageable) {
 
         if (categoryName.toLowerCase().equals("all")) {
-            return getSearchedBooks();
+            return getSearchedBooks(pageable);
 
         }
 
         categoryService.checkCategoryNameAvailable(categoryName);
 
-        return this.bookRepository.findAllByCategoryName(CategoryName.valueOf(categoryName.toUpperCase()))
-                .stream()
+        return this.bookRepository.findAllByCategoryName(CategoryName.valueOf(categoryName.toUpperCase()), pageable)
+
                 .map(TextResizer::resizeDescription)
-                .map(b -> this.modelMapper.map(b, SearchBookDTO.class))
-                .collect(Collectors.toList());
+                .map(b -> this.modelMapper.map(b, SearchBookDTO.class));
     }
 
     @Override
-    public List<SearchBookDTO> getBooksByTitleAndCategory(String title, String category) {
+    public Page<SearchBookDTO> getBooksByTitleAndCategory(String title, String category, Pageable pageable) {
 
 
         if ((category == null || category.toLowerCase().equals("all") || category.trim().isBlank()) &&
                 (title == null || title.trim().isBlank())) {
-            return getSearchedBooks();
+            return getSearchedBooks(pageable);
         }
 
         if (category == null || category.equalsIgnoreCase("all") || category.trim().isBlank()) {
-            return getBooksByTitle(title);
+            return getBooksByTitle(title, pageable);
         }
 
         categoryService.checkCategoryNameAvailable(category);
 
         if (title == null || title.trim().isBlank()) {
-            return getBooksByCategory(category);
+            return getBooksByCategory(category, pageable);
         }
 
-        return this.bookRepository.findAllByCategoryNameAndTitleContaining(CategoryName.valueOf(category.toUpperCase()), title)
-                .stream()
+        return this.bookRepository.findAllByCategoryNameAndTitleContaining(CategoryName.valueOf(category.toUpperCase()), title, pageable)
+
                 .map(TextResizer::resizeDescription)
-                .map(b -> this.modelMapper.map(b, SearchBookDTO.class))
-                .collect(Collectors.toList());
+                .map(b -> this.modelMapper.map(b, SearchBookDTO.class));
     }
 }

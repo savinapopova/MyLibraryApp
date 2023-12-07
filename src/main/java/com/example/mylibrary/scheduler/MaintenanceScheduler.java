@@ -15,13 +15,13 @@ public class MaintenanceScheduler {
         this.maintenanceInterceptor = maintenanceInterceptor;
     }
 
-    @Scheduled(cron = "0 3 9 * * THU")
+    @Scheduled(cron = "0 20 3 * * SUN")
     public void activateMaintenance() {
         System.out.println("MAINTENANCE ON");
         maintenanceInterceptor.activateMaintenanceMode();
     }
 
-    @Scheduled(cron = "0 5 9 * * THU")
+    @Scheduled(cron = "0 40 3 * * SUN")
     public void deactivateMaintenance() {
         System.out.println("MAINTENANCE OFF");
         maintenanceInterceptor.deactivateMaintenanceMode();

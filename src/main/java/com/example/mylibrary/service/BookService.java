@@ -8,20 +8,22 @@ import com.example.mylibrary.model.dto.book.AddBookDTO;
 import com.example.mylibrary.model.dto.book.BookDTO;
 import com.example.mylibrary.model.dto.book.SearchBookDTO;
 import com.example.mylibrary.model.entity.Book;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface BookService {
-    List<SearchBookDTO> getSearchedBooks();
+    Page<SearchBookDTO> getSearchedBooks(Pageable pageable);
 
     List<BookDTO> getAllBooks();
 
     SearchBookDTO getSearchBookDTO(Long id);
 
-    List<SearchBookDTO> getBooksByTitle(String title);
-    List<SearchBookDTO> getBooksByCategory(String category);
+    Page<SearchBookDTO> getBooksByTitle(String title, Pageable pageable);
+    Page<SearchBookDTO> getBooksByCategory(String category, Pageable pageable);
 
-    List<SearchBookDTO> getBooksByTitleAndCategory(String title, String category);
+    Page<SearchBookDTO> getBooksByTitleAndCategory(String title, String category, Pageable pageable);
 
     BookDTO getBookDTO(Long id);
 
