@@ -32,9 +32,15 @@ logging:
     blog: WARN
 server:
   port: 8080
+  error:
+    include-message: never
 
 MyLibrary:
   remember.me.key: ${REMEMBER_ME_KEY:test}
+
+
+
+
 
 
 
