@@ -38,6 +38,30 @@ server:
 MyLibrary:
   remember.me.key: ${REMEMBER_ME_KEY:test}
 
+#management:
+#  endpoint:
+#    beans:
+#      enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  info:
+   env:
+    enabled: true
+
+
+info:
+  app:
+    name: My Library
+    description: Online Library Management System
+    version: 1.0.0
+
+
+
 
 
 

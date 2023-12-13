@@ -38,6 +38,7 @@ public class SecurityConfig {
 //                        .requestMatchers(HttpMethod.GET, "/offer/**").permitAll()
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/admin/**").hasRole(RoleName.ADMIN.name())
+                        .requestMatchers("/actuator/**").hasRole(RoleName.ADMIN.name())
                         // all other requests are authenticated.
                         .anyRequest().authenticated()
         ).formLogin(
